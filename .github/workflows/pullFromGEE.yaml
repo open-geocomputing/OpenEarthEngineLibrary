@@ -19,7 +19,7 @@ jobs:
           chmod 0600 ~/.gitcookies
           echo .googlesource.com,TRUE,/,TRUE,2147483647,o,${GIT_COOKIE_VALUE} | tr  , \\t >>~/.gitcookies
           git config --global http.postBuffer 157286400
-          
+
       - name: config git
         run: |
           git config --global http.cookiefile ~/.gitcookies
@@ -32,7 +32,7 @@ jobs:
         env:
           GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
         run: |
-          git merge https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories
+          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories
           git checkout --theirs .
           git add -u
           git commit -m "autoMerge"

@@ -33,7 +33,7 @@ jobs:
         env:
           GEE_REPO_ADDRESS: ${{secrets.GEE_REPO_ADDRESS}}
         run: |
-          git merge https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories
+          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories
           git checkout --ours .
           git add -u
           git commit -m "autoMerge"
