@@ -20,7 +20,7 @@ jobs:
         run: |
           touch ~/.gitcookies
           chmod 0600 ~/.gitcookies
-          echo .googlesource.com,FALSE,/,TRUE,2147483647,o,${GIT_COOKIE_VALUE} | tr  , \\t >>~/.gitcookies
+          echo earthengine.googlesource.com,FALSE,/,TRUE,2147483647,o,${GIT_COOKIE_VALUE} | tr  , \\t >>~/.gitcookies
       - name: config git
         run: |
           git config --global http.cookiefile ~/.gitcookies
