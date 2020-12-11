@@ -28,5 +28,6 @@ jobs:
         env:
           GEE_REPO_ADDRESS: ${{secrets.GEE_REPO_ADDRESS}}
         run: |
-          git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master -f
-          #git push --mirror https://earthengine.googlesource.com/${GEE_REPO_ADDRESS}
+          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
+          git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
+          git push
