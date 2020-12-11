@@ -22,16 +22,16 @@ jobs:
 
       - name: config git
         run: |
-          git config --global http.cookiefile ~/.gitcookies
-          git config --global http.postBuffer 157286400
-          git config --global user.email ""
-          git config --global user.name "githubActionAutoMerge"
-          git config --global pull.rebase false 
+          git config http.cookiefile ~/.gitcookies
+          git config http.postBuffer 157286400
+          git config user.email "githubActionAutoMerge@no-one.com"
+          git config user.name "githubActionAutoMerge"
+          git config pull.rebase false  
 
       - name: mirror the git
         env:
           GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
         run: |
-          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories || bash -c "git checkout --theirs .; git add -u; git commit -m 'autoMerge'"
+          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories || bash -c "git checkout --theirs . ; git add -u ; git commit -m 'autoMerge'"
           git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
           git push
