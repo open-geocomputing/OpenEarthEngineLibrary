@@ -20,11 +20,14 @@ jobs:
         run: |
           touch ~/.gitcookies
           chmod 0600 ~/.gitcookies
-          git config --global http.cookiefile ~/.gitcookies
           echo .googlesource.com,TRUE,/,TRUE,2147483647,o,${GIT_COOKIE_VALUE} | tr  , \\t >>~/.gitcookies
+      - name: config git
+        run: |
+          git config --global http.cookiefile ~/.gitcookies
           git config --global http.postBuffer 157286400
           git config --global user.email ""
           git config --global user.name "githubActionAutoMerge"
+          git config --global pull.rebase false 
 
       - name: mirror the git
         env:

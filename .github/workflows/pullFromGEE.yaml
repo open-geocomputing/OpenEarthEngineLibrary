@@ -17,14 +17,24 @@ jobs:
         run: |
           touch ~/.gitcookies
           chmod 0600 ~/.gitcookies
-          git config --global http.cookiefile ~/.gitcookies
           echo .googlesource.com,TRUE,/,TRUE,2147483647,o,${GIT_COOKIE_VALUE} | tr  , \\t >>~/.gitcookies
           git config --global http.postBuffer 157286400
-          git config pull.rebase false
+          
+      - name: config git
+        run: |
+          git config --global http.cookiefile ~/.gitcookies
+          git config --global http.postBuffer 157286400
+          git config --global user.email ""
+          git config --global user.name "githubActionAutoMerge"
+          git config --global pull.rebase false 
 
       - name: mirror the git
         env:
           GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
         run: |
-          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
+          git merge https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories
+          git checkout --theirs .
+          git add -u
+          git commit -m "autoMerge"
+          git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
           git push
