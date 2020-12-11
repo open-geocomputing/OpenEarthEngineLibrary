@@ -1,0 +1,23 @@
+name: allow connecting with ssh to debug Github Actions
+
+# Controls when the action will run. 
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      - name: Start SSH session
+        env:
+          GIT_COOKIE_VALUE: ${{ secrets.GIT_COOKIE_VALUE }}
+          GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
+        uses: luchihoratiu/debug-via-ssh@main
+        with:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+          SSH_PASS: ${{ secrets.SSH_PASS }}
