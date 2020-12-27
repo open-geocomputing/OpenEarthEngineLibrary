@@ -2,4 +2,4 @@ exports.ref=[];
 exports.libPath='users/gravey_mathieu/default:'
 exports.cd='/'
 
-exports.internal=require(libPath+'/internal');
+exports.internal=require(exports.libPath+'/internal');
