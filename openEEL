@@ -2,4 +2,4 @@ exports.ref=[];
 exports.libPath='users/gravey_mathieu/testlibGithub_v2:'
 exports.cd='/'
 
-exports.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
+exports.internal=require('users/gravey_mathieu/testlibGithub_v2:'+'internal');
