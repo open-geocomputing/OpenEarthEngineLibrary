@@ -1,3 +1,1 @@
-exports.ref=[];
-exports.libPath='users/gravey_mathieu/default'
-exports.cd='/'
+exports.addRef=function(name,ref){exports.ref.push(ref)}
