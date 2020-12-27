@@ -1,5 +1,5 @@
 exports.ref=[];
-exports.libPath='users/gravey_mathieu/default'
+exports.libPath='users/gravey_mathieu/default:'
 exports.cd='/'
 
-exports.internal=require('users/gravey_mathieu/default:/libExportTest2');
+exports.internal=require(libPath+'/internal');
