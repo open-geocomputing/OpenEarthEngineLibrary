@@ -1,4 +1,3 @@
 exports.ref=[];
-exports.cd='/'
 
 exports.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
