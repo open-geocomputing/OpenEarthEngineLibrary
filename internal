@@ -2,9 +2,9 @@
 
 exports.setupLibrary=function(libs,exp){
   for(var key in libs){
-    lib[key].internal=lib.internal;
+    libs[key].internal=libs.internal;
   }
   
-  libs.addRef=function(ref){lib.ref.push(ref)}
+  libs.addRef=function(ref){libs.ref.push(ref)}
 };
 
