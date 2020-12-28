@@ -1,4 +1,5 @@
-exports={
-  ref:[],
-  internal:require('users/gravey_mathieu/testlibGithub_v2:internal')
-}
+exports={test:require('users/gravey_mathieu/default:/libExportTest2')}
+
+exports.ref=[];
+exports.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
+
