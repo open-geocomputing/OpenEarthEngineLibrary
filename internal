@@ -1,10 +1,10 @@
 //exports.addRef=;
 
-exports.setupLibrary=function(libs){
+exports.setupLibrary=function(libs,exp){
   for(var key in libs){
     lib[key].internal=lib.internal;
   }
   
-  exports.addRef=function(ref){lib.ref.push(ref)}
+  libs.addRef=function(ref){lib.ref.push(ref)}
 };
 
