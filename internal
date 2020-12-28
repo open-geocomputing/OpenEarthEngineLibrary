@@ -1,8 +1,8 @@
 //exports.addRef=;
 
-function convert2Terminals(dic){
+function convert2Terminals(dict){
   var temp={};
-  for(var key in dic){
+  for(var key in dict){
     if(key=='internal')
       continue;
     if(typeof(dict[key][key])=='function'){
