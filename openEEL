@@ -1,3 +1,4 @@
-exports.ref=[];
-
-exports.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
+exports={
+  ref:[],
+  internal:require('users/gravey_mathieu/testlibGithub_v2:internal')
+}
