@@ -14,8 +14,8 @@ function convert2Terminals(dic){
   return temp;
 }
 
-function setInternal(dic,internal){
-  for(var key in dic){
+function setInternal(dict,internal){
+  for(var key in dict){
     if(key=='internal')
       continue;
     if(typeof(dict[key][key])=='function'){
