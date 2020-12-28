@@ -1,6 +1,7 @@
 exports.addRef=function(name,ref){exports.ref.push(ref)};
 
 exports.setupLibrary=function(lib,keys){
+  print(lib)
   for(var k in keys){
     lib[k].internal=null;//lib.internal;
   }
