@@ -1,11 +1,24 @@
 //exports.addRef=;
 
+var convert2Terminals(dic){
+  
+  var temp={};
+  for(var key in libs){
+    libs[key].internal=libs.internal;
+  }
+  
+}
+
 exports.setupLibrary=function(libs,exp){
   for(var key in libs){
     libs[key].internal=libs.internal;
   }
   libs.internal.addRef=function(ref){libs.ref.push(ref)}
   
-  return libs;
+  var teminals={};
+  
+  
+  
+  return teminals;
 };
 
