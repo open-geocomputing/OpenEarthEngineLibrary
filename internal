@@ -1,14 +1,14 @@
 //exports.addRef=;
 
-function convert2Terminals(dict){
+function convert2Terminals(dict,internal){
   var temp={};
   for(var key in dict){
     if(key=='internal')
       continue;
-    if(typeof(dict[key][key])=='function'){
-      temp[key]=dict[key][key];
+    if(typeof(dict[key]['createFunction'])=='function'){
+      temp[key]=dict[key].createFunction(internal);
     }else{
-      temp[key]=convert2Terminals(dict[key]);
+      temp[key]=convert2Terminals(dict[key],internal);
     }
   }
   return temp;
@@ -27,13 +27,13 @@ function setInternal(dict,internal){
 }
 
 exports.setupLibrary=function(libs,exp){
-  setInternal(libs,libs.internal)
+  //setInternal(libs,libs.internal)
   /*for(var key in libs.internal){
     libs[key].internal=libs.internal;
   }*/
   libs.internal.addRef=function(ref){libs.ref.push(ref)}
   
-  var teminals=convert2Terminals(libs);
+  var teminals=convert2Terminals(libs,libs.internal);
   teminals.internal=libs;
   
   return teminals;
