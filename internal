@@ -21,7 +21,7 @@ function setInternal(dict,internal){
     if(typeof(dict[key][key])=='function'){
       dict[key].internal=internal;
     }else{
-      setInternal(dic[key],internal);
+      setInternal(dict[key],internal);
     }
   }
 }
