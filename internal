@@ -2,7 +2,7 @@ exports.addRef=function(name,ref){exports.ref.push(ref)};
 
 exports.setupLibrary=function(lib,keys){
   for(var k in keys){
-    lib[k].internal=lib.internal;
+    //lib[k].internal=lib.internal;
   }
 };
 
