@@ -4,7 +4,7 @@ exports.setupLibrary=function(libs,exp){
   for(var key in libs){
     libs[key].internal=libs.internal;
   }
-  
   libs.addRef=function(ref){libs.ref.push(ref)}
+  
 };
 
