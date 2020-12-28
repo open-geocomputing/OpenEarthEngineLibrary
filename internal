@@ -3,8 +3,8 @@ exports.addRef=function(name,ref){exports.ref.push(ref)};
 exports.setupLibrary=function(lib,keys){
   print(lib)
   print(keys)
-  for(let k in keys){
-    print(k)
+  for(var key in keys){
+    print(key)
     //lib[k].internal=null;//lib.internal;
   }
 };
