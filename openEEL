@@ -1,11 +1,11 @@
-exports={test:require('users/gravey_mathieu/default:/libExportTest2')}
+libs={test:require('users/gravey_mathieu/default:/libExportTest2')}
 
 var keys=Object.keys(exports)
 
 exports.ref=[];
 exports.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
 
-exports.internal.setupLibrary(exports,keys)
+exports.internal.setupLibrary(libs,keys)
 
 print(keys)
 
