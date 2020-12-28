@@ -1,8 +1,8 @@
-libs={test:require('users/gravey_mathieu/default:/libExportTest2')}
+var libs={test:require('users/gravey_mathieu/default:/libExportTest2')}
 
-exports.ref=[];
-exports.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
+libs.ref=[];
+libs.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
 
-exports.internal.setupLibrary(libs,exports)
+exports.internal.setupLibrary(libs,exports);
 
 
