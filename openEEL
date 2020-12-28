@@ -5,3 +5,5 @@ var keys=Object.keys(exports)
 exports.ref=[];
 exports.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
 
+print(keys)
+
