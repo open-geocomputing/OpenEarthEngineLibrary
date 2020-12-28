@@ -3,6 +3,6 @@ var libs={test:require('users/gravey_mathieu/default:/libExportTest2')}
 libs.ref=[];
 libs.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
 
-exports=libs.internal.setupLibrary(libs);
+//exports=libs.internal.setupLibrary(libs);
 
 
