@@ -1,12 +1,15 @@
 //exports.addRef=;
 
-var convert2Terminals(dic){
-  
+function convert2Terminals(dic){
   var temp={};
-  for(var key in libs){
-    libs[key].internal=libs.internal;
+  for(var key in dic){
+    if(typeof(dict[key][key])=='function'){
+      temp[key]=dict[key][key];
+    }else{
+      temp[key]=convert2Terminals(dict[key]);
+    }
   }
-  
+  return temp;
 }
 
 exports.setupLibrary=function(libs,exp){
