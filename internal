@@ -15,7 +15,7 @@ function convert2Terminals(dict,internal,relativePath){
   return temp;
 }
 
-exports.readInputs=function(args,inputs,algoInfo){
+exports.readInputs=function(args,inputs,algoInfo,relPath){
   var output={};
   var arrayInput=false;
   if(args.length==1 && typeof(args[0])==typeof({}) 
@@ -35,7 +35,7 @@ exports.readInputs=function(args,inputs,algoInfo){
           if (inputs[i].defaultValue)
               output[inputs[i].name]=inputs[i].defaultValue;
             else
-              throw algoInfo.name+' require '+inputs[i].name+', but no value or default value provided'
+              throw relPath+' require '+inputs[i].name+', but no value or default value provided'
       }
       else{
         if(!inputs[i].optional)
