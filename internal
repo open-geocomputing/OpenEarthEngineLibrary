@@ -65,7 +65,7 @@ exports.setupLibrary=function(libs,exp){
   return teminals;
 };
 
-function getDoc(dict,internal,relativePath){
+function getDoc(dict,relativePath){
   var temp={};
   for(var key in dict){
     if(key=='internal')
@@ -83,6 +83,6 @@ function getDoc(dict,internal,relativePath){
 }
 
 exports.getDocumentation=function(libs,exp){
-  return convert2Terminals(libs);
+  return convert2Terminals(libs,"OpenEEL");
 };
 
