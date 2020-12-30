@@ -17,11 +17,11 @@ function convert2Terminals(dict,internal){
 exports.readInputs=function(args,inputs,algoInfo){
   var output={};
   var arrayInput=false;
-  /*if(args.length==1 && typeof(args[0])==typeof({}) 
+  if(args.length==1 && typeof(args[0])==typeof({}) 
     && (inputs.map(x=> x.name).filter(value => Object.keys(args[0]).includes(value)).length>0 || (Object.keys(args[0]).length===0))){
     output=args[0];
     arrayInput=true;
-  }*/
+  }
   var listKeys=Object.keys(output);
   for (var i=0; i<inputs.length; i++){
     if(listKeys.indexOf(inputs[i].name)>=0){
