@@ -6,6 +6,7 @@ function convert2Terminals(dict,internal,relativePath){
     if(key=='internal')
       continue;
     var path=relativePath+"."+key;
+    print('key',key)
     print('path',path)
     if(typeof(dict[key]['createFunction'])=='function'){
       temp[key]=dict[key].createFunction(internal,path);
