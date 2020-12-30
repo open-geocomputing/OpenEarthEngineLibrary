@@ -65,6 +65,22 @@ exports.setupLibrary=function(libs,exp){
   return teminals;
 };
 
+function getDoc(dict,internal,relativePath){
+  var temp={};
+  for(var key in dict){
+    if(key=='internal')
+      continue;
+    var path=relativePath+"."+key;
+    print('key',key)
+    print('path',path)
+    if(typeof(dict[key]['createFunction'])=='function'){
+      temp[key]=dict[key].createFunction(internal,path);
+    }else{
+      temp[key]=getDoc(dict[key],internal,path);
+    }
+  }
+  return temp;
+}
 
 exports.getDocumentation=function(libs,exp){
   var teminals=convert2Terminals(libs,libs.internal);
