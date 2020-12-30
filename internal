@@ -41,8 +41,6 @@ exports.readInputs=function(args,inputs,algoInfo){
           {
             output[inputs[i].name]=args[i];
           }
-          
-          
       }
     }
   }
