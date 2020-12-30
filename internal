@@ -29,7 +29,7 @@ exports.readInputs=function(args,inputs,algoInfo){
       //check type one day
     }
     else{
-      if(args.length<i || arrayInput){
+      if(args.length<=i || arrayInput){
         //put default value
         if(!inputs[i].optional)
           if (inputs[i].defaultValue)
