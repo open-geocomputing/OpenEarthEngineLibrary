@@ -83,13 +83,6 @@ function getDoc(dict,internal,relativePath){
 }
 
 exports.getDocumentation=function(libs,exp){
-  var teminals=convert2Terminals(libs);
-  teminals.internal=libs;
-  
-  teminals.refs=function(){
-    return libs.ref;
-  }
-  
-  return teminals;
+  return convert2Terminals(libs);
 };
 
