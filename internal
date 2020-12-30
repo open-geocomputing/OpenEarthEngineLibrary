@@ -70,9 +70,9 @@ function getDoc(dict,relativePath){
       continue;
     var path=relativePath+"."+key;
     if(typeof(dict[key]['createFunction'])=='function'){
-      temp[key]=dict[key].createFunction(internal,path);
+      temp[key]=dict[key].createDocumentation,path);
     }else{
-      temp[key]=getDoc(dict[key],internal,path);
+      temp[key]=getDoc(dict[key],path);
     }
   }
   return temp;
