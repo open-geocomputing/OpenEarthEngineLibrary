@@ -16,11 +16,25 @@ function convert2Terminals(dict,internal){
 
 exports.readInputs=function(args,inputs){
   var output={};
-  if(args.length==1 && typeof(args[0])==typeof({})){
+  var arrayInput=false;
+  if(args.length==1 && typeof(args[0])==typeof({}) 
+    && (inputs.map(x=> x.name).filter(value => Object.keys(args[0]).includes(value)).length>0 || (Object.keys(args[0]).length===0))){
     output=args[0];
+    arrayInput=true;
   }
+  listKeys=Object.keys(output);
   for (var i=0; i<inputs.length; i++){
-    if()
+    if(listKeys.indexOf(inputs[i].name)>=0){
+      //check type one day
+    }
+    else{
+      if(args.length<i){
+        //put default value
+      }
+      else{
+        output[inputs[i].name]
+      }
+    }
   }
 }
 
