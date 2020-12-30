@@ -52,12 +52,6 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
 
 
 exports.setupLibrary=function(libs,exp){
-  //setInternal(libs,libs.internal)
-  /*for(var key in libs.internal){
-    libs[key].internal=libs.internal;
-  }*/
-
-  
   var teminals=convert2Terminals(libs,libs.internal,"OpenEEL");
   teminals.internal=libs;
   
