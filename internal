@@ -14,17 +14,7 @@ function convert2Terminals(dict,internal){
   return temp;
 }
 
-function setInternal(dict,internal){
-  for(var key in dict){
-    if(key=='internal')
-      continue;
-    if(typeof(dict[key][key])=='function'){
-      dict[key].internal=internal;
-    }else{
-      setInternal(dict[key],internal);
-    }
-  }
-}
+
 
 exports.setupLibrary=function(libs,exp){
   //setInternal(libs,libs.internal)
@@ -35,6 +25,10 @@ exports.setupLibrary=function(libs,exp){
   
   var teminals=convert2Terminals(libs,libs.internal);
   teminals.internal=libs;
+  
+  teminals.refs=function(){
+    return libs.ref;
+  }
   
   return teminals;
 };
