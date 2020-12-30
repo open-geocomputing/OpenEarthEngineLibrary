@@ -58,7 +58,7 @@ exports.setupLibrary=function(libs,exp){
   }*/
 
   
-  var teminals=convert2Terminals(libs,libs.internal,".");
+  var teminals=convert2Terminals(libs,libs.internal,"OpenEEL");
   teminals.internal=libs;
   
   libs.ref=[];
