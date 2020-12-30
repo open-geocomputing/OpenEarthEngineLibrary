@@ -30,13 +30,18 @@ exports.readInputs=function(args,inputs,algoInfo){
     else{
       if(args.length<i){
         //put default value
+        if(!inputs[i].optional)
+          if (inputs[i].defaultValue)
+              output[inputs[i].name]=inputs[i].defaultValue;
+            else
+              throw algoInfo.name+' require '+inputs[i].name+', but no value or default value provided'
       }
       else{
         if(!inputs[i].optional)
-          if (inputs[i].defaultValue)
-            output[inputs[i].name]=inputs[i].defaultValue;
-          else
-            throw algoInfo.name+' require '+inputs[i].name+', but no value or default value provided'
+          {
+            output[inputs[i].name]=args[i];
+          }
+          
           
       }
     }
