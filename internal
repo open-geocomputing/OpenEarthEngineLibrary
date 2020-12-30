@@ -32,7 +32,8 @@ exports.readInputs=function(args,inputs){
         //put default value
       }
       else{
-        output[inputs[i].name]
+        if(!inputs[i].optional)
+          output[inputs[i].name]=inputs[i].defaultValue;
       }
     }
   }
