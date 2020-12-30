@@ -14,7 +14,7 @@ function convert2Terminals(dict,internal){
   return temp;
 }
 
-exports.readInputs=function(arg){
+exports.readInputs=function(args){
   print(args)
 }
 
