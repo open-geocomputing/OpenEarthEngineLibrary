@@ -14,7 +14,7 @@ function convert2Terminals(dict,internal){
   return temp;
 }
 
-exports.readInputs=function(args,inputs){
+exports.readInputs=function(args,inputs,algoInfo){
   var output={};
   var arrayInput=false;
   if(args.length==1 && typeof(args[0])==typeof({}) 
@@ -33,7 +33,11 @@ exports.readInputs=function(args,inputs){
       }
       else{
         if(!inputs[i].optional)
-          output[inputs[i].name]=inputs[i].defaultValue;
+          if (inputs[i].defaultValue)
+            output[inputs[i].name]=inputs[i].defaultValue;
+          else
+            throw 
+          
       }
     }
   }
