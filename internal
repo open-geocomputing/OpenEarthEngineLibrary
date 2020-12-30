@@ -62,3 +62,20 @@ exports.setupLibrary=function(libs,exp){
   return teminals;
 };
 
+/*
+exports.getDocumentation=function(libs,exp){
+  //setInternal(libs,libs.internal)
+
+  libs.ref=[];
+  libs.internal.addRef=function(ref){libs.ref.push(ref)}
+  
+  var teminals=convert2Terminals(libs,libs.internal);
+  teminals.internal=libs;
+  
+  teminals.refs=function(){
+    return libs.ref;
+  }
+  
+  return teminals;
+};*/
+
