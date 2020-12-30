@@ -1,6 +1,6 @@
 //exports.addRef=;
 
-function convert2Terminals(dict,internal){
+function convert2Terminals(dict,internal,relativePath){
   var temp={};
   for(var key in dict){
     if(key=='internal')
@@ -8,7 +8,7 @@ function convert2Terminals(dict,internal){
     if(typeof(dict[key]['createFunction'])=='function'){
       temp[key]=dict[key].createFunction(internal);
     }else{
-      temp[key]=convert2Terminals(dict[key],internal);
+      temp[key]=convert2Terminals(dict[key],internal,relativePath+"."+key);
     }
   }
   return temp;
