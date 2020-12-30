@@ -22,13 +22,14 @@ exports.readInputs=function(args,inputs,algoInfo){
     output=args[0];
     arrayInput=true;
   }
+  print(arrayInput)
   var listKeys=Object.keys(output);
   for (var i=0; i<inputs.length; i++){
     if(listKeys.indexOf(inputs[i].name)>=0){
       //check type one day
     }
     else{
-      if(args.length<i){
+      if(args.length<i || arrayInput){
         //put default value
         if(!inputs[i].optional)
           if (inputs[i].defaultValue)
