@@ -24,6 +24,7 @@ exports.setupLibrary=function(libs,exp){
   /*for(var key in libs.internal){
     libs[key].internal=libs.internal;
   }*/
+  libs.ref=[];
   libs.internal.addRef=function(ref){libs.ref.push(ref)}
   
   var teminals=convert2Terminals(libs,libs.internal);
