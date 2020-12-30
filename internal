@@ -29,9 +29,9 @@ exports.setupLibrary=function(libs,exp){
   var teminals=convert2Terminals(libs,libs.internal);
   teminals.internal=libs;
   
-  /*teminals.refs=function(){
+  teminals.refs=function(){
     return libs.ref;
-  }*/
+  }
   
   return teminals;
 };
