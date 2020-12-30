@@ -5,10 +5,11 @@ function convert2Terminals(dict,internal,relativePath){
   for(var key in dict){
     if(key=='internal')
       continue;
+    var relativePath+"."+key
     if(typeof(dict[key]['createFunction'])=='function'){
-      temp[key]=dict[key].createFunction(internal);
+      temp[key]=dict[key].createFunction(internal,path);
     }else{
-      temp[key]=convert2Terminals(dict[key],internal,relativePath+"."+key);
+      temp[key]=convert2Terminals(dict[key],internal,path);
     }
   }
   return temp;
