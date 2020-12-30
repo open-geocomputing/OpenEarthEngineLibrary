@@ -65,7 +65,7 @@ exports.setupLibrary=function(libs,exp){
   return teminals;
 };
 
-/*
+
 exports.getDocumentation=function(libs,exp){
   var teminals=convert2Terminals(libs,libs.internal);
   teminals.internal=libs;
@@ -75,5 +75,5 @@ exports.getDocumentation=function(libs,exp){
   }
   
   return teminals;
-};*/
+};
 
