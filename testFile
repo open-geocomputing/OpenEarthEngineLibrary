@@ -1,6 +1,3 @@
 var oeel=require('users/gravey_mathieu/testlibGithub_v2:openEEL')
 
-print(oeel.refs())
-print(oeel)
 print(oeel.test(10))
-print(oeel.refs())
