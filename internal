@@ -20,7 +20,7 @@ exports.readInputs=function(args,inputs){
     output=args[0];
   }
   for (var i=0; i<inputs.length; i++){
-    
+    if()
   }
 }
 
