@@ -14,8 +14,14 @@ function convert2Terminals(dict,internal){
   return temp;
 }
 
-exports.readInputs=function(args){
-  print(args)
+exports.readInputs=function(args,inputs){
+  var output={};
+  if(args.length==1 && typeof(args[0])==typeof({})){
+    output=args[0];
+  }
+  for (var i=0; i<inputs.length; i++){
+    
+  }
 }
 
 
