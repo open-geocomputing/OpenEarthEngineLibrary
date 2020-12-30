@@ -36,7 +36,7 @@ exports.readInputs=function(args,inputs,algoInfo){
           if (inputs[i].defaultValue)
             output[inputs[i].name]=inputs[i].defaultValue;
           else
-            throw 
+            throw algoInfo.name+' require '+inputs[i].name+', but no value or default value provided'
           
       }
     }
