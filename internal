@@ -22,7 +22,6 @@ exports.readInputs=function(args,inputs,algoInfo){
     output=args[0];
     arrayInput=true;
   }
-  print('arrayInput',arrayInput)
   var listKeys=Object.keys(output);
   for (var i=0; i<inputs.length; i++){
     if(listKeys.indexOf(inputs[i].name)>=0){
