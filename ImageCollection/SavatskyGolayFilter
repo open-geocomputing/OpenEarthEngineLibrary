@@ -1,7 +1,7 @@
 var inputs=[{name:'collection',description:'The image collection on which to perform the filtering', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'filter',description:'moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
             {name:'distanceFunction',description:'a lambda fucntion that specify how to compute distance between two image that return an ee.Image (or a ee.Number to add)', type:'fucntion(ee.Image(infromedImage),ee.Image(estimationImage))',defaultValue:null,optional:false},
-            {name:'degree',description:'Polynomial degree, odd number >2', type:'ee.Number',defaultValue:3,optional:true},
+            {name:'degree',description:'Polynomial degree, odd number >2', type:'number',defaultValue:3,optional:true},
             {name:'bandOfInterest',description:'bands selector, by default all of them', type:'band selector',defaultValue:3,optional:true},
             {name:'EstimationCollection',description:'specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},]
             
@@ -29,7 +29,7 @@ return function(){
         imCol=imCol.map(function(Nim){ // compute the temporal distance and add it as a band
             var delta=inputDictionary.distanceFunction(Nim,im);
             var sequenceDegree=Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; })
-            delta=delta.toArray(0).arrayRepeat(1, 3)
+            delta=delta.toArray(0).arrayRepeat(1, inputDictionary.degree)
               .pow(ee.Array(sequenceDegree))
               return Nim.addBands(delta.rename('delta').toFloat().arrayFlatten([['ab'],sequenceDegree]).updateMask(Nim.select([0]).mask()));
         })
