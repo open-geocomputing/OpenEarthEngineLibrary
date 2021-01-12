@@ -1,5 +1,7 @@
 var libs={test:require('users/gravey_mathieu/default:/libExportTest2'),
-  ImageCollection:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
+  ImageCollection:{
+    SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
+  }
 }
 
 libs.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
