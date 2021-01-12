@@ -23,7 +23,7 @@ return function(){
       measureKey: 'distanceError' //join condition...
     });
     
-    return ee.ImageCollection(saveAllJoin.apply(inputDictionary.collection.select(inputDictionary.bandOfInterest), inputDictionary.EstimationCollection, inputDictionary.filter)).map(
+    return ee.ImageCollection(saveAllJoin.apply(inputDictionary.collection.select(inputDictionary.bandOfInterest), inputDictionary.EstimationCollection.select(inputDictionary.bandOfInterest), inputDictionary.filter)).map(
       function(im){
         var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
         imCol=imCol.map(function(Nim){ // compute the temporal distance and add it as a band
