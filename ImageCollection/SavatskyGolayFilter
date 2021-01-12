@@ -36,8 +36,7 @@ return function(){
             delta=ee.ImageCollection(deltaList).toBands().updateMask(Nim.select([0]).mask());
               return Nim.addBands(delta);
         })
-      return imCol.first()
-      /*var matrix=imCol.toArray();
+      var matrix=imCol.toArray();
       var numberOfNeihbours=matrix.arrayLength(0).rename('NoN');
       matrix=matrix.updateMask(inputDictionary.degree+2); // if at least not 5 value are present we give up the computation degrre 3 poynomes require at least 5 values, with 2 or less the matrix can not me invesed 
       var dT=matrix.arraySlice(1,-3);
@@ -48,7 +47,8 @@ return function(){
                             .multiply(ee.Array([[-1,1]])).lt(0).arrayReduce(ee.Reducer.max(),[1],0).arrayGet([0,0])
                             .rename('extrapolate_flag');
       
-      return im.addBands(coef.arrayFlatten([['interp','d1','d2'],im.select(inputDictionary.bandOfInterest).bandNames()])).addBands([extrapolate,numberOfNeihbours]);*/
+      //return im.addBands(coef.arrayFlatten([['interp','d1','d2'],im.select(inputDictionary.bandOfInterest).bandNames()])).addBands([extrapolate,numberOfNeihbours]);
+      return matrix;
     });
   }
   
