@@ -47,7 +47,7 @@ return function(){
                             .multiply(ee.Array([[-1,1]])).lt(0).arrayReduce(ee.Reducer.max(),[1],0).arrayGet([0,0])
                             .rename('extrapolate_flag');
      
-      return im.addBands(coef.arrayFlatten([Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; }).map((i)=>'d_'+i),im.select(inputDictionary.bandOfInterest).bandNames()])).addBands([extrapolate,numberOfNeihbours]);
+      return im.addBands(coef.arrayFlatten([Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; }).map(function(i){return 'd_'+i}),im.select(inputDictionary.bandOfInterest).bandNames()])).addBands([extrapolate,numberOfNeihbours]);
     });
   }
   
