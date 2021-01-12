@@ -31,7 +31,7 @@ return function(){
             var sequenceDegree=Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; })
             delta=delta.toArray(0).arrayRepeat(1, inputDictionary.degree)
               .pow(ee.Array(sequenceDegree))
-              return Nim.addBands(delta.rename('delta').toFloat().arrayFlatten([['ab'],sequenceDegree]).updateMask(Nim.select([0]).mask()));
+              return Nim.addBands(delta.rename('delta').toFloat().arrayFlatten([['ab'],sequenceDegree.map(String)]).updateMask(Nim.select([0]).mask()));
         })
       return imCol.first()
       /*var matrix=imCol.toArray();
