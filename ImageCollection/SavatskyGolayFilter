@@ -39,8 +39,8 @@ return function(){
       var matrix=imCol.toArray();
       var numberOfNeihbours=matrix.arrayLength(0).rename('NoN');
       matrix=matrix.updateMask(numberOfNeihbours.gte(inputDictionary.degree+2)); // if at least not 5 value are present we give up the computation degrre 3 poynomes require at least 5 values, with 2 or less the matrix can not me invesed 
-      var dT=matrix.arraySlice(1,-5);
-      var boI=matrix.arraySlice(1,0,-5);
+      var dT=matrix.arraySlice(1,-inputDictionary.degree);
+      var boI=matrix.arraySlice(1,0,-inputDictionary.degree);
       var coef=dT.matrixSolve(boI);
       var extrapolate=dT.arraySlice(1, 1, 2)
                             .arrayReduce(ee.Reducer.minMax(), [0], 1)
