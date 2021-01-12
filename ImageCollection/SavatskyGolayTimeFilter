@@ -1,6 +1,8 @@
 var inputs=[{name:'collection',description:'The image collection on which to perform the filtering', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'filter',description:'moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
-            {name:'Estimation collection',description:'specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},]
+            {name:'distanceFunction',description:'a lambda fucntion that specify how to compute distance between two image that return an ee.Image (or a ee.Number to add)', type:'fucntion(ee.Image(infromedImage),ee.Image(estimationImage))',defaultValue:null,optional:false},
+            {name:'degree',description:'Polynomial degree, odd number >2', type:'ee.Number',defaultValue:3,optional:true},
+            {name:'EstimationCollection',description:'specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},]
             
 var reference={name:'test',license:'MIT', description:'blabla'};
 
@@ -11,12 +13,38 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
     
+    if(!inputDictionary.EstimationCollection){
+      inputDictionary.EstimationCollection=inputDictionary.collection;
+    }
+
     var saveAllJoin = ee.Join.saveAll({
       matchesKey: 'neighbours',  //every day of the year is a neighbor... 180 days both directions
       measureKey: 'distanceError' //join condition...
     });
     
-    saveAllJoin.apply(EDC_original, EDC_original, timeFilter)
+    saveAllJoin.apply(inputDictionary.collection, inputDictionary.EstimationCollection, inputDictionary.filter).map(
+    function(im){
+      var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
+      imCol=imCol.map(function(Nim){ // compute the temporal distance and add it as a band
+          var delta=inputDictionary.distanceFunction(Nim,im);
+          delta=delta.toArray(0).arrayRepeat(1, coefficentPolynome)
+          var error1=ee.Number(Nim.get('FoY')).subtract(ee.Number(im.get('FoY')));
+          var error2=ee.Number(Nim.get('FoYs')).subtract(ee.Number(im.get('FoYs')));
+          var delatT=ee.Algorithms.If(error1.abs().lt(error2.abs()), error1, error2)
+          var delatTArray=ee.Array([delatT,delatT,delatT]).pow([0,1,2]).reshape([1,3]);
+          return Nim.addBands(ee.Image.constant(delatTArray).rename('delatT').toFloat());
+      })
+      var matrix=imCol.toArrayPerBand(0);
+      var coef=matrix.select('delatT').matrixSolve(matrix.select('NDVI.*').toArray(1));
+      var coef0=coef.arraySlice(0, 0, 1)
+      // for debuging to not remove
+      /*im=im.set('list',imCol.toList(100));
+      im=im.set('matrix',matrix);
+      im=im.set('coef',coef);
+      im=im.set('coef0',coef0.arrayFlatten([['interp'],matrix.select('NDVI.*').bandNames()]));
+      return im;*/
+      return im.addBands(coef0.arrayFlatten([['interp'],matrix.select('NDVI.*').bandNames()]));
+    });
          
     //do whatever
     return inputDictionary.val;
@@ -26,7 +54,7 @@ return function(){
 //join eachdaycollection against to itself... matching...
 var EDC_original = ee.ImageCollection(saveAllJoin.apply(EDC_original, EDC_original, timeFilter)); //join all matches
 
-var EDCsmoothed = EDC_original.map(function(im){timeFilter
+var EDCsmoothed = EDC_original.map(function(im){
   var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
   imCol=imCol.map(function(Nim){ // compute the temporal distance and add it as a band
       var error1=ee.Number(Nim.get('FoY')).subtract(ee.Number(im.get('FoY')));
