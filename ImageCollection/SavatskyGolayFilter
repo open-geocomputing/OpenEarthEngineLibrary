@@ -46,7 +46,7 @@ return function(){
                             .arrayReduce(ee.Reducer.minMax(), [0], 1)
                             .multiply(ee.Array([[-1,1]])).lt(0).arrayReduce(ee.Reducer.max(),[1],0).arrayGet([0,0])
                             .rename('extrapolate_flag');
-      print(im.select(inputDictionary.bandOfInterest).bandNames())     
+      print(im.select(inputDictionary.bandOfInterest))     
       return im.addBands(coef.arrayFlatten([['interp','d1','d2'],im.select(inputDictionary.bandOfInterest).bandNames()])).addBands([extrapolate,numberOfNeihbours]);
     });
   }
