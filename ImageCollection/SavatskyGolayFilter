@@ -23,7 +23,7 @@ return function(){
       measureKey: 'distanceError' //join condition...
     });
     
-    return ee.ImageCollection(saveAllJoin.apply(inputDictionary.collection, inputDictionary.EstimationCollection, inputDictionary.filter)).map(
+    return ee.ImageCollection(saveAllJoin.apply(inputDictionary.EstimationCollection, inputDictionary.collection.select(inputDictionary.bandOfInterest), inputDictionary.filter)).map(
       function(im){
         var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
         imCol=imCol.map(function(Nim){ // compute the temporal distance and add it as a band
@@ -34,7 +34,7 @@ return function(){
               deltaList.push(delta.pow(i))
             }
             delta=ee.ImageCollection(deltaList).toBands().updateMask(Nim.select([0]).mask());
-              return Nim.select(inputDictionary.bandOfInterest).addBands(delta);
+              return Nim.addBands(delta);
         })
       var matrix=imCol.toArray();
       var numberOfNeihbours=matrix.arrayLength(0).rename('NoN');
