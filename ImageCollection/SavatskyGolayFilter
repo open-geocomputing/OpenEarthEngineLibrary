@@ -28,10 +28,13 @@ return function(){
         var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
         imCol=imCol.map(function(Nim){ // compute the temporal distance and add it as a band
             var delta=inputDictionary.distanceFunction(Nim,im);
-            var sequenceDegree=Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; })
-            delta=delta.toArray(0).arrayRepeat(1, inputDictionary.degree)
-              .pow(ee.Array(sequenceDegree))
-              return Nim.addBands(delta.rename('delta').toFloat().arrayFlatten([['ab'],sequenceDegree.map(String)]).updateMask(Nim.select([0]).mask()));
+            var sequenceDegree=Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; }).map(String);
+            var deltaList=[];
+            for (var i=0; i<inputDictionary.degree; i++){
+              deltaList.push(delta.pow(i))
+            }
+            delta=ee.ImageCollection(deltaList).toBands().updateMask(Nim.select([0]).mask());
+              return Nim.addBands(delta);
         })
       return imCol.first()
       /*var matrix=imCol.toArray();
