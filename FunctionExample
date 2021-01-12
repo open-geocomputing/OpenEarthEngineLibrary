@@ -1,0 +1,17 @@
+var inputs=[{name:'val',description:'this description', type:'ee.Image',defaultValue:null,optional:false},
+            {name:'val2',description:'this description', type:'ee.Image',defaultValue:null,optional:true}]
+            
+var reference={name:'test',license:'MIT', description:'blabla'};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference);
+     
+    //do whatever
+    return inputDictionary.val;
+  }
+}
+
