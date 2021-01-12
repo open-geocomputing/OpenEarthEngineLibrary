@@ -29,7 +29,7 @@ return function(){
         imCol=imCol.map(function(Nim){ // compute the temporal distance and add it as a band
             var delta=inputDictionary.distanceFunction(Nim,im);
             var sequenceDegree=Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; })
-            delta=delta.toArray(0).arrayRepeat(1, inputDictionary.degree)
+            delta=delta.toArray(0).arrayRepeat(1, 3)
               .pow(ee.Array(sequenceDegree))
               return Nim.addBands(delta.rename('delta').toFloat().arrayFlatten([['ab'],sequenceDegree]).updateMask(Nim.select([0]).mask()));
         })
