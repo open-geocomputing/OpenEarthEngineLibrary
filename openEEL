@@ -1,4 +1,4 @@
-var libs={test:require('users/gravey_mathieu/default:/libExportTest2')}
+var libs={ImageCollection:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayTimeFilter')}
 
 libs.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
 
