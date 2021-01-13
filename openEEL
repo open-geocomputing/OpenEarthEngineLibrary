@@ -1,4 +1,5 @@
-var libs={test:require('users/gravey_mathieu/default:/libExportTest2'),
+var libs={
+  test:require('users/gravey_mathieu/testlibGithub_v2:/libExportTest'),
   ImageCollection:{
     SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
   }
