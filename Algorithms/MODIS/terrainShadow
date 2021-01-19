@@ -1,7 +1,7 @@
-var inputs=[{name:'val',description:'this description', type:'ee.Image',defaultValue:null,optional:false},
-            {name:'val2',description:'this description', type:'ee.Image',defaultValue:null,optional:true}]
+var inputs=[{name:'modisImage',description:'a modis image', type:'ee.Image',defaultValue:null,optional:false},
+            {name:'kernelHalfSize',description:'the half size of teh kernel', type:'number',defaultValue:10,optional:flase}]
             
-var reference={name:'example',license:'MIT', description:'blabla'};
+var reference={name:'terrainShadow',license:'MIT', description:'compute the terrain shadow of modis image'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
@@ -9,9 +9,52 @@ exports.createFunction=function(internal,relPath){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
-     
-    //do whatever
-    return inputDictionary.val;
+    
+    function radiusKernel(halfSize) {
+      return ee.List.sequence(-halfSize, halfSize).map(function(x) {
+        return ee.List.sequence(-halfSize, halfSize).map(function(y) {
+          return ee.Number(y).multiply(y).add(ee.Number(x).multiply(x)).sqrt().add(0.001);
+        })
+      })
+    }
+    
+    function computeMaxAngle(halfSize){
+      return ee.List.sequence(-halfSize, halfSize).map(function(x) {
+        return ee.List.sequence(-halfSize, halfSize).map(function(y) {
+          var norm=ee.Number(y).multiply(y).add(ee.Number(x).multiply(x)).sqrt();
+          return ee.Number(x).atan2(y).subtract(ee.Number(1).divide(norm).multiply(0.5)).add(-3.14).multiply(-1);
+        })
+      })
+    }
+    
+    function computeMinAngle(halfSize) {
+      return ee.List.sequence(-halfSize, halfSize).map(function(x) {
+        return ee.List.sequence(-halfSize, halfSize).map(function(y) {
+          var norm=ee.Number(y).multiply(y).add(ee.Number(x).multiply(x)).sqrt();
+          return ee.Number(x).atan2(y).add(ee.Number(1).divide(norm).multiply(0.5)).add(-3.14).multiply(-1);
+        })
+      })
+    }
+    
+    var halfSize=inputDictionary.kernelHalfSize;
+    var weights=radiusKernel(halfSize);
+    var kernel=ee.Kernel.fixed(2*halfSize+1, 2*halfSize+1, weights);
+    var maxAngle=computeMaxAngle(halfSize).flatten();
+    var minAngle=computeMinAngle(halfSize).flatten();
+    
+    
+    return getShadow(originalImage){
+      image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
+      var SA=image.select('SolarAzimuth').divide(180/3.14);
+      var angleImageMask = ee.Image.constant(maxAngle).gt(SA).and(ee.Image.constant(minAngle).lt(SA));
+      angleImageMask = angleImageMask.not().multiply(100000).add(1);
+      var imageOfBands=srtm.neighborhoodToBands(kernel)
+        .subtract(ee.Image.constant(weights.flatten()).multiply(ee.Image.pixelArea().sqrt())  // hypothesis of squared pixel
+          .multiply(image.select('SolarZenith').subtract(90).divide(-180/3.14).tan()).multiply(angleImageMask))
+      var maxElevationWithShadow=imageOfBands.reduce(ee.Reducer.max());
+      return image.addBands(srtm.lt(maxElevationWithShadow).rename('shadowMask'))
+            .addBands(originalImage.select(['SolarZenith','SolarAzimuth']),['SolarZenith','SolarAzimuth'],true);
+    }
   }
 }
 
