@@ -38,7 +38,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
     if(listKeys.indexOf(inputs[i].name)>=0){
       //check type one day
       print(output[inputs[i].name])
-      //var localType=exports.typeEEObject(listKeys[inputs[i].name]);
+      var localType=exports.typeEEObject(output[inputs[i].name]);
       //print(localType)
       /*if(expandTypes(inputs[i].type).indexOf()==-1)
       {
