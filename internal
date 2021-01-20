@@ -15,7 +15,7 @@ function convert2Terminals(dict,internal,relativePath){
   return temp;
 }
 
-/*function expandTypes(a){
+function expandTypes(a){
   var accpetedType=a.split('|');
   if(accpetedType.indexOf('ee.Collection')>=0){
     accpetedType.push('ee.FeatureCollection','ee.ImageCollection');
@@ -23,7 +23,7 @@ function convert2Terminals(dict,internal,relativePath){
   if(accpetedType.indexOf('ee.Element')>=0){
     accpetedType.push('ee.Feature','ee.Image');
   }
-} */
+}
 
 exports.readInputs=function(args,inputs,algoInfo,relPath){
   var output={};
