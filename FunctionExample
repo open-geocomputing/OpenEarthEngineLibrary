@@ -1,5 +1,5 @@
-var inputs=[{name:'val',description:'this description', type:'ee.Image',defaultValue:null,optional:false},
-            {name:'val2',description:'this description', type:'ee.Image',defaultValue:null,optional:true}]
+var inputs=[{name:'val',description:'this description', type:'number',defaultValue:null,optional:false},
+            {name:'val2',description:'this description', type:'number',defaultValue:null,optional:true}]
             
 var reference={name:'example',license:'MIT', description:'blabla'};
 
