@@ -39,6 +39,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
       //check type one day
       var localType=exports.typeObject(output[inputs[i].name]);
       print(localType)
+      print(inputs[i].type)
       print(expandTypes(inputs[i].type))
       if(expandTypes(inputs[i].type).indexOf()==-1)
       {
