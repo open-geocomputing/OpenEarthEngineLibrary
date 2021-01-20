@@ -23,6 +23,7 @@ return function(){
       measureKey: 'distanceError' //join condition...
     });
     
+    return 10;
     return ee.ImageCollection(saveAllJoin.apply(inputDictionary.EstimationCollection, inputDictionary.collection.select(inputDictionary.bandOfInterest), inputDictionary.filter)).map(
       function(im){
         var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
