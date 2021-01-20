@@ -19,7 +19,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
   var output={};
   var arrayInput=false;
   if(args.length==1 && typeof(args[0])==typeof({}) 
-    && (inputs.map(function(x){return x.name}).filter(function(value){return Object.keys(args[0]).includes(value)}).length>0) || (Object.keys(args[0]).length===0))){
+    && (inputs.map(function(x){return x.name}).filter(function(value){return Object.keys(args[0]).includes(value)}).length>0) || (Object.keys(args[0]).length===0)){
     output=args[0];
     arrayInput=true;
   }
