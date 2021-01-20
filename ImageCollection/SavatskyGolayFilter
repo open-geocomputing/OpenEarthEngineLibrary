@@ -1,7 +1,7 @@
 var inputs=[{name:'collection',description:'The image collection on which to perform the filtering', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'filter',description:'moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
             {name:'distanceFunction',description:'a lambda fucntion that specify how to compute distance between two image that return an ee.Image (or a ee.Number to add); fucntion(ee.Image(infromedImage),ee.Image(estimationImage))', type:'function',defaultValue:null,optional:false},
-            {name:'degree',description:'Polynomial degree, odd number >2', type:'interger',defaultValue:3,optional:false},
+            {name:'degree',description:'Polynomial degree, odd number >2', type:'integer',defaultValue:3,optional:false},
             {name:'bandOfInterest',description:'bands selector, by default all of them', type:'ee.List|object',defaultValue:['.*'],optional:false},
             {name:'EstimationCollection',description:'specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},]
             
