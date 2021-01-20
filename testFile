@@ -7,6 +7,8 @@ try{
   print("error0 :Fail",e)
 }
 
+print(oeel.example({val:10,frefv:1}))
+
 try{
   print(oeel.example({val:10,frefv:1}))
   print("error0 :OK")
