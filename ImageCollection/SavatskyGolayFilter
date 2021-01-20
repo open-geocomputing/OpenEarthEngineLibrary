@@ -1,7 +1,7 @@
 var inputs=[{name:'collection',description:'The image collection on which to perform the filtering', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'filter',description:'moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
             {name:'distanceFunction',description:'a lambda fucntion that specify how to compute distance between two image that return an ee.Image (or a ee.Number to add); fucntion(ee.Image(infromedImage),ee.Image(estimationImage))', type:'function',defaultValue:null,optional:false},
-            {name:'degree',description:'Polynomial degree, odd number >2', type:'number|ee.Number',defaultValue:3,optional:false},
+            {name:'degree',description:'Polynomial degree, odd number >2', type:'interger',defaultValue:3,optional:false},
             {name:'bandOfInterest',description:'bands selector, by default all of them', type:'ee.List|object',defaultValue:['.*'],optional:false},
             {name:'EstimationCollection',description:'specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},]
             
@@ -38,7 +38,7 @@ return function(){
         })
       var matrix=imCol.toArray();
       var numberOfNeihbours=matrix.arrayLength(0).rename('NoN');
-      matrix=matrix.updateMask(numberOfNeihbours.gte(ee.Number(inputDictionary.degree).add(2))); // if at least not 5 value are present we give up the computation degrre 3 poynomes require at least 5 values, with 2 or less the matrix can not me invesed 
+      matrix=matrix.updateMask(numberOfNeihbours.gte(inputDictionary.degree+2)); // if at least not 5 value are present we give up the computation degrre 3 poynomes require at least 5 values, with 2 or less the matrix can not me invesed 
       var dT=matrix.arraySlice(1,-inputDictionary.degree);
       var boI=matrix.arraySlice(1,0,-inputDictionary.degree);
       var coef=dT.matrixSolve(boI);
@@ -47,7 +47,7 @@ return function(){
                             .multiply(ee.Array([[-1,1]])).lt(0).arrayReduce(ee.Reducer.max(),[1],0).arrayGet([0,0])
                             .rename('extrapolate_flag');
      
-      return im.addBands(coef.arrayFlatten([Array.apply(0, Array(5)).map(function(_,i) { return i; }).map(function(i){return 'd_'+i}),im.select(inputDictionary.bandOfInterest).bandNames()])).addBands([extrapolate,numberOfNeihbours]);
+      return im.addBands(coef.arrayFlatten([Array.apply(0, Array(inputDictionary.degree)).map(function(_,i) { return i; }).map(function(i){return 'd_'+i}),im.select(inputDictionary.bandOfInterest).bandNames()])).addBands([extrapolate,numberOfNeihbours]);
     });
   }
   
