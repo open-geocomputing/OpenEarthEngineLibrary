@@ -83,3 +83,6 @@ exports.getDocumentation=function(libs,exp){
   return convert2Terminals(libs,"OpenEEL");
 };
 
+
+exports.typeEEObject=function(a){ return String(a).match('ee.*\\(')[0].slice(0,-1) }
+
