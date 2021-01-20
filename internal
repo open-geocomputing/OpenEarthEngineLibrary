@@ -60,7 +60,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
             var localType=exports.typeObject(output[inputs[i].name]);
             if(expandTypes(inputs[i].type).indexOf(localType)==-1)
             {
-              //throw 'type for '+ inputs[i]+', '+i+'-th input should be, but was '+localType;
+              throw 'type for '+ inputs[i]+', '+(i+1)+'-th input should be, but was '+localType;
             }
           }
       }
