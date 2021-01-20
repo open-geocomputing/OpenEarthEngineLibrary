@@ -17,13 +17,13 @@ function convert2Terminals(dict,internal,relativePath){
 
 function expandTypes(a){
   var accpetedType=a.split('|');
-  print(accpetedType)
   if(accpetedType.indexOf('ee.Collection')>=0){
     accpetedType.push('ee.FeatureCollection','ee.ImageCollection');
   }
   if(accpetedType.indexOf('ee.Element')>=0){
     accpetedType.push('ee.Feature','ee.Image');
   }
+  return accpetedType;
 }
 
 exports.readInputs=function(args,inputs,algoInfo,relPath){
