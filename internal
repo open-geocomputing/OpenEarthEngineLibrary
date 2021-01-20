@@ -17,6 +17,7 @@ function convert2Terminals(dict,internal,relativePath){
 
 function expandTypes(a){
   var accpetedType=a.split('|');
+  print(accpetedType)
   if(accpetedType.indexOf('ee.Collection')>=0){
     accpetedType.push('ee.FeatureCollection','ee.ImageCollection');
   }
