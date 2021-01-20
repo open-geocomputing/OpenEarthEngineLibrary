@@ -23,6 +23,9 @@ function expandTypes(a){
   if(accpetedType.indexOf('ee.Element')>=0){
     accpetedType.push('ee.Feature','ee.Image');
   }
+  if(accpetedType.indexOf('integer')>=0){
+    accpetedType.push('number');
+  }
   return accpetedType;
 }
 
