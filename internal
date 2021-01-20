@@ -107,6 +107,6 @@ exports.typeObject=function(a){
     return String(a).match('ee.*\\(')[0].slice(0,-1);
   }
   else
-    return typeof(a)
+    return typeof(a);
 }
 
