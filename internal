@@ -18,7 +18,7 @@ function convert2Terminals(dict,internal,relativePath){
 exports.readInputs=function(args,inputs,algoInfo,relPath){
   var output={};
   var arrayInput=false;
-  print(inputs.map(function(x){return x.name}).filter(function(value){return !Object.keys(args[0]).includes(value)}))
+  print(inputs.map(function(x){return x.name}).filter(function(value){return true}))
   if(args.length==1 && typeof(args[0])==typeof({}) 
     /*&& (inputs.map(x=> x.name).filter(value => Object.keys(args[0]).includes(value)).length>0 || (Object.keys(args[0]).length===0))*/){
     output=args[0];
