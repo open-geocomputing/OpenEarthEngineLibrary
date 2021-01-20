@@ -38,7 +38,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
     if(listKeys.indexOf(inputs[i].name)>=0){
       //check type one day
       print(output[inputs[i].name])
-      var localType=exports.typeEEObject(output[inputs[i].name]);
+      var localType=exports.typeObject(output[inputs[i].name]);
       //print(localType)
       /*if(expandTypes(inputs[i].type).indexOf()==-1)
       {
@@ -101,5 +101,12 @@ exports.getDocumentation=function(libs,exp){
 };
 
 
-exports.typeEEObject=function(a){ return String(a).match('ee.*\\(')[0].slice(0,-1) }
+exports.typeObject=function(a){ 
+  if(typeof(a)=='object' && String(a).slice(0,3)=='ee.')
+  {
+    return String(a).match('ee.*\\(')[0].slice(0,-1);
+  }
+  else
+    return typeof(a)
+}
 
