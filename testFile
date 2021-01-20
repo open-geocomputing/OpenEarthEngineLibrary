@@ -1,7 +1,7 @@
 var oeel=require('users/gravey_mathieu/testlibGithub_v2:openEEL')
 
 try{
-  print(oeel.example({val:10}))
+  print(oeel.example({val:10,frefv:1}))
   print("error0 :OK")
 }catch(e){
   print("error0 :Fail",e)
