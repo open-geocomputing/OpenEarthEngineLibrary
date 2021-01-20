@@ -23,7 +23,6 @@ return function(){
       measureKey: 'distanceError' //join condition...
     });
     
-
     return ee.ImageCollection(saveAllJoin.apply(inputDictionary.EstimationCollection, inputDictionary.collection.select(inputDictionary.bandOfInterest), inputDictionary.filter)).map(
       function(im){
         var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
@@ -37,10 +36,9 @@ return function(){
             delta=ee.ImageCollection(deltaList).toBands().updateMask(Nim.select([0]).mask());
               return Nim.addBands(delta);
         })
-            return 10;
       var matrix=imCol.toArray();
       var numberOfNeihbours=matrix.arrayLength(0).rename('NoN');
-      matrix=matrix.updateMask(numberOfNeihbours.gte(ee.Number(inputDictionary.degre).add(2))); // if at least not 5 value are present we give up the computation degrre 3 poynomes require at least 5 values, with 2 or less the matrix can not me invesed 
+      matrix=matrix.updateMask(numberOfNeihbours.gte(ee.Number(inputDictionary.degree).add(2))); // if at least not 5 value are present we give up the computation degrre 3 poynomes require at least 5 values, with 2 or less the matrix can not me invesed 
       var dT=matrix.arraySlice(1,-inputDictionary.degree);
       var boI=matrix.arraySlice(1,0,-inputDictionary.degree);
       var coef=dT.matrixSolve(boI);
