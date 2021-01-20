@@ -41,7 +41,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
       print(localType)
       if(expandTypes(inputs[i].type).indexOf()==-1)
       {
-        throw 'type for '+ inputs[i]+' should be, but was '+localType;
+        //throw 'type for '+ inputs[i]+' should be, but was '+localType;
       }
     }
     else{
