@@ -15,6 +15,16 @@ function convert2Terminals(dict,internal,relativePath){
   return temp;
 }
 
+function expandTypes(a){
+  var accpetedType=a.split('|');
+  if(accpetedType.indexOf('ee.Collection')>=0){
+    accpetedType.push('ee.FeatureCollection','ee.ImageCollection');
+  }
+  if(accpetedType.indexOf('ee.Element')>=0){
+    accpetedType.push('ee.Feature','ee.Image');
+  }
+} 
+
 exports.readInputs=function(args,inputs,algoInfo,relPath){
   var output={};
   var arrayInput=false;
@@ -27,6 +37,11 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
   for (var i=0; i<inputs.length; i++){
     if(listKeys.indexOf(inputs[i].name)>=0){
       //check type one day
+      var localType=exports.typeEEObject(listKeys[inputs[i].name]);
+      if(expandTypes(inputs[i].type).indexOf()==-1)
+      {
+        throw 'type for '+ inputs[i]+' should be, but was '+localType;
+      }
     }
     else{
       if(args.length<=i || arrayInput){
