@@ -19,7 +19,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
   var output={};
   var arrayInput=false;
   if(args.length==1 && typeof(args[0])==typeof({}) 
-    && (inputs.map(x=> x.name).filter(value => Object.keys(args[0]).includes(value)).length>0 || (Object.keys(args[0]).length===0))){
+    && (inputs.map(x=> x.name).filter(value => Object.keys(args[0]).includes(value)).length>0)/* || (Object.keys(args[0]).length===0))*/){
     output=args[0];
     arrayInput=true;
   }
