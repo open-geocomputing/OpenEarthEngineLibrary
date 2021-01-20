@@ -57,6 +57,11 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
         if(!inputs[i].optional)
           {
             output[inputs[i].name]=args[i];
+            var localType=exports.typeObject(output[inputs[i].name]);
+            if(expandTypes(inputs[i].type).indexOf(localType)==-1)
+            {
+              throw 'type for '+ inputs[i]+' should be, but was '+localType;
+            }
           }
       }
     }
