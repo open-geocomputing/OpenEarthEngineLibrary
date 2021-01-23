@@ -19,7 +19,7 @@ return function(){
      var listImagesNames=inputDictionary.args.select(ee.String('.*').cat(firstBandsName)).bandNames();
     listImagesNames=listImagesNames.map(function(name){return ee.String(name).slice(3,firstBandsName.length().add(1).multiply(-1)) })
     print(listImagesNames)
-     return listImagesNames.map(function(name){inputDictionary.args.select(ee.String(name).cat('.*')).rename(originalBandNames).set('originalName',name)})
+     return listImagesNames.map(function(name){ return inputDictionary.args.select(ee.String(name).cat('.*')).rename(originalBandNames).set('originalName',name)})
   }
 }
 
