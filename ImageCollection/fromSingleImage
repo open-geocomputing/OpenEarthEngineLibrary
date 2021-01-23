@@ -13,16 +13,13 @@ return function(){
      if(internal.typeObject(inputDictionary.args)!='ee.Image'){
        inputDictionary.args=ee.Image(inputDictionary.args);
      }
-/*
-var condensate=col.toBands().set('orginalBands',S2.first().bandNames());
-
-var originalBandNames=ee.List(condensate.get('orginalBands'));
-var firstBandsName=ee.String(originalBandNames.get(0));
-var listImagesNames=condensate.select(ee.String('.*').cat(firstBandsName)).bandNames();
-listImagesNames=listImagesNames.map(function(name){return ee.String(name).slice(0,firstBandsName.length().add(1).multiply(-1)) })
-print(listImagesNames)
      
-     */
+     var originalBandNames=ee.String(inputDictionary.args.get('orginalBands')).split(';');
+     var firstBandsName=ee.String(originalBandNames.get(0));
+     var listImagesNames=inputDictionary.args.select(ee.String('im_.*').cat(firstBandsName)).bandNames();
+    listImagesNames=listImagesNames.map(function(name){return ee.String(name).slice(3,firstBandsName.length().add(1).multiply(-1)) })
+    print(listImagesNames)
+     
      
      
      
