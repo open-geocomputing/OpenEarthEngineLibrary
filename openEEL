@@ -1,6 +1,7 @@
 var libs={
   example:require('users/gravey_mathieu/testlibGithub_v2:/FunctionExample'),
   ImageCollection:{
+    fromSingleImage:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage'),
     SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
   },
   Export:{
