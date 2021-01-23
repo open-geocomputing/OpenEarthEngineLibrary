@@ -16,17 +16,10 @@ return function(){
      
      var originalBandNames=ee.String(inputDictionary.args.get('orginalBands')).split(';');
      var firstBandsName=ee.String(originalBandNames.get(0));
-     var listImagesNames=inputDictionary.args.select(ee.String('im_.*').cat(firstBandsName)).bandNames();
+     var listImagesNames=inputDictionary.args.select(ee.String('.*').cat(firstBandsName)).bandNames();
     listImagesNames=listImagesNames.map(function(name){return ee.String(name).slice(3,firstBandsName.length().add(1).multiply(-1)) })
     print(listImagesNames)
-     
-     
-     
-     
-     
-     
-    //do whatever
-    return inputDictionary.args;
+     return listImagesNames.map(function(name){inputDictionary.args.select(ee.String(name).cat('.*')).rename(originalBandNames).set('originalName',name)})
   }
 }
 
