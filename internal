@@ -51,7 +51,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
       if(args.length<=i || arrayInput){
         //put default value
         if(!inputs[i].optional)
-          if (inputs[i].defaultValue)
+          if (inputs[i].defaultValue!='undefined')
               output[inputs[i].name]=inputs[i].defaultValue;
             else
               throw relPath+' require '+inputs[i].name+', but no value or default value provided'
