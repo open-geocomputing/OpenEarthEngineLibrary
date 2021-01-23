@@ -10,15 +10,10 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
      
-     
-     
-     /*
-     
-     
-S2=S2.filterBounds(geometry2).filterDate('2019-07-01','2020-08-01');
-
-var col=S2.limit(3);
-
+     if(internal.typeObject(inputDictionary.args)!='ee.Image'){
+       inputDictionary.args=ee.Image(inputDictionary.args);
+     }
+/*
 var condensate=col.toBands().set('orginalBands',S2.first().bandNames());
 
 var originalBandNames=ee.List(condensate.get('orginalBands'));
@@ -34,7 +29,7 @@ print(listImagesNames)
      
      
     //do whatever
-    return inputDictionary.val;
+    return inputDictionary.args;
   }
 }
 
