@@ -34,14 +34,7 @@ var inputs=[
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true}
  ]
 
-image (Image):
-The image to export.
-
-description (String, optional):
-A human-readable name of the task. Defaults to "myExportImageTask".
-
-
-var reference={name:'example',license:'MIT', description:'blabla'};
+var reference={name:'asImageToAsset',license:'MIT', description:'Creates a batch task to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
