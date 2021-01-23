@@ -1,13 +1,13 @@
 var inputs=[
   {name:"imageCollection", description:"The imageColelction to export as single Image.", type:'ee.ImageCollection', optional:true},
-  {name:"description", description:'A human-readable name of the task. Defaults to "myExportImageTask"', type:'String|ee.String', defaultValue:"myExportImageTask", optional:true},
-  {name:"assetId", description:"The destination asset ID.", type:'String|ee.String', optional:true},
+  {name:"description", description:'A human-readable name of the task. Defaults to "myExportImageTask"', type:'string|ee.String', defaultValue:"myExportImageTask", optional:true},
+  {name:"assetId", description:"The destination asset ID.", type:'string|ee.String', optional:true},
   {name:"pyramidingPolicy", description:'The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to "mean". A special key, ".default" may be used to change the default for all bands.', type:'Object', optional:true},
-  {name:"dimensions", description:'The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or "WIDTHxHEIGHT" where WIDTH and HEIGHT are each positive integers.', type:'number|String', optional:true},
+  {name:"dimensions", description:'The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or "WIDTHxHEIGHT" where WIDTH and HEIGHT are each positive integers.', type:'number|string', optional:true},
   {name:"region", description:"A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.", type:'ee.Geometry', optional:true},
   {name:"scale", description:"Resolution in meters per pixel. Defaults to 1000.", type:'number', optional:true},
-  {name:"crs", description:"CRS to use for the exported image.", type:'String|ee.String', optional:true},
-  {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|String|ee.String', optional:true},
+  {name:"crs", description:"CRS to use for the exported image.", type:'string|ee.String', optional:true},
+  {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|string|ee.String', optional:true},
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true}
  ]
 
