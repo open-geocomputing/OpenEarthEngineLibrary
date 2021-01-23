@@ -21,8 +21,7 @@ print(col)
 
 
 
-var inputs=[{name:'val',description:'this description', type:'number',defaultValue:null,optional:false},
-            {name:'val2',description:'this description', type:'number',defaultValue:null,optional:true}]
+var inputs=[{name:'args',description:'this description', type:'ee.Image|string|ee.String',optional:false}];
             
 var reference={name:'example',license:'MIT', description:'blabla'};
 
