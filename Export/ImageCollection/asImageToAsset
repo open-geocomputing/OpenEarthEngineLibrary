@@ -1,26 +1,3 @@
-
-S2=S2.filterBounds(geometry2).filterDate('2019-07-01','2020-08-01');
-
-var col=S2.limit(3);
-
-var condensate=col.toBands().set('orginalBands',S2.first().bandNames());
-
-var originalBandNames=ee.List(condensate.get('orginalBands'));
-var firstBandsName=ee.String(originalBandNames.get(0));
-var listImagesNames=condensate.select(ee.String('.*').cat(firstBandsName)).bandNames();
-listImagesNames=listImagesNames.map(function(name){return ee.String(name).slice(0,firstBandsName.length().add(1).multiply(-1)) })
-print(listImagesNames)
-
-var col=ee.ImageCollection(listImagesNames.map(function(val){
-  val=ee.String(val);
-  var im=condensate.select(val.cat('.*')).rename(originalBandNames);
-  return im.set('system:index',val);
-}));
-
-print(col)
-
- 
-
 var inputs=[
   {name:"imageCollection", description:"The imageColelction to export as single Image.", type:'String|ee.String', optional:true},
   {name:"description", description:'A human-readable name of the task. Defaults to "myExportImageTask"', type:'String|ee.String', defaultValue:"myExportImageTask", optional:true},
