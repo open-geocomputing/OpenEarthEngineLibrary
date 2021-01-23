@@ -34,7 +34,7 @@ var inputs=[
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true}
  ]
 
-var reference={name:'asImageToAsset',license:'MIT', description:'Creates a batch task to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab.'};
+var reference={name:'asImageToAsset',license:'MIT', description:'Creates a batch task to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
@@ -43,10 +43,14 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
      
-     
-     
-     
-     
+    var col=inputDictionary.imageCollection;
+    var condensate=col.toBands().set('orginalBands',col.first().bandNames(),
+      'originalPropoerties',col.iterate(function(image,dic){
+      return dic.combine(ee.Dictionary.fromLists(im.get('system:index'),ee.Feature(image.select([]))));
+    },ee.Dictionary.fromLists([],[])));
+    
+    inputDictionary.image=condensate;
+    Export.image.toAsset(inputDictionary)
      
      
      
