@@ -24,7 +24,7 @@ return function(){
     var condensate=col.toBands().set('orginalBands',col.first().bandNames().join(';'),
       /*'originalPropoerties',col.iterate(function(image,dic){
       return ee.Dictionary(dic).combine(ee.Dictionary.fromLists([image.get('system:index')],[ee.Feature(image.select([]))]));
-    },ee.Dictionary.fromLists([],[]))3/);
+    },ee.Dictionary.fromLists([],[]))*/);
     inputDictionary.image=condensate.regexpRename('^(.*)', 'im_$1');
     delete inputDictionary.imageCollection;
     print(inputDictionary.image)
