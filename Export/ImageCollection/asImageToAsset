@@ -29,11 +29,6 @@ return function(){
     inputDictionary.image=condensate;
     Export.image.toAsset(inputDictionary)
      
-     
-     
-     
-    //do whatever
-    return inputDictionary.val;
   }
 }
 
