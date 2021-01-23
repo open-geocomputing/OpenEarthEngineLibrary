@@ -27,6 +27,7 @@ return function(){
     },ee.Dictionary.fromLists([],[])));
     
     inputDictionary.image=condensate;
+    delete inputDictionary.imageCollection;
     Export.image.toAsset(inputDictionary)
      
   }
