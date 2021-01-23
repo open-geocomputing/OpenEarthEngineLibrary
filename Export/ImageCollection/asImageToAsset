@@ -21,7 +21,7 @@ return function(){
     internal.addRef(reference);
      
     var col=inputDictionary.imageCollection;
-    var condensate=col.toBands().set('orginalBands',col.first().bandNames().join(';'),
+    var condensate=col.toBands().set('orginalBands',col.first().bandNames().join(';')
       /*'originalPropoerties',col.iterate(function(image,dic){
       return ee.Dictionary(dic).combine(ee.Dictionary.fromLists([image.get('system:index')],[ee.Feature(image.select([]))]));
     },ee.Dictionary.fromLists([],[]))*/);
