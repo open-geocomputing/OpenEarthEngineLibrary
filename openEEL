@@ -2,6 +2,12 @@ var libs={
   example:require('users/gravey_mathieu/testlibGithub_v2:/FunctionExample'),
   ImageCollection:{
     SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
+  },
+  Export:{
+    ImageCollection:{
+      asImageToAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset')
+    },
+    
   }
 }
 
