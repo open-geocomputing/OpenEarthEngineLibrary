@@ -26,7 +26,7 @@ return function(){
       return ee.Dictionary(dic).combine(ee.Dictionary.fromLists([image.get('system:index')],[ee.Feature(image.select([]))]));
     },ee.Dictionary.fromLists([],[])));
     
-    inputDictionary.image=condensate;
+    inputDictionary.image=condensate.regexpRename('^(.*)', 'im_$1');
     delete inputDictionary.imageCollection;
     Export.image.toAsset(inputDictionary)
      
