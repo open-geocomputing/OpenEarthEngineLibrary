@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 repo=os.environ('GEE_REPO_ADDRESS')
 
@@ -17,7 +18,9 @@ def generateDictionary(requirePath,path,dirList):
 val=generateDictionary(repo+':/','.',
 	[ name for name in os.listdir('.') if os.path.isdir(os.path.join('.', name)) and name[0]!='.' ]+['internal']);
 
-libString='var libs='+json.dumps(val).replace('"','')+'\n\n'+'exports=libs.internal.setupLibrary(libs);';
+libString='var libs='+json.dumps(val).replace('"','')+\
+				'\n\n//generated automatically the '+str(datetime.utcnow())+\
+				'UTC \n\n'+'exports=libs.internal.setupLibrary(libs);';
 
 text_file = open("openEEL", "w")
 text_file.write(libString)
