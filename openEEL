@@ -1,16 +1,22 @@
 var libs={
-  example:require('users/gravey_mathieu/testlibGithub_v2:/FunctionExample'),
-  ImageCollection:{
-    fromSingleImage:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage'),
-    SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
+  "Algorithms": {
+    "MODIS": {
+      "terrainShadow": "require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')"
+    }
   },
-  Export:{
-    ImageCollection:{
-      asImageToAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
-      toAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
-    },
-    
-  }
+  "Export": {
+    "ImageCollection": {
+      "toAsset": "require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')",
+      "asImageToAsset": "require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset')"
+    }
+  },
+  "ImageCollection": {
+    "SavatskyGolayFilter": "require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')",
+    "movingWindow": "require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/movingWindow')",
+    "blockAggregator": "require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/blockAggregator')",
+    "fromSingleImage": "require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')"
+  },
+  "internal": "require('users/gravey_mathieu/testlibGithub_v2:/internal')"
 }
 
 libs.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
