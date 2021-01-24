@@ -29,6 +29,16 @@ return function(){
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
     
+    if( /^users\//.test(assetId) || /^projects\//.test(assetId))
+    {
+      // already full name
+    }
+    else{
+      // user prexix
+      assetId=ee.data.getAssetRoots()[0].id+'/'+assetId;
+    }
+    
+    
     try{
       var info=ee.data.getAsset(assetId)
       if(info.type!='ImageCollection2')
