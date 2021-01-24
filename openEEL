@@ -4,7 +4,7 @@ var libs={
     fromSingleImage:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage'),
     SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
   },
-  'Export':{
+  Export:{
     ImageCollection:{
       asImageToAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
       toAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
