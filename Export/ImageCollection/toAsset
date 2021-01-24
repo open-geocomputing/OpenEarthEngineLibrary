@@ -24,7 +24,7 @@ return function(){
     var col=inputDictionary.imageCollection;
     
     col.size().evaluate(function(amountImage){
-      for (var i=0; i<1; i++){
+      for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
         exportDic.image=im;
