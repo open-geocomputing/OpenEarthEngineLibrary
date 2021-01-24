@@ -30,14 +30,14 @@ return function(){
     delete inputDictionary.assetId;
     
     try{
-      var info=ee.data.getAsset('users/gravey_mathieu/test')
+      var info=ee.data.getAsset(assetId)
       if(info.type!='ImageCollection2')
        throw "Not an ImageCollection";
     }catch(e){
-      print(e)
+      if(e=="Not an ImageCollection")
+        throw "Asset exist, but is not an ImageCollection"
+      else ee.data.createAsset({type:'ImageCollection'}, assetId)
     }
-    
-    //print(ee.data.createAsset({type:'ImageCollection'}, 'users/gravey_mathieu/test'))
     
     col.size().evaluate(function(amountImage){
       for (var i=0; i<amountImage; i++){
