@@ -1,3 +1,5 @@
-var libs={Algorithms: {MODIS: {}}, Export: {ImageCollection: {toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset'), asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset')}}, ImageCollection: {SavatskyGolayFilter: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'), fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')}, internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')}
+var libs={ImageCollection: {SavatskyGolayFilter: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'), fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')}, Algorithms: {MODIS: {}}, Export: {ImageCollection: {asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'), toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')}}, internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')}
+
+//generated automatically the 2021-01-24 15:55:52.096261UTC 
 
 exports=libs.internal.setupLibrary(libs);
