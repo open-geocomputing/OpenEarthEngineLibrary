@@ -35,6 +35,8 @@ jobs:
           python-version: '3.8'
           architecture: 'x64'
       - name: create openEEL
+        env:
+          GEE_REPO_ADDRESS: ${{secrets.GEE_REPO_ADDRESS}}
         run: |
           python genearteOpenEEL.py
           git add openEEL
