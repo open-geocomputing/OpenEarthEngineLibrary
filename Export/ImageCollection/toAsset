@@ -29,6 +29,15 @@ return function(){
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
     
+    try{
+      var info=ee.data.getAsset('users/gravey_mathieu/test')
+      print(info)
+    }catch(e){
+      
+    }
+    
+    //print(ee.data.createAsset({type:'ImageCollection'}, 'users/gravey_mathieu/test'))
+    
     col.size().evaluate(function(amountImage){
       for (var i=0; i<amountImage; i++){
         
