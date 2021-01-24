@@ -1,6 +1,6 @@
 var inputs=[
   {name:"imageCollection", description:"The imageColelction to export as single Image.", type:'ee.ImageCollection', optional:false},
-  {name:"nameProperty", description:'The property to use as image name at export', type:'string|ee.String', defaultValue:"system:index", optional:true},
+  {name:"nameProperty", description:'The property to use as image name at export', type:'string|ee.String', defaultValue:'system:index', optional:false},
   {name:"description", description:'A human-readable prefix name for the tasks.', type:'string', defaultValue:"", optional:true},
   {name:"assetId", description:"The destination asset ID.", type:'string|ee.String', optional:true},
   {name:"pyramidingPolicy", description:'The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to "mean". A special key, ".default" may be used to change the default for all bands.', type:'Object', optional:true},
