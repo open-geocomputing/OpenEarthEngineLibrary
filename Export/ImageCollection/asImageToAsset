@@ -1,5 +1,5 @@
 var inputs=[
-  {name:"imageCollection", description:"The imageColelction to export as single Image.", type:'ee.ImageCollection', optional:true},
+  {name:"imageCollection", description:"The imageColelction to export as single Image.", type:'ee.ImageCollection', optional:false},
   {name:"description", description:'A human-readable name of the task. Defaults to "myExportImageTask"', type:'string|ee.String', defaultValue:"myExportImageTask", optional:true},
   {name:"assetId", description:"The destination asset ID.", type:'string|ee.String', optional:true},
   {name:"pyramidingPolicy", description:'The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to "mean". A special key, ".default" may be used to change the default for all bands.', type:'Object', optional:true},
@@ -21,14 +21,13 @@ return function(){
     internal.addRef(reference);
      
     var col=inputDictionary.imageCollection;
-    col=col.select(col.first().bandNames());
-    var condensate=col.toBands().set('orginalBands',col.first().bandNames().join(';')
-      /*'originalPropoerties',col.iterate(function(image,dic){
+    var condensate=col.toBands().set('orginalBands',col.first().bandNames(),
+      'originalPropoerties',col.iterate(function(image,dic){
       return ee.Dictionary(dic).combine(ee.Dictionary.fromLists([image.get('system:index')],[ee.Feature(image.select([]))]));
-    },ee.Dictionary.fromLists([],[]))*/);
+    },ee.Dictionary.fromLists([],[])));
+    
     inputDictionary.image=condensate.regexpRename('^(.*)', 'im_$1');
     delete inputDictionary.imageCollection;
-    print(inputDictionary.image)
     Export.image.toAsset(inputDictionary)
      
   }
