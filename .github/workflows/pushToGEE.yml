@@ -34,7 +34,10 @@ jobs:
           with:
             python-version: '3.8'
             architecture: 'x64'
-        run: python genearteOpenEEL.py 
+        run: |
+          python genearteOpenEEL.py
+          git add genearteOpenEEL.py
+          git comit -m 'update openEEL'
 
       - name: mirror the git
         env:
