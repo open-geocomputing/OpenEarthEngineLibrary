@@ -1,3 +1,17 @@
+/*var libs={
+  ImageCollection:{
+    fromSingleImage:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage'),
+    SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
+  },
+  Export:{
+    ImageCollection:{
+      asImageToAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
+      toAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
+    },
+    
+  }
+}*/
+
 var libs={
   "Export": {
     "ImageCollection": {
@@ -12,7 +26,8 @@ var libs={
   "internal": "require('users/gravey_mathieu/testlibGithub_v2:/internal')"
 }
 
-libs.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
+
+//libs.internal=require('users/gravey_mathieu/testlibGithub_v2:internal');
 
 exports=libs.internal.setupLibrary(libs);
 
