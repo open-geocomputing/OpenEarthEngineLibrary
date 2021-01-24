@@ -28,6 +28,13 @@ jobs:
           git config user.email "githubActionAutoMerge@no-one.com"
           git config user.name "githubActionAutoMerge"
           git config pull.rebase false 
+          
+      - name: create openEEL
+        uses: actions/setup-python@v2
+          with:
+            python-version: '3.8'
+            architecture: 'x64'
+        run: python genearteOpenEEL.py 
 
       - name: mirror the git
         env:
