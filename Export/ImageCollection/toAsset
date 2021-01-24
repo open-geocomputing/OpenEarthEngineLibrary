@@ -24,6 +24,7 @@ return function(){
     var col=inputDictionary.imageCollection;
     var prop=inputDictionary.nameProperty;
     var assetId=inputDictionary.assetId;
+    var prefix=exportDic.description;
     delete inputDictionary.nameProperty;
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
@@ -34,7 +35,7 @@ return function(){
         var im=ee.Image(col.toList(amountImage).get(i));
         exportDic.image=im;
         exportDic.assetId=ee.String(assetId).cat('/').cat(im.get(ee.String(prop)));
-        exportDic.description=exportDic.description+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
+        exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
         Export.image.toAsset(exportDic)
       }
     })
