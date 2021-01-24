@@ -1,5 +1,5 @@
-var libs={ImageCollection: {SavatskyGolayFilter: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'), fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')}, Algorithms: {MODIS: {}}, Export: {ImageCollection: {asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'), toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')}}, internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')}
+var libs={ImageCollection: {SavatskyGolayFilter: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'), fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')}, Algorithms: {MODIS: {terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')}}, Export: {ImageCollection: {asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'), toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')}}, internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')}
 
-//generated automatically the 2021-01-24 17:02:43.676153UTC 
+//generated automatically the 2021-01-24 17:20:35.943525UTC 
 
 exports=libs.internal.setupLibrary(libs);
