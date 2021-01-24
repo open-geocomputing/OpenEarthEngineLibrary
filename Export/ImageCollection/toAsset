@@ -24,7 +24,7 @@ return function(){
     var col=inputDictionary.imageCollection;
     var prop=inputDictionary.nameProperty;
     var assetId=inputDictionary.assetId;
-    var prefix=exportDic.description;
+    var prefix=inputDictionary.description;
     delete inputDictionary.nameProperty;
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
