@@ -29,7 +29,7 @@ return function(){
         var im=ee.Image(col.toList(amountImage).get(i));
         exportDic.image=im;
         exportDic.assetId=ee.String(exportDic.assetId).cat('/').cat(i)//im.get(exportDic.nameProperty));
-        exportDic.description=ee.String(exportDic.description).cat(i)//im.get(exportDic.nameProperty))
+        exportDic.description=exportDic.description;//ee.String(exportDic.description).cat(i)//im.get(exportDic.nameProperty))
         delete exportDic.imageCollection;
         delete exportDic.nameProperty;
         Export.image.toAsset(exportDic)
