@@ -6,7 +6,7 @@ repo=os.environ('GEE_REPO_ADDRESS')
 def generateDictionary(requirePath,path,dirList):
 	val={};
 	for toExplore in dirList:
-		if(toExplore[0]=='.'):
+		if(toExplore[0]=='_'):
 				continue;
 		if(os.path.isdir(os.path.join(path, toExplore))):
 			val[toExplore]=generateDictionary(requirePath+toExplore+'/',path+'/'+toExplore,os.listdir(path+'/'+toExplore));
