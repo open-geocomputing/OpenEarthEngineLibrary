@@ -31,7 +31,7 @@ return function(){
     
     try{
       var info=ee.data.getAsset('users/gravey_mathieu/test')
-      if(info.type=='ImageCollection2')
+      if(info.type==='ImageCollection2')
        throw {name:"wrong type"};
     }catch(e){
       print(e)
