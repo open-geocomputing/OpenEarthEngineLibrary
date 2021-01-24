@@ -23,7 +23,7 @@ var libs={
     "SavatskyGolayFilter": "require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')",
     "fromSingleImage": "require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')"
   },
-  "internal": "require('users/gravey_mathieu/testlibGithub_v2:/internal')"
+  "internal": "require('users/gravey_mathieu/testlibGithub_v2:internal')"
 }
 
 
