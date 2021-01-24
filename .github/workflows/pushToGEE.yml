@@ -31,9 +31,9 @@ jobs:
           
       - name: create openEEL
         uses: actions/setup-python@v2
-          with:
-            python-version: '3.8'
-            architecture: 'x64'
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
         run: |
           python genearteOpenEEL.py
           git add openEEL
