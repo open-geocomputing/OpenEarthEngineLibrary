@@ -1,20 +1,3 @@
-/*var libs={
-  ImageCollection:{
-    fromSingleImage:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage'),
-    SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter')
-  },
-  Export:{
-    ImageCollection:{
-      asImageToAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
-      toAsset:require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
-    },
-    
-  }
-}*/
-
 var libs={Algorithms: {MODIS: {}}, Export: {ImageCollection: {toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset'), asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset')}}, ImageCollection: {SavatskyGolayFilter: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'), fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')}, internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')}
 
-
 exports=libs.internal.setupLibrary(libs);
-
-
