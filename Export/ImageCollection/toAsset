@@ -22,6 +22,19 @@ return function(){
     internal.addRef(reference);
      
     var col=inputDictionary.imageCollection;
+    
+    col.size().evaluate(function(amountImage){
+      for (var i=0; i<amountImage; i++){
+        var exportDic=inputDictionary;
+        var im=ee.Image(col.toList(amountImage).get(i));
+        exportDic.image=im;
+        exportDic.assetId=ee.String(exportDic.assetId).cat('/').cat(im.get(exportDic.nameProperty));
+        exportDic.description=ee.String(exportDic.description).cat(im.get(exportDic.nameProperty))
+        delete exportDic.imageCollection;
+        delete exportDic.nameProperty; 
+        Export.image.toAsset(exportDic)
+      }
+    })
     col=col.select(col.first().bandNames());
     var condensate=col.toBands().set('orginalBands',col.first().bandNames().join(';')
       /*'originalPropoerties',col.iterate(function(image,dic){
