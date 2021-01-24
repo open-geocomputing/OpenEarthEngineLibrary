@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-repo=os.environ('GEE_REPO_ADDRESS')
+repo=os.environ['GEE_REPO_ADDRESS'];
 
 def generateDictionary(requirePath,path,dirList):
 	val={};
