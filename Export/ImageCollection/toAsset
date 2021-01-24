@@ -22,16 +22,19 @@ return function(){
     internal.addRef(reference);
      
     var col=inputDictionary.imageCollection;
+    var prop=inputDictionary.nameProperty;
+    var assetId=inputDictionary.assetId;
+    delete inputDictionary.nameProperty;
+    delete inputDictionary.imageCollection;
+    delete inputDictionary.assetId;
     
     col.size().evaluate(function(amountImage){
       for (var i=0; i<amountImage; i++){
-        var exportDic=Object.fromEntries(Object.entries(inputDictionary));
+        var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
         exportDic.image=im;
-        exportDic.assetId=ee.String(exportDic.assetId).cat('/').cat(im.get(ee.String(exportDic.nameProperty)));
-        exportDic.description=exportDic.description+i;//ee.String(exportDic.description).cat(i)//im.get(exportDic.nameProperty))
-        delete exportDic.imageCollection;
-        delete exportDic.nameProperty;
+        exportDic.assetId=ee.String(assetId).cat('/').cat(im.get(ee.String(prop)));
+        exportDic.description=exportDic.description+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
         Export.image.toAsset(exportDic)
       }
     })
