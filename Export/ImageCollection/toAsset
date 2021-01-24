@@ -31,8 +31,8 @@ return function(){
     
     try{
       var info=ee.data.getAsset('users/gravey_mathieu/test')
-      if(info.type!='ImgerhbageCollection2')
-       throw {name:"wrong type"};
+      if(info.type!='ImageCollection2')
+       throw "Not an ImageCollection";
     }catch(e){
       print(e)
     }
