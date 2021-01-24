@@ -12,7 +12,7 @@ var inputs=[
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true}
  ]
 
-var reference={name:'toAsset',license:'MIT', description:'Creates batch tasks (one pro image) to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands'};
+var reference={name:'toAsset',license:'MIT', description:'Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
