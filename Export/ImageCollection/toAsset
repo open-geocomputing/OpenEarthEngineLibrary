@@ -33,7 +33,7 @@ return function(){
       var info=ee.data.getAsset('users/gravey_mathieu/test')
       print(info)
     }catch(e){
-      
+      print(e)
     }
     
     //print(ee.data.createAsset({type:'ImageCollection'}, 'users/gravey_mathieu/test'))
