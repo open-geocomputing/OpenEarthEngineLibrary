@@ -31,10 +31,12 @@ return function(){
     
     col.size().evaluate(function(amountImage){
       for (var i=0; i<amountImage; i++){
+        
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
+        var name=im.get(ee.String(prop)).getInfo(); // need to be improuved
         exportDic.image=im;
-        exportDic.assetId=ee.String(assetId).cat('/').cat(im.get(ee.String(prop)));
+        exportDic.assetId=assetId+'/'+name;
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
         Export.image.toAsset(exportDic)
       }
