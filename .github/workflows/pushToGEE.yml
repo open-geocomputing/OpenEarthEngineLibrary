@@ -41,6 +41,7 @@ jobs:
           python genearteOpenEEL.py
           git add openEEL
           git commit -m 'update openEEL'
+          git push
 
       - name: mirror the git
         env:
