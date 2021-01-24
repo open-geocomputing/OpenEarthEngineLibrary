@@ -30,8 +30,8 @@ return function(){
         exportDic.image=im;
         exportDic.assetId=ee.String(exportDic.assetId).cat('/').cat(im.get(exportDic.nameProperty));
         exportDic.description=ee.String(exportDic.description).cat(im.get(exportDic.nameProperty))
-        delete exportDic.imageCollection;
-        delete exportDic.nameProperty; 
+       /* delete exportDic.imageCollection;
+        delete exportDic.nameProperty; */
         Export.image.toAsset(exportDic)
       }
     })
