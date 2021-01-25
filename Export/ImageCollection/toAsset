@@ -64,7 +64,7 @@ return function(){
     col.size().evaluate(function(amountImage){
       if(autoExport)
       {
-        var taskIds=0;//ee.data.newTaskId(amountImage);
+        var taskIds=ee.data.newTaskId(amountImage);
       }
       //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
       //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.deleteAsset');
@@ -80,14 +80,18 @@ return function(){
           exportDic.element=exportDic.image;
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
-          //var assetData=ee.data.getAsset(exportDic.assetId);
-          //print(assetData)
-          if(overwrite && ee.Image(exportDic.assetId).getInfo()){
+          try
+            {
+              var assetData=ee.data.getAsset(exportDic.assetId);
+            }
+          catch
+            {}
+          if(overwrite && assetData){
             ee.data.deleteAsset(exportDic.assetId);
-            //assetData=undefined;
+            assetData=undefined;
           }
-          //if(!assetData)
-          //  ee.data.startProcessing(taskIds[i],exportDic,function(){});
+          if(!assetData)
+            ee.data.startProcessing(taskIds[i],exportDic,function(){});
         }else
         {
           Export.image.toAsset(exportDic);
