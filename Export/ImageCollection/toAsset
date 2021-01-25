@@ -59,7 +59,10 @@ return function(){
     }
     
     col.size().evaluate(function(amountImage){
-      //var taskIds=ee.data.newTaskId(amountImage);
+      if(autoExport)
+      {
+        var taskIds=ee.data.newTaskId(amountImage);
+      }
       print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
