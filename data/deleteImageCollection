@@ -1,0 +1,95 @@
+var inputs=[
+  {name:"imageCollection", description:"The imageColelction to delete", type:'ee.ImageCollection', optional:false},
+  {name:"keepEmptyColelction", description:"keep the empty collection", type:'boolean', optional:false}
+ ]
+
+var reference={name:'deleteImageCollection',license:'MIT', description:'Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab.'};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference);
+     
+    var col=inputDictionary.imageCollection;
+    var prop=inputDictionary.nameProperty;
+    var assetId=inputDictionary.assetId;
+    var prefix=inputDictionary.description;
+    var autoExport=inputDictionary.autoExport;
+    var overwrite=inputDictionary.overwrite;
+    delete inputDictionary.nameProperty;
+    delete inputDictionary.imageCollection;
+    delete inputDictionary.assetId;
+    delete inputDictionary.autoExport;
+    delete inputDictionary.overwrite;
+    print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.createAsset');
+    print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.startProcessing')
+    print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.deleteAsset');
+    if( /^users\//.test(assetId) || /^projects\//.test(assetId))
+    {
+      // already full name
+    }
+    else{
+      // user prexix
+      assetId=ee.data.getAssetRoots()[0].id+'/'+assetId;
+    }
+    
+    
+    try{
+      var info=ee.data.getAsset(assetId);
+      print(info)
+      if(info.type!='ImageCollection')
+       throw "Not an ImageCollection";
+    }catch(e){
+      if(e=="Not an ImageCollection")
+        throw "Asset exist, but is not an ImageCollection"
+      else{
+        ee.data.createAsset({type:'ImageCollection'}, assetId)
+      }
+    }
+    print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.createAsset');
+    
+    col.size().evaluate(function(amountImage){
+      if(autoExport)
+      {
+        var taskIds=ee.data.newTaskId(amountImage);
+      }
+      for (var i=0; i<amountImage; i++){
+        var exportDic=inputDictionary;
+        var im=ee.Image(col.toList(amountImage).get(i));
+        var name=im.get(ee.String(prop)).getInfo(); // need to be improuved
+        exportDic.image=im;
+        exportDic.assetId=assetId+'/'+name;
+        exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
+        if(autoExport)
+        {
+          exportDic.element=exportDic.image;
+          delete exportDic.image;
+          exportDic.type='EXPORT_IMAGE';
+          var assetData=false;
+          try
+            {
+              assetData=ee.data.getAsset(exportDic.assetId);
+            }
+          catch (e)
+            {}
+          if(overwrite && assetData){
+            ee.data.deleteAsset(exportDic.assetId);
+            assetData=undefined;
+          }
+          if(!assetData)
+            ee.data.startProcessing(taskIds[i],exportDic,function(){});
+        }else
+        {
+          Export.image.toAsset(exportDic);
+        }
+        print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.startProcessing');
+        print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.deleteAsset');
+      }
+      
+    })
+  }
+}
+
+ 
