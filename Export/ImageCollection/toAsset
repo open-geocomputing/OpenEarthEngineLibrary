@@ -61,7 +61,7 @@ return function(){
         exportDic.image=im;
         exportDic.assetId=assetId+'/'+name;
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
-        if(autoExport)
+       /* if(autoExport)
         {
           var val=Export.image.toAsset(localConfig);
           var localConfigRun={};
@@ -71,7 +71,7 @@ return function(){
           if(exportDic.description)localConfigRun.description=exportDic.description;
           if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
           ee.data.startProcessing(taskIds[i],localConfigRun,function(){});
-        }else
+        }else*/
         {
           Export.image.toAsset(exportDic);
         }
