@@ -74,7 +74,7 @@ return function(){
         if(autoExport)
         {
           var localConfigRun={};
-          localConfigRun.element=exportDic.image;
+          localConfigRun.element=exportDic.image.serialize();
           localConfigRun.type='EXPORT_IMAGE';
           //if(exportDic.scale)localConfigRun.scale=exportDic.scale;
           //if(exportDic.description)localConfigRun.description=exportDic.description;
