@@ -19,6 +19,9 @@ var libs={
       toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
     }
   },
+  data:{
+    deleteImageCollection:require('users/gravey_mathieu/testlibGithub_v2:/data/deleteImageCollection')
+  },
   internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')
 }
 
