@@ -81,11 +81,11 @@ return function(){
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
           var assetData=ee.data.getAsset(exportDic.assetId);
-          print(assetData)
+          /*print(assetData)
           if(overwrite && assetData){
             ee.data.deleteAsset(exportDic.assetId);
             assetData=undefined;
-          }
+          }*/
           if(!assetData)
             ee.data.startProcessing(taskIds[i],exportDic,function(){});
         }else
