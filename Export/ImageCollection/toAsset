@@ -82,7 +82,7 @@ return function(){
           exportDic.type='EXPORT_IMAGE';
           //var assetData=ee.data.getAsset(exportDic.assetId);
           //print(assetData)
-          if(overwrite){
+          if(overwrite && ee.Image(exportDic.assetId).getInfo()){
             ee.data.deleteAsset(exportDic.assetId);
             //assetData=undefined;
           }
