@@ -64,7 +64,7 @@ return function(){
     col.size().evaluate(function(amountImage){
       if(autoExport)
       {
-        var taskIds=0://ee.data.newTaskId(amountImage);
+        var taskIds=0;//ee.data.newTaskId(amountImage);
       }
       //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
       //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.deleteAsset');
