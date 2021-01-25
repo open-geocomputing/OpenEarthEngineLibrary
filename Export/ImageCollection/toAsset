@@ -63,7 +63,6 @@ return function(){
       {
         var taskIds=ee.data.newTaskId(amountImage);
       }
-      print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
@@ -87,7 +86,6 @@ return function(){
         }
         
       }
-      print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.startProcessing');
     })
   }
 }
