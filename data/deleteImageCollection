@@ -1,6 +1,6 @@
 var inputs=[
   {name:"imageCollection", description:"The imageColelction to delete", type:'ee.ImageCollection', optional:false},
-  {name:"keepEmptyColelction", description:"keep the empty collection", type:'boolean', optional:false}
+  {name:"keepEmptyCollection", description:"keep the empty collection", type:'boolean', optional:false}
  ]
 
 var reference={name:'deleteImageCollection',license:'MIT', description:'Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab.'};
