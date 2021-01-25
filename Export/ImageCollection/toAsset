@@ -74,6 +74,7 @@ return function(){
         if(autoExport)
         {
           var localConfigRun={};
+          print(Object.keys(exportDic))
           exportDic.element=exportDic.image;
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
