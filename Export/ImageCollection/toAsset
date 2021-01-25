@@ -43,7 +43,7 @@ return function(){
     
     
     try{
-      var info=ee.data.getAsset(assetId)
+      var info=ee.data.getAsset(assetId);
       print(info)
       if(info.type!='ImageCollection')
        throw "Not an ImageCollection";
