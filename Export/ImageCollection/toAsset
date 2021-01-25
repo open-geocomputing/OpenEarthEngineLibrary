@@ -74,8 +74,8 @@ return function(){
         if(autoExport)
         {
           var localConfigRun={};
-          localConfigRun.element=exportDic.image.serialize();
-          localConfigRun.type='EXPORT_IMAGE';
+          exportDic.element=exportDic.image.serialize();
+          exportDic.type='EXPORT_IMAGE';
           //if(exportDic.scale)localConfigRun.scale=exportDic.scale;
           //if(exportDic.description)localConfigRun.description=exportDic.description;
           //if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
