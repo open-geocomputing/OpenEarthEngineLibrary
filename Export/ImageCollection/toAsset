@@ -76,9 +76,6 @@ return function(){
           var localConfigRun={};
           localConfigRun.json=exportDic.image;
           localConfigRun.type='EXPORT_IMAGE';
-          if(exportDic.scale)localConfigRun.scale=exportDic.scale;
-          if(exportDic.description)localConfigRun.description=exportDic.description;
-          if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
           ee.data.startProcessing(taskIds[i],localConfigRun,function(r){print(r)});
         }else
         {
