@@ -54,9 +54,9 @@ return function(){
       if(e=="Not an ImageCollection")
         throw "Asset exist, but is not an ImageCollection"
       else{
-        //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.createAsset');
+        print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.createAsset');
         ee.data.createAsset({type:'ImageCollection'}, assetId)
-        //print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.createAsset');
+        print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.createAsset');
       }
     }
     
@@ -65,8 +65,8 @@ return function(){
       {
         var taskIds=ee.data.newTaskId(amountImage);
       }
-      //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
-      //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.deleteAsset');
+      print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
+      print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.deleteAsset');
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
@@ -98,8 +98,8 @@ return function(){
         }
         
       }
-      //print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.startProcessing');
-      //print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.deleteAsset');
+      print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.startProcessing');
+      print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.deleteAsset');
     })
   }
 }
