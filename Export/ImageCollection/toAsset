@@ -73,7 +73,6 @@ return function(){
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
         if(autoExport)
         {
-          var val=Export.image.toAsset(exportDic)
           var localConfigRun={};
           localConfigRun.json=exportDic.image;
           localConfigRun.type='EXPORT_IMAGE';
