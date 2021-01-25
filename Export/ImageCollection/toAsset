@@ -73,23 +73,16 @@ return function(){
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
         if(autoExport)
         {
-          var localConfigRun={};
-          localConfigRun.id=i;
-          print(Object.keys(exportDic))
           exportDic.element=exportDic.image;
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
-          ee.data.getAsset(exportDic.assetId,function(val,e,exportDic){
-            print(val,e,localConfigRun.id)
-            
-          });
-          /*assetData=ee.data.getInfo(exportDic.assetId);
+          var assetData=ee.data.getAsset(exportDic.assetId);
           if(overwrite && assetData){
-            ee.data.deleteAsset(localConfig.assetId);
+            ee.data.deleteAsset(exportDic.assetId);
             assetData=undefined;
-          }*/
-          //if(!assetData)
-            //ee.data.startProcessing(taskIds[i],exportDic,function(r){print(r)});
+          }
+          if(!assetData)
+            ee.data.startProcessing(taskIds[i],exportDic,function(){});
         }else
         {
           Export.image.toAsset(exportDic);
