@@ -15,7 +15,7 @@ var libs={
   {
     ImageCollection: 
     {
-      //asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
+      asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
       //toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
     }
   },
