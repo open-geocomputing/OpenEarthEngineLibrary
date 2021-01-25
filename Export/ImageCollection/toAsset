@@ -77,7 +77,7 @@ return function(){
           exportDic.element=exportDic.image;
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
-          ee.data.getAsset(exportDic.assetId,function(val,e){
+          ee.data.getAsset(exportDic.assetId,function(val,e,exportDic){
             print(val,e,exportDic)
             
           });
