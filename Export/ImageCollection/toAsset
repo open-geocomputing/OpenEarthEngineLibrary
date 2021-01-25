@@ -74,7 +74,7 @@ return function(){
         if(autoExport)
         {
           var localConfigRun={};
-          localConfigRun.json=exportDic.image;
+          localConfigRun.json=exportDic.image.serialize();
           localConfigRun.type='EXPORT_IMAGE';
           ee.data.startProcessing(taskIds[i],localConfigRun,function(r){print(r)});
         }else
