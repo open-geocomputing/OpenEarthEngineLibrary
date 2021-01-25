@@ -74,9 +74,11 @@ return function(){
         if(autoExport)
         {
           var localConfigRun={};
-          if(exportDic.scale)localConfigRun.scale=exportDic.scale
-          if(exportDic.description)localConfigRun.description=exportDic.description
-          if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId
+          if(exportDic.scale)localConfigRun.scale=exportDic.scale;
+          if(exportDic.geometry)localConfigRun.geometry=exportDic.geometry;
+          if(exportDic.width)localConfigRun.width=exportDic.width;
+          if(exportDic.height)localConfigRun.height=exportDic.height;
+          if(exportDic.maxDimension)localConfigRun.maxDimension=exportDic.maxDimension;
           localConfigRun.json=exportDic.image.clipToBoundsAndScale(localConfigRun).serialize();
           localConfigRun.type='EXPORT_IMAGE';
           //if(exportDic.scale)localConfigRun.scale=exportDic.scale;
