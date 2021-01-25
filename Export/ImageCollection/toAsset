@@ -80,7 +80,7 @@ return function(){
           ee.data.getAsset(exportDic.assetId,function(val,e){
             print(val,e,exportDic)
             
-          }))
+          });
           /*assetData=ee.data.getInfo(exportDic.assetId);
           if(overwrite && assetData){
             ee.data.deleteAsset(localConfig.assetId);
