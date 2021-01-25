@@ -79,7 +79,7 @@ return function(){
           if(exportDic.scale)localConfigRun.scale=exportDic.scale;
           if(exportDic.description)localConfigRun.description=exportDic.description;
           if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
-          //ee.data.startProcessing(taskIds[i],localConfigRun,function(){});
+          ee.data.startProcessing(taskIds[i],localConfigRun,function(){});
         }else
         {
           Export.image.toAsset(exportDic);
