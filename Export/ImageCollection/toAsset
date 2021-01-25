@@ -34,9 +34,9 @@ return function(){
     delete inputDictionary.assetId;
     delete inputDictionary.autoExport;
     delete inputDictionary.overwrite;
-    print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.createAsset');
-    print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
-    print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.deleteAsset');
+    print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.createAsset');
+    print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.startProcessing')
+    print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.deleteAsset');
     if( /^users\//.test(assetId) || /^projects\//.test(assetId))
     {
       // already full name
@@ -59,7 +59,7 @@ return function(){
         ee.data.createAsset({type:'ImageCollection'}, assetId)
       }
     }
-    print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.createAsset');
+    print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.createAsset');
     
     col.size().evaluate(function(amountImage){
       if(autoExport)
@@ -95,8 +95,8 @@ return function(){
         {
           Export.image.toAsset(exportDic);
         }
-        print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.startProcessing');
-        print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.deleteAsset');
+        print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.startProcessing');
+        print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.deleteAsset');
       }
       
     })
