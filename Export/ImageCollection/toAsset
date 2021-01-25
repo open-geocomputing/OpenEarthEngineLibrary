@@ -9,7 +9,8 @@ var inputs=[
   {name:"scale", description:"Resolution in meters per pixel. Defaults to 1000.", type:'number', optional:true},
   {name:"crs", description:"CRS to use for the exported image.", type:'string|ee.String', optional:true},
   {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|string|ee.String', optional:true},
-  {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true}
+  {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
+  {name:"autoExport", description:"use autoExport", type:'boolean', optional:true}
  ]
 
 var reference={name:'toAsset',license:'MIT', description:'Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab.'};
@@ -25,9 +26,11 @@ return function(){
     var prop=inputDictionary.nameProperty;
     var assetId=inputDictionary.assetId;
     var prefix=inputDictionary.description;
+    var autoExport=inputDictionary.autoExport;
     delete inputDictionary.nameProperty;
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
+    delete inputDictionary.autoExport;
     
     if( /^users\//.test(assetId) || /^projects\//.test(assetId))
     {
@@ -40,7 +43,8 @@ return function(){
     
     
     try{
-      var info=ee.data.getAsset(assetId)
+      var info=ee.data.getAsset(assetId);
+      print(info)
       if(info.type!='ImageCollection')
        throw "Not an ImageCollection";
     }catch(e){
@@ -50,6 +54,7 @@ return function(){
     }
     
     col.size().evaluate(function(amountImage){
+      //var taskIds=ee.data.newTaskId(amountImage);
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
@@ -57,7 +62,21 @@ return function(){
         exportDic.image=im;
         exportDic.assetId=assetId+'/'+name;
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
-        Export.image.toAsset(exportDic)
+        if(autoExport)
+        {
+          var val=Export.image.toAsset(localConfig);
+          var localConfigRun={};
+          localConfigRun.json=exportDic.image.serialize();
+          localConfigRun.type='EXPORT_IMAGE';
+          if(exportDic.scale)localConfigRun.scale=exportDic.scale;
+          if(exportDic.description)localConfigRun.description=exportDic.description;
+          if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
+          ee.data.startProcessing(taskIds[i],localConfigRun,function(){});
+        }else
+        {
+          Export.image.toAsset(exportDic);
+        }
+        
       }
     })
   }
