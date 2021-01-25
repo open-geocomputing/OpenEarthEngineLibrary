@@ -14,7 +14,7 @@ return function(){
     internal.addRef(reference);
     
     
-    assetId=inputDictionary.imageCollectionAssetID;
+    var assetId=inputDictionary.imageCollectionAssetID;
     print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.deleteAsset');
     if( /^users\//.test(assetId) || /^projects\//.test(assetId))
     {
