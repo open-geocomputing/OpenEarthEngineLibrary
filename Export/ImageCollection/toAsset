@@ -53,7 +53,7 @@ return function(){
     }
     
     col.size().evaluate(function(amountImage){
-      var taskIds=ee.data.newTaskId(amountImage);
+      //var taskIds=ee.data.newTaskId(amountImage);
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
