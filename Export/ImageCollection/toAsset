@@ -44,7 +44,7 @@ return function(){
     
     try{
       var info=ee.data.getAsset(assetId)
-      if(info.type!='ImageCollection2')
+      if(info.type!='ImageCollection')
        throw "Not an ImageCollection";
     }catch(e){
       if(e=="Not an ImageCollection")
