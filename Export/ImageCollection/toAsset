@@ -60,8 +60,13 @@ return function(){
         exportDic.image=im;
         exportDic.assetId=assetId+'/'+name;
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
-        if(autoExport==)
-        Export.image.toAsset(exportDic)
+        if(autoExport)
+        {
+          
+        }else
+        {
+          Export.image.toAsset(exportDic)
+        }
         
       }
     })
