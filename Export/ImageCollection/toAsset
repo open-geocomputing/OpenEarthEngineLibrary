@@ -80,12 +80,12 @@ return function(){
           exportDic.element=exportDic.image;
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
-          var assetData=ee.data.getAsset(exportDic.assetId);
-          print(assetData)
-          /*if(overwrite && assetData){
+          //var assetData=ee.data.getAsset(exportDic.assetId);
+          //print(assetData)
+          if(overwrite){
             ee.data.deleteAsset(exportDic.assetId);
-            assetData=undefined;
-          }*/
+            //assetData=undefined;
+          }
           //if(!assetData)
           //  ee.data.startProcessing(taskIds[i],exportDic,function(){});
         }else
