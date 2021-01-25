@@ -1,22 +1,22 @@
 var libs={
   ImageCollection:
   {
-    SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'),
-    fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')
+    //SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'),
+    //fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')
   },
   Algorithms:
   {
     MODIS: 
     {
-      terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')
+      //terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')
     }
   }, 
   Export:
   {
     ImageCollection: 
     {
-      asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
-      toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
+      //asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
+      //toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
     }
   },
   internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')
