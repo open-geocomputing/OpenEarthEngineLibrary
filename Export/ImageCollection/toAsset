@@ -86,7 +86,7 @@ return function(){
             ee.data.deleteAsset(exportDic.assetId);
             assetData=undefined;
           }*/
-          if(!assetData)
+          //if(!assetData)
             ee.data.startProcessing(taskIds[i],exportDic,function(){});
         }else
         {
