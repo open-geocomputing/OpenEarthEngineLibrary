@@ -76,6 +76,7 @@ return function(){
           exportDic.element=exportDic.image;
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
+          exportDic.overwrite=true;
           //if(exportDic.scale)localConfigRun.scale=exportDic.scale;
           //if(exportDic.description)localConfigRun.description=exportDic.description;
           //if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
