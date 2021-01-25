@@ -53,6 +53,7 @@ return function(){
     }
     
     col.size().evaluate(function(amountImage){
+      var taskIds=ee.data.newTaskId(amountImage);
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
@@ -62,10 +63,17 @@ return function(){
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
         if(autoExport)
         {
-          
+          var val=Export.image.toAsset(localConfig);
+          var localConfigRun={};
+          localConfigRun.json=exportDic.image.serialize();
+          localConfigRun.type='EXPORT_IMAGE';
+          if(exportDic.scale)localConfigRun.scale=exportDic.scale;
+          if(exportDic.description)localConfigRun.description=exportDic.description;
+          if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
+          ee.data.startProcessing(taskIds[i],localConfigRun,function(){});
         }else
         {
-          Export.image.toAsset(exportDic)
+          Export.image.toAsset(exportDic);
         }
         
       }
