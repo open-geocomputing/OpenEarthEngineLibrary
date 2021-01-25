@@ -63,6 +63,7 @@ return function(){
       {
         var taskIds=ee.data.newTaskId(amountImage);
       }
+      print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
@@ -76,17 +77,24 @@ return function(){
           exportDic.element=exportDic.image;
           delete exportDic.image;
           exportDic.type='EXPORT_IMAGE';
-          exportDic.overwrite=true;
-          //if(exportDic.scale)localConfigRun.scale=exportDic.scale;
-          //if(exportDic.description)localConfigRun.description=exportDic.description;
-          //if(exportDic.assetId)localConfigRun.assetId=exportDic.assetId;
-          ee.data.startProcessing(taskIds[i],exportDic,function(r){print(r)});
+          ee.data.getAsset(exportDic.assetId,function(val,e){
+            print(val,e,exportDic)
+            
+          }))
+          /*assetData=ee.data.getInfo(exportDic.assetId);
+          if(overwrite && assetData){
+            ee.data.deleteAsset(localConfig.assetId);
+            assetData=undefined;
+          }*/
+          //if(!assetData)
+            //ee.data.startProcessing(taskIds[i],exportDic,function(r){print(r)});
         }else
         {
           Export.image.toAsset(exportDic);
         }
         
       }
+      print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.startProcessing');
     })
   }
 }
