@@ -27,10 +27,12 @@ return function(){
     var assetId=inputDictionary.assetId;
     var prefix=inputDictionary.description;
     var autoExport=inputDictionary.autoExport;
+    var overwrite=inputDictionary.overwrite;
     delete inputDictionary.nameProperty;
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
     delete inputDictionary.autoExport;
+    delete inputDictionary.overwrite;
     print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.createAsset');
     print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
     if( /^users\//.test(assetId) || /^projects\//.test(assetId))
