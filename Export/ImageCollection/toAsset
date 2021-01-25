@@ -79,7 +79,7 @@ return function(){
           if(exportDic.width)localConfigRun.width=exportDic.width;
           if(exportDic.height)localConfigRun.height=exportDic.height;
           if(exportDic.maxDimension)localConfigRun.maxDimension=exportDic.maxDimension;
-          //localConfigRun.json=exportDic.image.clipToBoundsAndScale(localConfigRun);
+          localConfigRun.input=exportDic.image.clipToBoundsAndScale(localConfigRun);
           localConfigRun.type='EXPORT_IMAGE';
           //if(exportDic.scale)localConfigRun.scale=exportDic.scale;
           //if(exportDic.description)localConfigRun.description=exportDic.description;
