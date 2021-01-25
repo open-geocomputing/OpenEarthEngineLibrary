@@ -10,7 +10,8 @@ var inputs=[
   {name:"crs", description:"CRS to use for the exported image.", type:'string|ee.String', optional:true},
   {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|string|ee.String', optional:true},
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
-  {name:"autoExport", description:"use autoExport", type:'boolean', optional:true}
+  {name:"autoExport", description:"use autoExport", type:'boolean', optional:true},
+  {name:"overwrite", description:" in case of autoExport it remove the first the file if already exist", type:'boolean', optional:true}
  ]
 
 var reference={name:'toAsset',license:'MIT', description:'Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab.'};
