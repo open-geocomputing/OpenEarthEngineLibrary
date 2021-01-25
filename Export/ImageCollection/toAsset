@@ -34,8 +34,7 @@ return function(){
     delete inputDictionary.assetId;
     delete inputDictionary.autoExport;
     delete inputDictionary.overwrite;
-    print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.createAsset');
-    print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.startProcessing')
+
     if( /^users\//.test(assetId) || /^projects\//.test(assetId))
     {
       // already full name
@@ -55,9 +54,9 @@ return function(){
       if(e=="Not an ImageCollection")
         throw "Asset exist, but is not an ImageCollection"
       else{
-        print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.createAsset');
+        //print('GEE_Addon_confirmManger:removeConfirmOn:ee.data.createAsset');
         ee.data.createAsset({type:'ImageCollection'}, assetId)
-        print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.createAsset');
+        //print('GEE_Addon_confirmManger:resetConfirmOn:ee.data.createAsset');
       }
     }
     
