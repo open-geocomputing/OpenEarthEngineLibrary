@@ -84,8 +84,10 @@ return function(){
             {
               var assetData=ee.data.getAsset(exportDic.assetId);
             }
-          catch
-            {}
+          catch (e)
+            {
+              
+            }
           if(overwrite && assetData){
             ee.data.deleteAsset(exportDic.assetId);
             assetData=undefined;
