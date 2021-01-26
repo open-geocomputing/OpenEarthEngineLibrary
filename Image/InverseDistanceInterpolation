@@ -1,7 +1,7 @@
 var inputs=[{name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
             {name:'power',description:'the power of teh inverse distance', type:'number',defaultValue:2 ,optional:false},
             {name:'useConvolution',description:'use traditional neighborhood reduction or convolution', type:'boolean',defaultValue:true ,optional:false},
-            {name:'image',description:'the image on with to run teh computation ', type:'ee.Image',optional:true}
+            {name:'image',description:'the image on with to run teh computation ', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
 var reference={name:'InverseDistanceInterpolation',license:'MIT', description:'Compute a gap filling interpolation uisng inverse distance weighting. it return a function, or apply on an image if "image" is infromed and return teh result of the computation.'};
@@ -13,8 +13,40 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
      
-    //do whatever
-    return inputDictionary.val;
+    var p=inputDictionary.power;
+    
+    var val=[]
+    var xSize=inputDictionary.radius
+    var ySize=inputDictionary.radius;
+    for (var x=0;x<2*xSize+1;x++){
+      val[x]=[];
+      for (var y=0;y<2*ySize+1;y++)
+        val[x][y]=Math.pow((x-xSize)*(x-xSize)+(y-ySize)*(y-ySize),p/2);
+    }
+
+
+    var kernel=ee.Kernel.fixed(2*xSize+1, 2*ySize+1, val, xSize, ySize, false).inverse();
+    var fun=function(im){
+      if(inputDictionary.useConvolution)
+        var result=im.unmask(0).convolve({kernel: kernel,})
+        .divide(im.mask().convolve({kernel: kernel}));
+      else
+        var result=im.unmask(0).reduceNeighborhood({
+          reducer:'mean',
+          kernel: kernel,
+          skipMasked: false}).divide(
+            im.mask().reduceNeighborhood({
+          reducer:'mean',
+          kernel: kernel,
+          skipMasked: false}
+          ))
+      return result.where(im,im);
+    }
+    
+    if(inputDictionary.image)
+      return fun(image);
+    else
+      return fun;
   }
 }
 
