@@ -10,7 +10,10 @@ var libs={
     {
       //terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')
     }
-  }, 
+  },
+  Image:{
+    InverseDistanceInterpolation:require('users/gravey_mathieu/testlibGithub_v2:/Image/InverseDistanceInterpolation'),
+  },
   Export:
   {
     ImageCollection: 
