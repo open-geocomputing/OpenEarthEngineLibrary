@@ -1,5 +1,6 @@
-var inputs=[{name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:true},
-            {name:'power',description:'the power of teh inverse distance', type:'number',defaultValue:2 ,optional:true},
+var inputs=[{name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
+            {name:'power',description:'the power of teh inverse distance', type:'number',defaultValue:2 ,optional:false},
+            {name:'useConvolution',description:'use traditional neighborhood reduction or convolution', type:'boolean',defaultValue:true ,optional:false},
             {name:'image',description:'the image on with to run teh computation ', type:'ee.Image',optional:true}
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
