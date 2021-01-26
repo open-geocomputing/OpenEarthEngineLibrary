@@ -1,33 +1,5 @@
-var libs={
-  ImageCollection:
-  {
-    SavatskyGolayFilter:require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'),
-    fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')
-  },
-  Algorithms:
-  {
-    MODIS: 
-    {
-      terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')
-    }
-  },
-  Image:{
-    InverseDistanceInterpolation:require('users/gravey_mathieu/testlibGithub_v2:/Image/InverseDistanceInterpolation'),
-  },
-  Export:
-  {
-    ImageCollection: 
-    {
-      asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'),
-      toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')
-    }
-  },
-  data:{
-    deleteImageCollection:require('users/gravey_mathieu/testlibGithub_v2:/data/deleteImageCollection')
-  },
-  internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')
-}
+var libs={data: {deleteImageCollection: require('users/gravey_mathieu/testlibGithub_v2:/data/deleteImageCollection')}, ImageCollection: {SavatskyGolayFilter: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/SavatskyGolayFilter'), fromSingleImage: require('users/gravey_mathieu/testlibGithub_v2:/ImageCollection/fromSingleImage')}, Image: {InverseDistanceInterpolation: require('users/gravey_mathieu/testlibGithub_v2:/Image/InverseDistanceInterpolation')}, Algorithms: {MODIS: {terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')}}, Export: {ImageCollection: {asImageToAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/asImageToAsset'), toAsset: require('users/gravey_mathieu/testlibGithub_v2:/Export/ImageCollection/toAsset')}}, internal: require('users/gravey_mathieu/testlibGithub_v2:/internal')}
 
-//generated automatically the 2021-01-24 17:20:35.943525UTC 
+//generated automatically the 2021-01-26 15:48:02.329307UTC 
 
 exports=libs.internal.setupLibrary(libs);
