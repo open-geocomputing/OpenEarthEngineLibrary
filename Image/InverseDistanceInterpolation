@@ -12,7 +12,7 @@ exports.createFunction=function(internal,relPath){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
-     
+    print(inputDictionary)
     var p=inputDictionary.power;
     
     var val=[]
