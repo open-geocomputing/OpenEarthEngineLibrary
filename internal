@@ -60,9 +60,8 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
               throw relPath+' require '+inputs[i].name+', but no value or default value provided'
       }
       else{
-        if(!inputs[i].optional)
+        //if(!inputs[i].optional)
           {
-            print(inputs[i].name)
             output[inputs[i].name]=args[i];
             var localType=exports.typeObject(output[inputs[i].name]);
             if(expandTypes(inputs[i].type).indexOf(localType)==-1)
