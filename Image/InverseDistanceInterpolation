@@ -32,12 +32,12 @@ return function(){
         .divide(im.mask().convolve({kernel: kernel}));
       }
       else{
-        var result=im.unmask(0).reduceNeighborhood({
-          reducer:'mean',
+        var result=im.reduceNeighborhood({
+          reducer:'sum',
           kernel: kernel,
           skipMasked: false}).divide(
             im.mask().reduceNeighborhood({
-          reducer:'mean',
+          reducer:'sum',
           kernel: kernel,
           skipMasked: false}
           ))
