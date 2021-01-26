@@ -37,10 +37,11 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
     output=args[0];
     arrayInput=true;
   }
+  print('arrayInput',arrayInput)
   var listKeys=Object.keys(output);
   for (var i=0; i<inputs.length; i++){
     if(listKeys.indexOf(inputs[i].name)>=0){
-      //check type one day
+      //if in the dictionary
       var localType=exports.typeObject(output[inputs[i].name]);
       if(expandTypes(inputs[i].type).indexOf(localType)==-1)
       {
@@ -48,6 +49,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
       }
     }
     else{
+      // if list param
       if(args.length<=i || arrayInput){
         //put default value
         if(!inputs[i].optional)
