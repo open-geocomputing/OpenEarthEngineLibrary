@@ -46,7 +46,7 @@ return function(){
     }
     
     if(inputDictionary.image)
-      return fun(image);
+      return fun(inputDictionary.image);
     else
       return fun;
   }
