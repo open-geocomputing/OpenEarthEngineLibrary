@@ -37,7 +37,6 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
     output=args[0];
     arrayInput=true;
   }
-  print('arrayInput',arrayInput)
   var listKeys=Object.keys(output);
   for (var i=0; i<inputs.length; i++){
     if(listKeys.indexOf(inputs[i].name)>=0){
@@ -51,7 +50,6 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
     else{
       // if list param
       if(i<=args.length || arrayInput){
-        print(inputs[i].name)
         //put default value
         if(!inputs[i].optional)
           if (inputs[i].defaultValue!='undefined')
