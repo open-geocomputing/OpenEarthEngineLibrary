@@ -42,7 +42,7 @@ return function(){
           skipMasked: false}
           ))
       }
-      return result.where(im,im);
+      return result.where(im,im).reproject(im.projection());
     }
     
     if(inputDictionary.image)
