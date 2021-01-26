@@ -50,7 +50,8 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
     }
     else{
       // if list param
-      if(args.length<=i || !arrayInput){
+      print(inputs[i].name)
+      if(args.length<=i || arrayInput){
         //put default value
         if(!inputs[i].optional)
           if (inputs[i].defaultValue!='undefined')
