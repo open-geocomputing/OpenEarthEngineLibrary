@@ -8,7 +8,7 @@ var libs={
   {
     MODIS: 
     {
-      //terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')
+      terrainShadow: require('users/gravey_mathieu/testlibGithub_v2:/Algorithms/MODIS/terrainShadow')
     }
   },
   Image:{
