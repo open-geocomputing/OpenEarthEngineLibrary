@@ -28,8 +28,9 @@ return function(){
     var kernel=ee.Kernel.fixed(2*xSize+1, 2*ySize+1, val, xSize, ySize, false).inverse();
     var fun=function(im){
       if(inputDictionary.useConvolution){
+        var x=im.mask().convolve({kernel: kernel});
         var result=im.unmask(0).convolve({kernel: kernel,})
-        .divide(im.mask().convolve({kernel: kernel}));
+        .divide(im.mask().convolve({kernel: kernel})).updateMask(x.gt(0.0001));
       }
       else{
         var result=im.reduceNeighborhood({
