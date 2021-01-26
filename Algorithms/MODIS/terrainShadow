@@ -44,7 +44,7 @@ return function(){
     var minAngle=computeMinAngle(halfSize).flatten();
     
     
-    return 10/*getShadow(originalImage){
+    return function(originalImage){
       image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
       var SA=image.select('SolarAzimuth').divide(180/3.14);
       var angleImageMask = ee.Image.constant(maxAngle).gt(SA).and(ee.Image.constant(minAngle).lt(SA));
@@ -55,7 +55,7 @@ return function(){
       var maxElevationWithShadow=imageOfBands.reduce(ee.Reducer.max());
       return image.addBands(srtm.lt(maxElevationWithShadow).rename('shadowMask'))
             .addBands(originalImage.select(['SolarZenith','SolarAzimuth']),['SolarZenith','SolarAzimuth'],true);
-    }*/
+    }
   }
 }
 
