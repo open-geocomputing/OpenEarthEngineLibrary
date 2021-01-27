@@ -4,7 +4,7 @@ var inputs=[{name:'radius',description:'the half size of the windows use to get 
             {name:'image',description:'the image on with to run teh computation ', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
-var reference={name:'kriging',license:'MIT', description:'Compute a gap filling interpolation uisng inverse distance weighting. it return a function, or apply on an image if "image" is infromed and return teh result of the computation.'};
+var reference={name:'kriging',license:'GPLv3', description:'Compute a gap filling interpolation uisng kriging. It return a function, or apply on an image if "image" is informed and return the result of the computation.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
