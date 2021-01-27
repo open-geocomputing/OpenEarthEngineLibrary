@@ -12,17 +12,60 @@ exports.createFunction=function(internal,relPath){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
-    print(inputDictionary)
-    var p=inputDictionary.power;
     
-    var val=[]
-    var xSize=inputDictionary.radius
-    var ySize=inputDictionary.radius;
-    for (var x=0;x<2*xSize+1;x++){
-      val[x]=[];
-      for (var y=0;y<2*ySize+1;y++)
-        val[x][y]=Math.pow((x-xSize)*(x-xSize)+(y-ySize)*(y-ySize),p/2);
-    }
+    var halfSize=inputDictionary.radius;
+
+    var X=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1)//.reshape([-1]);
+    var Y=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1).transpose()//.reshape([-1]);
+    //X=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1).Reshape(ee.Array([-1]),1)
+    
+    var corrf=function(distK){return distK.multiply(-0.1).exp();};
+    
+    var numberOfElement=(halfSize*2+1)*(halfSize*2+1);
+    
+    var dist=ee.Array.cat([X,Y], 2);
+    
+    var distK=dist.reshape([-1,1,2]).repeat(1,numberOfElement).subtract(dist.reshape([1,-1,2]).repeat(0,numberOfElement));
+    distK=distK.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([(halfSize*2+1)*(halfSize*2+1),(halfSize*2+1)*(halfSize*2+1)]);
+    var K=corrf(distK);
+    K=K.add(ee.Array.identity(numberOfElement)).pad([(numberOfElement+1),(numberOfElement+1)],1).subtract(ee.Array.identity((numberOfElement+1)));
+    
+    var K0=corrf(dist.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([-1,1])).pad([numberOfElement+1,0],1);
+    
+    var ImageK=ee.Image.constant(K);
+    var ImageK0=ee.Image.constant(K0);
+    
+    var kernel=ee.Kernel.square(halfSize);
+    var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0}).arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],1);
+    var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],0).arrayMask(mask);
+    
+    Map.addLayer(mask);
+    Map.addLayer(r);
+    
+    print(mask)
+    print(r)
+    
+    
+    mask=mask.arrayReshape(ee.Array([-1,1]),2);
+    
+    //Map.addLayer(mask.matrixMultiply(mask.arrayTranspose()))
+    ImageK0=ImageK0.arrayMask(mask);
+    
+    var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
+    
+    var coef=ImageK.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
+    print(coef)
+    var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
+    var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(corrf(ee.Array([0]))).arrayGet([0])
+            .subtract(coef.arrayGet([-1]).multiply(2)).multiply(-1).updateMask(dataSize); 
+    
+    
+    print(estimate)
+    print(variance)
+    
+    var reuslt=im.addBands([estimate.where(im,im).rename('estimate'),variance.where(im,0).rename('variance')]);
+    
+    reuslt=reuslt.reproject(Simard.projection())
 
 
     var kernel=ee.Kernel.fixed(2*xSize+1, 2*ySize+1, val, xSize, ySize, false).inverse();
