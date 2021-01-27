@@ -1,6 +1,7 @@
 var inputs=[{name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
-            {name:'power',description:'the power of the inverse distance', type:'number',defaultValue:2 ,optional:false},
-            {name:'useConvolution',description:'use traditional neighborhood reduction or convolution', type:'boolean',defaultValue:true ,optional:false},
+            {name:'covFun',description:'the covariance function,fun(ee.Array)', type:'function' ,optional:false},
+            {name:'kernel',description:'neigbours with weight equal to 0 are ignored, teh size need to be compatible with the radius', type:'ee.Kernel',optional:true},
+            {name:'centerValueInformed',description:'neigbours with weight equal to 0 are ignored, teh size need to be compatible with the radius', type:'boolean',optional:true},
             {name:'image',description:'the image on with to run the computation ', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
@@ -17,9 +18,7 @@ return function(){
 
     var X=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1)//.reshape([-1]);
     var Y=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1).transpose()//.reshape([-1]);
-    //X=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1).Reshape(ee.Array([-1]),1)
-    
-    var corrf=function(distK){return distK.multiply(-0.1).exp();};
+    var covFun=inputDictionary.covFun;
     
     var numberOfElement=(halfSize*2+1)*(halfSize*2+1);
     
@@ -27,10 +26,10 @@ return function(){
     
     var distK=dist.reshape([-1,1,2]).repeat(1,numberOfElement).subtract(dist.reshape([1,-1,2]).repeat(0,numberOfElement));
     distK=distK.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([(halfSize*2+1)*(halfSize*2+1),(halfSize*2+1)*(halfSize*2+1)]);
-    var K=corrf(distK);
+    var K=covFun(distK);
     K=K.add(ee.Array.identity(numberOfElement)).pad([(numberOfElement+1),(numberOfElement+1)],1).subtract(ee.Array.identity((numberOfElement+1)));
     
-    var K0=corrf(dist.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([-1,1])).pad([numberOfElement+1,0],1);
+    var K0=covFun(dist.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([-1,1])).pad([numberOfElement+1,0],1);
     
     var ImageK=ee.Image.constant(K);
     var ImageK0=ee.Image.constant(K0);
@@ -56,7 +55,7 @@ return function(){
     var coef=ImageK.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
     print(coef)
     var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
-    var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(corrf(ee.Array([0]))).arrayGet([0])
+    var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(covFun(ee.Array([0]))).arrayGet([0])
             .subtract(coef.arrayGet([-1]).multiply(2)).multiply(-1).updateMask(dataSize); 
     
     
