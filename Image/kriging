@@ -1,5 +1,5 @@
 var inputs=[{name:'covFun',description:'the covariance function,fun(ee.Array)', type:'function' ,optional:false},
-            {name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false}
+            {name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
             {name:'skipInfomed',description:'do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',defaultValue:true,optional:false},
             {name:'kernel',description:'neigbours with weight equal to 0 are ignored, teh size need to be compatible with the radius', type:'ee.Kernel',optional:true},
             {name:'image',description:'the image on with to run the computation ', type:'ee.Image',optional:true},
