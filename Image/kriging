@@ -1,6 +1,6 @@
-var inputs=[{name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
-            {name:'covFun',description:'the covariance function,fun(ee.Array)', type:'function' ,optional:false},
-            {name:'skipInfomed',description:'do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',optional:true},
+var inputs=[{name:'covFun',description:'the covariance function,fun(ee.Array)', type:'function' ,optional:false},
+            {name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false}
+            {name:'skipInfomed',description:'do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',defaultValue:true,optional:false},
             {name:'kernel',description:'neigbours with weight equal to 0 are ignored, teh size need to be compatible with the radius', type:'ee.Kernel',optional:true},
             {name:'image',description:'the image on with to run the computation ', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
@@ -38,7 +38,12 @@ return function(){
     var kernel=ee.Kernel.square(halfSize);
     
     var fun=function(im){
-      var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0}).arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],1);
+      var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0})
+      if(dataKernel)
+      {
+        mask=mask.multiply(dataKernel);
+      }
+      mask.arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],1);
       var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],0).arrayMask(mask);
     
       mask=mask.arrayReshape(ee.Array([-1,1]),2);
@@ -53,16 +58,13 @@ return function(){
       var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
       var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(covFun(ee.Array([0]))).arrayGet([0])
               .subtract(coef.arrayGet([-1]).multiply(2)).multiply(-1).updateMask(dataSize);
+      if(){
+        estimate=estimate.where(im,im);
+        variance=variance.where(im,0);
+      }
+      var reuslt=im.addBands([estimate.rename('estimate'),variance.rename('variance')]);
       
-      var reuslt=im.addBands([estimate.where(im,im).rename('estimate'),variance.where(im,0).rename('variance')]);
-      
-      reuslt=reuslt.reproject(Simard.projection())
-  
-  
-      var kernel=ee.Kernel.fixed(2*xSize+1, 2*ySize+1, val, xSize, ySize, false).inverse();
-    
-
-      return result.where(im,im).reproject(im.projection());
+      reuslt=reuslt.reproject(im.projection())
     }
     
     if(inputDictionary.image)
