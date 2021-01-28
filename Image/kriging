@@ -66,6 +66,8 @@ return function(){
       reuslt=reuslt.reproject(im.projection())
     }
     
+    print(fun)
+    
     if(inputDictionary.image)
       return fun(inputDictionary.image);
     else
