@@ -54,7 +54,6 @@ return function(){
       var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
       
       var coef=ImageK.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
-      print(coef)
       var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
       var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(covFun(ee.Array([0]))).arrayGet([0])
               .subtract(coef.arrayGet([-1]).multiply(2)).multiply(-1).updateMask(dataSize);
