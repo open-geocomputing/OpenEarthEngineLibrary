@@ -1,4 +1,5 @@
-var inputs=[{name:'input',description:'single band image  or imageColelction on with to run the computation ', type:'ee.Image|ee.ImageCollection',optional:false},
+var inputs=[{name:'input',description:'single band image  or imageCollection on with to run the computation ', type:'ee.Image|ee.ImageCollection',optional:false},
+            {name:'region',description:'the region on with to compute the variogram ', type:'ee.Image|ee.ImageCollection',optional:false},
             {name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
             {name:'Return',description:'Return', type:'ee.FeatureCollection',defaultValue:null,optional:true}]
             
@@ -17,13 +18,14 @@ return function(){
     var kernel=ee.Kernel.square(halfSize)
     print(inputDictionary.input)
     var imCol=ee.ImageCollection(inputDictionary.input)
+    var region=inputDictionary.region;
     
     var ftC=imCol.map(function(im){
       var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0});
       var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).subtract(im).pow(2);
       
       
-      var val=ee.Dictionary(r.reduceRegion({reducer:ee.Reducer.toList(), geometry:geometry, crs:r.projection()}));
+      var val=ee.Dictionary(r.reduceRegion({reducer:ee.Reducer.toList(), geometry:region, crs:r.projection()}));
       
       var sumVal=ee.Array.cat(ee.List(val.get(val.keys().get(0))),2).reduce(ee.Reducer.sum(),[2]);
       val=ee.Dictionary(mask.reduceRegion({reducer:ee.Reducer.toList(), geometry:geometry, crs:mask.projection()}));
