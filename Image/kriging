@@ -64,9 +64,8 @@ return function(){
       var reuslt=im.addBands([estimate.rename('estimate'),variance.rename('variance')]);
       
       reuslt=reuslt.reproject(im.projection())
+      return reuslt;
     }
-    
-    print(fun)
     
     if(inputDictionary.image)
       return fun(inputDictionary.image);
