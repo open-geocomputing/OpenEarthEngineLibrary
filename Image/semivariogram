@@ -8,126 +8,43 @@ exports.createDocumentation=function(){ return {inputs:inputs, reference:referen
 
 exports.createFunction=function(internal,relPath){
 return function(){
-  
-  var halfSize=10;  
-  var numberOfElement=(halfSize*2+1)*(halfSize*2+1);
-  var kernel=ee.Kernel.square(halfSize)
-    
-  var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0});
-  var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).subtract(im).pow(2);
-  
-  
-  var val=ee.Dictionary(r.reduceRegion({reducer:ee.Reducer.toList(), geometry:geometry, crs:r.projection()}));
-  
-  var sumVal=ee.Array.cat(ee.List(val.get(val.keys().get(0))),2).reduce(ee.Reducer.sum(),[2]);
-  val=ee.Dictionary(mask.reduceRegion({reducer:ee.Reducer.toList(), geometry:geometry, crs:mask.projection()}));
-  var sumMask=ee.Array.cat(ee.List(val.get(val.keys().get(0))),2).reduce(ee.Reducer.sum(),[2]);
-  
-  /*
-  var covariance2D=sumVal.divide(sumMask);
-  print(covariance2D)
-  print(ui.Thumbnail(ee.Image.constant(covariance2D)))
-  */
-  
-  var X=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1)//.reshape([-1]);
-  var Y=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1).transpose()//.reshape([-1]);
-  var dist=ee.Array.cat([X,Y], 2).pow(2).reduce(ee.Reducer.sum(), [2]).sqrt();
-  
-  var ftC=ee.FeatureCollection(ee.Array.cat([sumVal,sumMask,dist],3).reshape([-1,3]).sort(dist.reshape([-1,1])).toList().map(function(val){
-    return ee.Feature(null,ee.Dictionary.fromLists(['var','amount','distance'],ee.List(val)));
-  }));
-  
-  var variogram=ee.Join.saveAll('sameDistance').apply(ftC.distinct('distance'),ftC,ee.Filter.equals({leftField:'distance', rightField:'distance'}))
-  .map(function(ft){
-    var col=ee.FeatureCollection(ee.List(ft.get('sameDistance')))
-    return ee.Feature(null,ee.Dictionary.fromLists(['ditance','var'],[ft.get('distance'),col.aggregate_sum('var').divide(col.aggregate_sum('amount'))]));
-  })
-  
-  print(variogram.first())
-  
-  print(ui.Chart.feature.byFeature(variogram, 'ditance', 'var'))
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
     
     var halfSize=inputDictionary.radius;
-    var dataKernel=inputDictionary.kernel;
-
-    var X=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1)//.reshape([-1]);
-    var Y=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1).transpose()//.reshape([-1]);
-    var covFun=inputDictionary.covFun;
     
     var numberOfElement=(halfSize*2+1)*(halfSize*2+1);
+    var kernel=ee.Kernel.square(halfSize)
+    var imCol=ee.ImageCollection(inputDictionary.input)
     
-    var dist=ee.Array.cat([X,Y], 2);
-    
-    var distK=dist.reshape([-1,1,2]).repeat(1,numberOfElement).subtract(dist.reshape([1,-1,2]).repeat(0,numberOfElement));
-    distK=distK.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([(halfSize*2+1)*(halfSize*2+1),(halfSize*2+1)*(halfSize*2+1)]);
-    var K=covFun(distK);
-    K=K.add(ee.Array.identity(numberOfElement)).pad([(numberOfElement+1),(numberOfElement+1)],1).subtract(ee.Array.identity((numberOfElement+1)));
-    
-    var K0=covFun(dist.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([-1,1])).pad([numberOfElement+1,0],1);
-    
-    var ImageK=ee.Image.constant(K);
-    var ImageK0=ee.Image.constant(K0);
-    
-    var kernel=ee.Kernel.square(halfSize);
-    
-    var fun=function(im){
-      var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0})
-      if(dataKernel)
-      {
-        mask=mask.multiply(dataKernel);
-      }
-      mask.arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],1);
-      var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],0).arrayMask(mask);
-    
-      mask=mask.arrayReshape(ee.Array([-1,1]),2);
+    var ftC=imCol.map(function(im){
+      var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0});
+      var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).subtract(im).pow(2);
+      
+      
+      var val=ee.Dictionary(r.reduceRegion({reducer:ee.Reducer.toList(), geometry:geometry, crs:r.projection()}));
+      
+      var sumVal=ee.Array.cat(ee.List(val.get(val.keys().get(0))),2).reduce(ee.Reducer.sum(),[2]);
+      val=ee.Dictionary(mask.reduceRegion({reducer:ee.Reducer.toList(), geometry:geometry, crs:mask.projection()}));
+      var sumMask=ee.Array.cat(ee.List(val.get(val.keys().get(0))),2).reduce(ee.Reducer.sum(),[2]);
       
 
-      ImageK0=ImageK0.arrayMask(mask);
+      var X=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1)//.reshape([-1]);
+      var Y=ee.Array(ee.List.sequence(-halfSize,halfSize,1)).repeat(1, halfSize*2+1).transpose()//.reshape([-1]);
+      var dist=ee.Array.cat([X,Y], 2).pow(2).reduce(ee.Reducer.sum(), [2]).sqrt();
       
-      var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
-      
-      var coef=ImageK.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
-      print(coef)
-      var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
-      var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(covFun(ee.Array([0]))).arrayGet([0])
-              .subtract(coef.arrayGet([-1]).multiply(2)).multiply(-1).updateMask(dataSize);
-      if(!inputDictionary.skipInfomed){
-        estimate=estimate.where(im,im);
-        variance=variance.where(im,0);
-      }
-      var reuslt=im.addBands([estimate.rename('estimate'),variance.rename('variance')]);
-      
-      reuslt=reuslt.reproject(im.projection())
-    }
+      return ee.FeatureCollection(ee.Array.cat([sumVal,sumMask,dist],3).reshape([-1,3]).sort(dist.reshape([-1,1])).toList().map(function(val){
+          return ee.Feature(null,ee.Dictionary.fromLists(['var','amount','distance'],ee.List(val)));
+      }));
+    });
     
-    if(inputDictionary.image)
-      return fun(inputDictionary.image);
-    else
-      return fun;
-  }
+    ftC=ftC.flatten();
+    
+    return ee.Join.saveAll('sameDistance').apply(ftC.distinct('distance'),ftC,ee.Filter.equals({leftField:'distance', rightField:'distance'}))
+    .map(function(ft){
+      var col=ee.FeatureCollection(ee.List(ft.get('sameDistance')))
+      return ee.Feature(null,ee.Dictionary.fromLists(['ditance','var'],[ft.get('distance'),col.aggregate_sum('var').divide(col.aggregate_sum('amount'))]));
+    })
+  };
 }
 
