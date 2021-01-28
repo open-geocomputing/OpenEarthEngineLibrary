@@ -43,7 +43,7 @@ return function(){
     return ee.Join.saveAll('sameDistance').apply(ftC.distinct('distance'),ftC,ee.Filter.equals({leftField:'distance', rightField:'distance'}))
     .map(function(ft){
       var col=ee.FeatureCollection(ee.List(ft.get('sameDistance')))
-      return ee.Feature(null,ee.Dictionary.fromLists(['ditance','var'],[ft.get('distance'),col.aggregate_sum('var').divide(col.aggregate_sum('amount'))]));
+      return ee.Feature(null,ee.Dictionary.fromLists(['ditance','var'],[ft.get('distance'),col.aggregate_sum('var').divide(col.aggregate_sum('amount')).divide(2)]));
     })
   };
 }
