@@ -17,7 +17,7 @@ return function(){
     var numberOfElement=(halfSize*2+1)*(halfSize*2+1);
     var kernel=ee.Kernel.square(halfSize)
     print(inputDictionary.input)
-    var imCol=ee.ImageCollection([inputDictionary.input])
+    var imCol=ee.ImageCollection(inputDictionary.input)
     var region=inputDictionary.region;
     
     var ftC=imCol.map(function(im){
@@ -28,7 +28,7 @@ return function(){
       var val=ee.Dictionary(r.reduceRegion({reducer:ee.Reducer.toList(), geometry:region, crs:r.projection()}));
       
       var sumVal=ee.Array.cat(ee.List(val.get(val.keys().get(0))),2).reduce(ee.Reducer.sum(),[2]);
-      val=ee.Dictionary(mask.reduceRegion({reducer:ee.Reducer.toList(), geometry:geometry, crs:mask.projection()}));
+      val=ee.Dictionary(mask.reduceRegion({reducer:ee.Reducer.toList(), geometry:region, crs:mask.projection()}));
       var sumMask=ee.Array.cat(ee.List(val.get(val.keys().get(0))),2).reduce(ee.Reducer.sum(),[2]);
       
 
