@@ -3,5 +3,6 @@ var libs={data: {deleteImageCollection: require('users/gravey_mathieu/testlibGit
 //generated automatically the 2021-01-26 15:48:02.329307UTC 
 
 libs.Image.semivariogram=require('users/gravey_mathieu/testlibGithub_v2:/Image/semivariogram');
+libs.Image.kriging=require('users/gravey_mathieu/testlibGithub_v2:/Image/kriging');
 
 exports=libs.internal.setupLibrary(libs);
