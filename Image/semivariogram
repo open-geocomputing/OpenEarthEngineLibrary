@@ -17,7 +17,7 @@ return function(){
     var numberOfElement=(halfSize*2+1)*(halfSize*2+1);
     var kernel=ee.Kernel.square(halfSize)
     print(inputDictionary.input)
-    var imCol=ee.ImageCollection(inputDictionary.input)
+    var imCol=ee.ImageCollection([inputDictionary.input])
     var region=inputDictionary.region;
     
     var ftC=imCol.map(function(im){
