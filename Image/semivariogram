@@ -1,5 +1,5 @@
 var inputs=[{name:'input',description:'single band image  or imageCollection on with to run the computation ', type:'ee.Image|ee.ImageCollection',optional:false},
-            {name:'region',description:'the region on with to compute the variogram ', type:'ee.Image|ee.ImageCollection',optional:false},
+            {name:'region',description:'the region on with to compute the variogram ', type:'ee.Geometry',optional:false},
             {name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
             {name:'Return',description:'Return', type:'ee.FeatureCollection',defaultValue:null,optional:true}]
             
