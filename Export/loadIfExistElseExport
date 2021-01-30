@@ -9,15 +9,30 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference);
     
-    if(inputDictionary.image){
-      
+    if(inputDictionary.image){ // image export
+      try{
+        var im=ee.Image(data.assetId);
+        ee.data.computeValue(im);
+        return im;
+      }
+      catch(e){
+        Export.image.toAsset(data);
+        return data.image;
+      }
     }
     
-    if(inputDictionary.collection){
-      
+    if(inputDictionary.collection){// is table
+      try{
+        var ftC=ee.FeatureCollection(data.assetId);
+        ee.data.computeValue(ftC);
+        return ftC;
+      }
+      catch(e){
+        Export.table.toAsset(data);
+        return data.collection;
+      }
     }
-    
-     
+
     //do whatever
     return inputDictionary.val;
   }
