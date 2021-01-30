@@ -34,6 +34,6 @@ return function(){
     }
 
     //do whatever
-    return inputDictionary.val;
+    return null;
   }
 }
