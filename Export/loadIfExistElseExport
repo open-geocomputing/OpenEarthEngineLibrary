@@ -1,7 +1,7 @@
 var inputs=[{name:'val',description:'this description', type:'number',defaultValue:null,optional:false},
             {name:'val2',description:'this description', type:'number',defaultValue:null,optional:true}]
             
-var reference={name:'toAsset',license:'MIT', description:'Same as Export.image.toAsset, but do not export if exist allready, and load if exist'};
+var reference={name:'loadIfExistElseExport',license:'MIT', description:'Same as Export.*.toAsset, but do not export and load if exist already, else export use the same param as Export.*.toAsset(...).'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
