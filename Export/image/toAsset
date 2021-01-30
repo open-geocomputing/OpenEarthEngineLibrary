@@ -1,0 +1,38 @@
+Export.image.toAsset(image, description, assetId, pyramidingPolicy, dimensions, region, scale, crs, crsTransform, maxPixels)
+⨯
+Creates a batch task to export an Image as a raster to an Earth Engine asset. Tasks can be started from the Tasks tab.
+
+Arguments:
+image (Image):
+The image to export.
+
+description (String, optional):
+A human-readable name of the task. Defaults to "myExportImageTask".
+
+assetId (String, optional):
+The destination asset ID.
+
+pyramidingPolicy (Object, optional):
+The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to "mean". A special key,
+
+".default" may be used to change the default for all bands.
+
+dimensions (Number|String, optional):
+The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or
+
+"WIDTHxHEIGHT" where WIDTH and HEIGHT are each positive integers.
+
+region (Geometry.LinearRing|Geometry.Polygon|String, optional):
+A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.
+
+scale (Number, optional):
+Resolution in meters per pixel. Defaults to 1000.
+
+crs (String, optional):
+CRS to use for the exported image.
+
+crsTransform (List<Number>|String, optional):
+Affine transform to use for the exported image. Requires "crs" to be defined.
+
+maxPixels (Number, optional):
+Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.
