@@ -1,5 +1,4 @@
-var inputs=[{name:'param',description:'parameters of Export.*.toAsset()', type:'object',defaultValue:null,optional:false},
-            {name:'val2',description:'this description', type:'number',defaultValue:null,optional:true}]
+var inputs=[{name:'param',description:'parameters of Export.*.toAsset()', type:'object',optional:false}];
             
 var reference={name:'loadIfExistElseExport',license:'MIT', description:'Same as Export.*.toAsset, but do not export and load if exist already, else export use the same param as Export.*.toAsset(...).'};
 
