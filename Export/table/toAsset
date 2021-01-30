@@ -1,0 +1,15 @@
+
+Export.table.toAsset(collection, description, assetId)
+⨯
+Creates a batch task to export a feature collection to an Earth Engine table asset. Tasks can be started from the Tasks tab.
+
+Arguments:
+collection (FeatureCollection):
+The feature collection to export.
+
+description (String, optional):
+A human-readable name of the task. Defaults to "myExportTableTask".
+
+assetId (String, optional):
+The destination asset ID.
+
