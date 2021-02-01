@@ -22,6 +22,8 @@ libString='var oeel='+json.dumps(val).replace('"','')+\
 				'\n\n//generated automatically the '+str(datetime.utcnow())+\
 				'UTC \n\n'+"var doc=oeel.internal.getDoc(oeel,'');\n\
 \n\
+doc.timeSinceEpoch=Date.now();\
+\n\
 var fs = require('fs');\n\
 var outputFilename = 'doc.json';\n\
 \n\
