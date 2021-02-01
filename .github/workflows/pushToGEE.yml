@@ -65,7 +65,7 @@ jobs:
           architecture: 'x64'
       - name: generate node file
         run: |
-          git checkout gh-pages -- genearteOpenEEL_doc.py
+          git checkout origin/gh-pages -- genearteOpenEEL_doc.py
           python3 genearteOpenEEL_doc.py
       - name: load node
         uses: actions/setup-node@v2
@@ -79,5 +79,7 @@ jobs:
           rm -f doc.json openEEL_doc
           git stash apply
           git add doc.json
+          git config user.email "githubActionAutoDoc@no-one.com"
+          git config user.name "githubActionAutoDoc"
           git commit -m 'docAutoUpdate'
           git push
