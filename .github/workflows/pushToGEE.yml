@@ -65,9 +65,11 @@ jobs:
         run: |
           git checkout gh-pages -- genearteOpenEEL_doc.py
           python3 genearteOpenEEL_doc.py
-      - name: create docJson
+      - name: load node
+        uses: actions/setup-node@v2
         with:
           node-version: 15.x
+      - name: create docJson
         run: |
           node openEEL_doc
           git stash --include-untracked
