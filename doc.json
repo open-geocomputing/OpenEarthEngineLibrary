@@ -4,7 +4,7 @@
             "inputs": [
                 {
                     "name": "param",
-                    "description": "parameters of Export.*.toAsset()",
+                    "description": "Parameters of Export.*.toAsset()",
                     "type": "object",
                     "optional": false
                 }
@@ -12,7 +12,7 @@
             "reference": {
                 "name": "loadIfExistElseExport",
                 "license": "MIT",
-                "description": "Same as Export.*.toAsset, but do not export and load if exist already, else export use the same param as Export.*.toAsset(...)."
+                "description": "Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...)."
             },
             "fullPath": ".Export.loadIfExistElseExport"
         },
@@ -21,7 +21,7 @@
                 "inputs": [
                     {
                         "name": "imageCollection",
-                        "description": "The imageColelction to export as single Image.",
+                        "description": "The imageCollection to export as single ee.Image.",
                         "type": "ee.ImageCollection",
                         "optional": false
                     },
@@ -84,7 +84,7 @@
                 "reference": {
                     "name": "asImageToAsset",
                     "license": "MIT",
-                    "description": "Creates a batch task to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands"
+                    "description": "Creates a batch task to export ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands."
                 },
                 "fullPath": ".Export.ImageCollection.asImageToAsset"
             },
@@ -92,13 +92,13 @@
                 "inputs": [
                     {
                         "name": "imageCollection",
-                        "description": "The imageColelction to export as single Image.",
+                        "description": "The imageCollection to export.",
                         "type": "ee.ImageCollection",
                         "optional": false
                     },
                     {
                         "name": "nameProperty",
-                        "description": "The property to use as image name at export",
+                        "description": "The property to use as the image name at export",
                         "type": "string|ee.String",
                         "defaultValue": "system:index",
                         "optional": false
@@ -160,13 +160,13 @@
                     },
                     {
                         "name": "autoExport",
-                        "description": "use autoExport",
+                        "description": "Use autoExport",
                         "type": "boolean",
                         "optional": true
                     },
                     {
                         "name": "overwrite",
-                        "description": " in case of autoExport it remove the first the file if already exist",
+                        "description": "In the case of use of autoExports, it removes first the file if it already exists.",
                         "type": "boolean",
                         "optional": true
                     }
@@ -174,7 +174,7 @@
                 "reference": {
                     "name": "toAsset",
                     "license": "MIT",
-                    "description": "Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab."
+                    "description": "Creates a bunch of batch tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset."
                 },
                 "fullPath": ".Export.ImageCollection.toAsset"
             }
@@ -185,19 +185,19 @@
             "inputs": [
                 {
                     "name": "input",
-                    "description": "single band image  or imageCollection on with to run the computation ",
+                    "description": "Single band image or imageCollection on which to run the computation.",
                     "type": "ee.Image|ee.ImageCollection",
                     "optional": false
                 },
                 {
                     "name": "region",
-                    "description": "the region on with to compute the variogram ",
+                    "description": "The region on which to compute the variogram ",
                     "type": "ee.Geometry",
                     "optional": false
                 },
                 {
                     "name": "radius",
-                    "description": "the half size of the windows use to get neighbours",
+                    "description": "The radius of the windows used to get neighbors.",
                     "type": "integer",
                     "defaultValue": 10,
                     "optional": false
@@ -211,9 +211,9 @@
                 }
             ],
             "reference": {
-                "name": "kriging",
+                "name": "semivariogram",
                 "license": "GPLv3",
-                "description": "Compute a gap filling interpolation uisng kriging. It return a function, or apply on an image if \"image\" is informed and return the result of the computation."
+                "description": "Compute the semivariogram"
             },
             "fullPath": ".Image.semivariogram"
         },
@@ -221,28 +221,28 @@
             "inputs": [
                 {
                     "name": "radius",
-                    "description": "the half size of the windows use to get neighbours",
+                    "description": "The radius of the windows used to get neighbors.",
                     "type": "integer",
                     "defaultValue": 10,
                     "optional": false
                 },
                 {
                     "name": "power",
-                    "description": "the power of the inverse distance",
+                    "description": "The power of the inverse distance",
                     "type": "number",
                     "defaultValue": 2,
                     "optional": false
                 },
                 {
                     "name": "useConvolution",
-                    "description": "use traditional neighborhood reduction or convolution",
+                    "description": "Use traditional neighborhood reduction or convolution",
                     "type": "boolean",
                     "defaultValue": true,
                     "optional": false
                 },
                 {
                     "name": "image",
-                    "description": "the image on with to run the computation ",
+                    "description": "The image on which to run the computation",
                     "type": "ee.Image",
                     "optional": true
                 },
@@ -257,7 +257,7 @@
             "reference": {
                 "name": "InverseDistanceInterpolation",
                 "license": "MIT",
-                "description": "Compute a gap filling interpolation uisng inverse distance weighting. It return a function, or apply on an image if \"image\" is informed and return the result of the computation."
+                "description": "Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation."
             },
             "fullPath": ".Image.inverseDistanceInterpolation"
         },
@@ -265,33 +265,33 @@
             "inputs": [
                 {
                     "name": "covFun",
-                    "description": "the covariance function,fun(ee.Array)",
+                    "description": "The covariance function,fun(ee.Array)",
                     "type": "function",
                     "optional": false
                 },
                 {
                     "name": "radius",
-                    "description": "the half size of the windows use to get neighbours",
+                    "description": "The radius of the windows used to get neighbors.",
                     "type": "integer",
                     "defaultValue": 10,
                     "optional": false
                 },
                 {
                     "name": "skipInfomed",
-                    "description": "do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center",
+                    "description": "Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center",
                     "type": "boolean",
                     "defaultValue": true,
                     "optional": false
                 },
                 {
                     "name": "kernel",
-                    "description": "neigbours with weight equal to 0 are ignored, teh size need to be compatible with the radius",
+                    "description": "Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.",
                     "type": "ee.Kernel",
                     "optional": true
                 },
                 {
                     "name": "image",
-                    "description": "the image on with to run the computation ",
+                    "description": "The image on which to run the computation.",
                     "type": "ee.Image",
                     "optional": true
                 },
@@ -306,7 +306,7 @@
             "reference": {
                 "name": "kriging",
                 "license": "GPLv3",
-                "description": "Compute a gap filling interpolation uisng kriging. It return a function, or apply on an image if \"image\" is informed and return the result of the computation."
+                "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation."
             },
             "fullPath": ".Image.kriging"
         }
@@ -317,14 +317,14 @@
                 "inputs": [
                     {
                         "name": "modisImage",
-                        "description": "a modis image",
+                        "description": "A MODIS image",
                         "type": "ee.Image",
                         "defaultValue": null,
                         "optional": false
                     },
                     {
                         "name": "kernelHalfSize",
-                        "description": "the half size of teh kernel",
+                        "description": "The radius of the kernel",
                         "type": "number",
                         "defaultValue": 10,
                         "optional": false
@@ -340,7 +340,7 @@
                 "reference": {
                     "name": "terrainShadow",
                     "license": "MIT",
-                    "description": "compute the terrain shadow of modis image"
+                    "description": "Compute the terrain shadow of MODIS images"
                 },
                 "fullPath": ".Algorithms.MODIS.terrainShadow"
             }
@@ -351,20 +351,20 @@
             "inputs": [
                 {
                     "name": "imageCollectionAssetID",
-                    "description": "The imageColelction to delete",
+                    "description": "The imageCollection to delete",
                     "type": "string",
                     "optional": false
                 },
                 {
                     "name": "keepEmptyCollection",
-                    "description": "keep the empty collection",
+                    "description": "Keep the empty collection",
                     "type": "boolean",
                     "defaultValue": false,
                     "optional": false
                 },
                 {
                     "name": "pageSize",
-                    "description": "maximun numbour of element",
+                    "description": "Maximum number of elements",
                     "type": "integer",
                     "defaultValue": 10,
                     "optional": false
@@ -373,7 +373,7 @@
             "reference": {
                 "name": "deleteImageCollection",
                 "license": "MIT",
-                "description": "Delete all Image inside an ImageColelction and the ImageColelction "
+                "description": "Delete all ee.Image inside an ImageCollection and the ImageCollection."
             },
             "fullPath": ".data.deleteImageCollection"
         }
@@ -390,14 +390,14 @@
                 },
                 {
                     "name": "filter",
-                    "description": "moving windows filter",
+                    "description": "The moving windows filter",
                     "type": "ee.Filter",
                     "defaultValue": null,
                     "optional": false
                 },
                 {
                     "name": "distanceFunction",
-                    "description": "a lambda fucntion that specify how to compute distance between two image that return an ee.Image (or a ee.Number to add); fucntion(ee.Image(infromedImage),ee.Image(estimationImage))",
+                    "description": "A lambda function that specifies how to compute distance between two images that return an ee.Image (or an ee.Number to add); function(ee.Image(infromedImage),ee.Image(estimationImage))",
                     "type": "function",
                     "defaultValue": null,
                     "optional": false
@@ -411,7 +411,7 @@
                 },
                 {
                     "name": "bandOfInterest",
-                    "description": "bands selector, by default all of them",
+                    "description": "Band selectors, by default all of them",
                     "type": "ee.List|object",
                     "defaultValue": [
                         ".*"
@@ -420,7 +420,7 @@
                 },
                 {
                     "name": "EstimationCollection",
-                    "description": "specify the collection where to do the estimations (by default use the main collection)",
+                    "description": "Specify the collection where to do the estimations (by default use the main collection)",
                     "type": "ee.Collection",
                     "defaultValue": null,
                     "optional": true
@@ -436,7 +436,7 @@
             "reference": {
                 "name": "SavatskyGolayTimeFilter",
                 "license": "MIT",
-                "description": "Pass a Savatsky-Golay filter along the image colelction"
+                "description": "Pass a Savatsky-Golay filter along the image collection"
             },
             "fullPath": ".ImageCollection.SavatskyGolayFilter"
         },
@@ -444,7 +444,7 @@
             "inputs": [
                 {
                     "name": "args",
-                    "description": "this description",
+                    "description": "The assetID",
                     "type": "ee.Image|string|ee.String",
                     "optional": false
                 },
@@ -459,10 +459,10 @@
             "reference": {
                 "name": "example",
                 "license": "MIT",
-                "description": "blabla"
+                "description": "Load an image as collection."
             },
             "fullPath": ".ImageCollection.fromSingleImage"
         }
     },
-    "timeSinceEpoch": 1612213995454
+    "timeSinceEpoch": 1612216944107
 }
