@@ -61,6 +61,7 @@ jobs:
         with:
           python-version: '3.8'
           architecture: 'x64'
+      - name: generate node file
         run: |
           git checkout gh-pages -- genearteOpenEEL_doc.py
           python3 genearteOpenEEL_doc.py
