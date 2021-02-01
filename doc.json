@@ -1,87 +1,93 @@
 {
-    "Algorithms": {
-        "MODIS": {
-            "terrainShadow": {
+    "Export": {
+        "loadIfExistElseExport": {
+            "inputs": [
+                {
+                    "name": "param",
+                    "description": "parameters of Export.*.toAsset()",
+                    "type": "object",
+                    "optional": false
+                }
+            ],
+            "reference": {
+                "name": "loadIfExistElseExport",
+                "license": "MIT",
+                "description": "Same as Export.*.toAsset, but do not export and load if exist already, else export use the same param as Export.*.toAsset(...)."
+            },
+            "fullPath": ".Export.loadIfExistElseExport"
+        },
+        "ImageCollection": {
+            "asImageToAsset": {
                 "inputs": [
                     {
-                        "name": "modisImage",
-                        "description": "a modis image",
-                        "type": "ee.Image",
-                        "defaultValue": null,
+                        "name": "imageCollection",
+                        "description": "The imageColelction to export as single Image.",
+                        "type": "ee.ImageCollection",
                         "optional": false
                     },
                     {
-                        "name": "kernelHalfSize",
-                        "description": "the half size of teh kernel",
+                        "name": "description",
+                        "description": "A human-readable name of the task. Defaults to \"myExportImageTask\"",
+                        "type": "string|ee.String",
+                        "defaultValue": "myExportImageTask",
+                        "optional": true
+                    },
+                    {
+                        "name": "assetId",
+                        "description": "The destination asset ID.",
+                        "type": "string|ee.String",
+                        "optional": true
+                    },
+                    {
+                        "name": "pyramidingPolicy",
+                        "description": "The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to \"mean\". A special key, \".default\" may be used to change the default for all bands.",
+                        "type": "Object",
+                        "optional": true
+                    },
+                    {
+                        "name": "dimensions",
+                        "description": "The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or \"WIDTHxHEIGHT\" where WIDTH and HEIGHT are each positive integers.",
+                        "type": "number|string",
+                        "optional": true
+                    },
+                    {
+                        "name": "region",
+                        "description": "A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.",
+                        "type": "ee.Geometry",
+                        "optional": true
+                    },
+                    {
+                        "name": "scale",
+                        "description": "Resolution in meters per pixel. Defaults to 1000.",
                         "type": "number",
-                        "defaultValue": 10,
-                        "optional": false
+                        "optional": true
                     },
                     {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "function",
-                        "defaultValue": null,
+                        "name": "crs",
+                        "description": "CRS to use for the exported image.",
+                        "type": "string|ee.String",
+                        "optional": true
+                    },
+                    {
+                        "name": "crsTransform",
+                        "description": "Affine transform to use for the exported image. Requires \"crs\" to be defined.",
+                        "type": "ee.List|string|ee.String",
+                        "optional": true
+                    },
+                    {
+                        "name": "maxPixels",
+                        "description": "Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.",
+                        "type": "number",
                         "optional": true
                     }
                 ],
                 "reference": {
-                    "name": "terrainShadow",
+                    "name": "asImageToAsset",
                     "license": "MIT",
-                    "description": "compute the terrain shadow of modis image"
+                    "description": "Creates a batch task to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands"
                 },
-                "fullPath": ".Algorithms.MODIS.terrainShadow"
-            }
-        }
-    },
-    "Image": {
-        "InverseDistanceInterpolation": {
-            "inputs": [
-                {
-                    "name": "radius",
-                    "description": "the half size of the windows use to get neighbours",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                },
-                {
-                    "name": "power",
-                    "description": "the power of teh inverse distance",
-                    "type": "number",
-                    "defaultValue": 2,
-                    "optional": false
-                },
-                {
-                    "name": "useConvolution",
-                    "description": "use traditional neighborhood reduction or convolution",
-                    "type": "boolean",
-                    "defaultValue": true,
-                    "optional": false
-                },
-                {
-                    "name": "image",
-                    "description": "the image on with to run teh computation ",
-                    "type": "ee.Image",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "function",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "InverseDistanceInterpolation",
-                "license": "MIT",
-                "description": "Compute a gap filling interpolation uisng inverse distance weighting. it return a function, or apply on an image if \"image\" is infromed and return teh result of the computation."
+                "fullPath": ".Export.ImageCollection.asImageToAsset"
             },
-            "fullPath": ".Image.InverseDistanceInterpolation"
-        }
-    },
-    "Export": {
-        "ImageCollection": {
             "toAsset": {
                 "inputs": [
                     {
@@ -171,78 +177,205 @@
                     "description": "Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab."
                 },
                 "fullPath": ".Export.ImageCollection.toAsset"
+            }
+        }
+    },
+    "Image": {
+        "semivariogram": {
+            "inputs": [
+                {
+                    "name": "input",
+                    "description": "single band image  or imageCollection on with to run the computation ",
+                    "type": "ee.Image|ee.ImageCollection",
+                    "optional": false
+                },
+                {
+                    "name": "region",
+                    "description": "the region on with to compute the variogram ",
+                    "type": "ee.Geometry",
+                    "optional": false
+                },
+                {
+                    "name": "radius",
+                    "description": "the half size of the windows use to get neighbours",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.FeatureCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "kriging",
+                "license": "GPLv3",
+                "description": "Compute a gap filling interpolation uisng kriging. It return a function, or apply on an image if \"image\" is informed and return the result of the computation."
             },
-            "asImageToAsset": {
+            "fullPath": ".Image.semivariogram"
+        },
+        "inverseDistanceInterpolation": {
+            "inputs": [
+                {
+                    "name": "radius",
+                    "description": "the half size of the windows use to get neighbours",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "power",
+                    "description": "the power of the inverse distance",
+                    "type": "number",
+                    "defaultValue": 2,
+                    "optional": false
+                },
+                {
+                    "name": "useConvolution",
+                    "description": "use traditional neighborhood reduction or convolution",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "image",
+                    "description": "the image on with to run the computation ",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function|ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "InverseDistanceInterpolation",
+                "license": "MIT",
+                "description": "Compute a gap filling interpolation uisng inverse distance weighting. It return a function, or apply on an image if \"image\" is informed and return the result of the computation."
+            },
+            "fullPath": ".Image.inverseDistanceInterpolation"
+        },
+        "kriging": {
+            "inputs": [
+                {
+                    "name": "covFun",
+                    "description": "the covariance function,fun(ee.Array)",
+                    "type": "function",
+                    "optional": false
+                },
+                {
+                    "name": "radius",
+                    "description": "the half size of the windows use to get neighbours",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "skipInfomed",
+                    "description": "do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "kernel",
+                    "description": "neigbours with weight equal to 0 are ignored, teh size need to be compatible with the radius",
+                    "type": "ee.Kernel",
+                    "optional": true
+                },
+                {
+                    "name": "image",
+                    "description": "the image on with to run the computation ",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function|ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "kriging",
+                "license": "GPLv3",
+                "description": "Compute a gap filling interpolation uisng kriging. It return a function, or apply on an image if \"image\" is informed and return the result of the computation."
+            },
+            "fullPath": ".Image.kriging"
+        }
+    },
+    "Algorithms": {
+        "MODIS": {
+            "terrainShadow": {
                 "inputs": [
                     {
-                        "name": "imageCollection",
-                        "description": "The imageColelction to export as single Image.",
-                        "type": "ee.ImageCollection",
+                        "name": "modisImage",
+                        "description": "a modis image",
+                        "type": "ee.Image",
+                        "defaultValue": null,
                         "optional": false
                     },
                     {
-                        "name": "description",
-                        "description": "A human-readable name of the task. Defaults to \"myExportImageTask\"",
-                        "type": "string|ee.String",
-                        "defaultValue": "myExportImageTask",
-                        "optional": true
-                    },
-                    {
-                        "name": "assetId",
-                        "description": "The destination asset ID.",
-                        "type": "string|ee.String",
-                        "optional": true
-                    },
-                    {
-                        "name": "pyramidingPolicy",
-                        "description": "The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to \"mean\". A special key, \".default\" may be used to change the default for all bands.",
-                        "type": "Object",
-                        "optional": true
-                    },
-                    {
-                        "name": "dimensions",
-                        "description": "The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or \"WIDTHxHEIGHT\" where WIDTH and HEIGHT are each positive integers.",
-                        "type": "number|string",
-                        "optional": true
-                    },
-                    {
-                        "name": "region",
-                        "description": "A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.",
-                        "type": "ee.Geometry",
-                        "optional": true
-                    },
-                    {
-                        "name": "scale",
-                        "description": "Resolution in meters per pixel. Defaults to 1000.",
+                        "name": "kernelHalfSize",
+                        "description": "the half size of teh kernel",
                         "type": "number",
-                        "optional": true
+                        "defaultValue": 10,
+                        "optional": false
                     },
                     {
-                        "name": "crs",
-                        "description": "CRS to use for the exported image.",
-                        "type": "string|ee.String",
-                        "optional": true
-                    },
-                    {
-                        "name": "crsTransform",
-                        "description": "Affine transform to use for the exported image. Requires \"crs\" to be defined.",
-                        "type": "ee.List|string|ee.String",
-                        "optional": true
-                    },
-                    {
-                        "name": "maxPixels",
-                        "description": "Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.",
-                        "type": "number",
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "function",
+                        "defaultValue": null,
                         "optional": true
                     }
                 ],
                 "reference": {
-                    "name": "asImageToAsset",
+                    "name": "terrainShadow",
                     "license": "MIT",
-                    "description": "Creates a batch task to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands"
+                    "description": "compute the terrain shadow of modis image"
                 },
-                "fullPath": ".Export.ImageCollection.asImageToAsset"
+                "fullPath": ".Algorithms.MODIS.terrainShadow"
             }
+        }
+    },
+    "data": {
+        "deleteImageCollection": {
+            "inputs": [
+                {
+                    "name": "imageCollectionAssetID",
+                    "description": "The imageColelction to delete",
+                    "type": "string",
+                    "optional": false
+                },
+                {
+                    "name": "keepEmptyCollection",
+                    "description": "keep the empty collection",
+                    "type": "boolean",
+                    "defaultValue": false,
+                    "optional": false
+                },
+                {
+                    "name": "pageSize",
+                    "description": "maximun numbour of element",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                }
+            ],
+            "reference": {
+                "name": "deleteImageCollection",
+                "license": "MIT",
+                "description": "Delete all Image inside an ImageColelction and the ImageColelction "
+            },
+            "fullPath": ".data.deleteImageCollection"
         }
     },
     "ImageCollection": {
@@ -329,38 +462,6 @@
                 "description": "blabla"
             },
             "fullPath": ".ImageCollection.fromSingleImage"
-        }
-    },
-    "data": {
-        "deleteImageCollection": {
-            "inputs": [
-                {
-                    "name": "imageCollectionAssetID",
-                    "description": "The imageColelction to delete",
-                    "type": "string",
-                    "optional": false
-                },
-                {
-                    "name": "keepEmptyCollection",
-                    "description": "keep the empty collection",
-                    "type": "boolean",
-                    "defaultValue": false,
-                    "optional": false
-                },
-                {
-                    "name": "pageSize",
-                    "description": "maximun numbour of element",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                }
-            ],
-            "reference": {
-                "name": "deleteImageCollection",
-                "license": "MIT",
-                "description": "Delete all Image inside an ImageColelction and the ImageColelction "
-            },
-            "fullPath": ".data.deleteImageCollection"
         }
     }
 }
