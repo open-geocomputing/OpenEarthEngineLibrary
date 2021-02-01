@@ -1,10 +1,10 @@
 var inputs=[
-  {name:"imageCollectionAssetID", description:"The imageColelction to delete", type:'string', optional:false},
-  {name:"keepEmptyCollection", description:"keep the empty collection", type:'boolean', defaultValue:false, optional:false},
-  {name:"pageSize", description:"maximun numbour of element", type:'integer', defaultValue:10, optional:false}
+  {name:"imageCollectionAssetID", description:"The imageCollection to delete", type:'string', optional:false},
+  {name:"keepEmptyCollection", description:"Keep the empty collection", type:'boolean', defaultValue:false, optional:false},
+  {name:"pageSize", description:"Maximum number of elements", type:'integer', defaultValue:10, optional:false}
  ]
 
-var reference={name:'deleteImageCollection',license:'MIT', description:'Delete all Image inside an ImageColelction and the ImageColelction '};
+var reference={name:'deleteImageCollection',license:'MIT', description:'Delete all ee.Image inside an ImageCollection and the ImageCollection.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

@@ -1,10 +1,10 @@
-var inputs=[{name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
-            {name:'power',description:'the power of the inverse distance', type:'number',defaultValue:2 ,optional:false},
-            {name:'useConvolution',description:'use traditional neighborhood reduction or convolution', type:'boolean',defaultValue:true ,optional:false},
-            {name:'image',description:'the image on with to run the computation ', type:'ee.Image',optional:true},
+var inputs=[{name:'radius',description:'The radius of the windows used to get neighbors.', type:'integer',defaultValue:10 ,optional:false},
+            {name:'power',description:'The power of the inverse distance', type:'number',defaultValue:2 ,optional:false},
+            {name:'useConvolution',description:'Use traditional neighborhood reduction or convolution', type:'boolean',defaultValue:true ,optional:false},
+            {name:'image',description:'The image on which to run the computation', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
             
-var reference={name:'InverseDistanceInterpolation',license:'MIT', description:'Compute a gap filling interpolation uisng inverse distance weighting. It return a function, or apply on an image if "image" is informed and return the result of the computation.'};
+var reference={name:'InverseDistanceInterpolation',license:'MIT', description:'Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if "image" is informed and return the result of the computation.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

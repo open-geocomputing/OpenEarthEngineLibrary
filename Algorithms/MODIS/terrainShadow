@@ -1,8 +1,8 @@
-var inputs=[{name:'modisImage',description:'a modis image', type:'ee.Image',defaultValue:null,optional:false},
-            {name:'kernelHalfSize',description:'the half size of teh kernel', type:'number',defaultValue:10,optional:false},
+var inputs=[{name:'modisImage',description:'A MODIS image', type:'ee.Image',defaultValue:null,optional:false},
+            {name:'kernelHalfSize',description:'The radius of the kernel', type:'number',defaultValue:10,optional:false},
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
-var reference={name:'terrainShadow',license:'MIT', description:'compute the terrain shadow of modis image'};
+var reference={name:'terrainShadow',license:'MIT', description:'Compute the terrain shadow of MODIS images'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

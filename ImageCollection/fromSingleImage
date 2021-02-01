@@ -1,8 +1,8 @@
 
-var inputs=[{name:'args',description:'this description', type:'ee.Image|string|ee.String',optional:false},
+var inputs=[{name:'args',description:'The assetID', type:'ee.Image|string|ee.String',optional:false},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}];
             
-var reference={name:'example',license:'MIT', description:'blabla'};
+var reference={name:'example',license:'MIT', description:'Load an image as collection.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

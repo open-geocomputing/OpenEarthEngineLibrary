@@ -1,6 +1,6 @@
 var inputs=[
-  {name:"imageCollection", description:"The imageColelction to export as single Image.", type:'ee.ImageCollection', optional:false},
-  {name:"nameProperty", description:'The property to use as image name at export', type:'string|ee.String', defaultValue:'system:index', optional:false},
+  {name:"imageCollection", description:"The imageCollection to export.", type:'ee.ImageCollection', optional:false},
+  {name:"nameProperty", description:'The property to use as the image name at export', type:'string|ee.String', defaultValue:'system:index', optional:false},
   {name:"description", description:'A human-readable prefix name for the tasks.', type:'string', defaultValue:"", optional:false},
   {name:"assetId", description:"The destination asset ID.", type:'string|ee.String', optional:true},
   {name:"pyramidingPolicy", description:'The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to "mean". A special key, ".default" may be used to change the default for all bands.', type:'Object', optional:true},
@@ -10,11 +10,11 @@ var inputs=[
   {name:"crs", description:"CRS to use for the exported image.", type:'string|ee.String', optional:true},
   {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|string|ee.String', optional:true},
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
-  {name:"autoExport", description:"use autoExport", type:'boolean', optional:true},
-  {name:"overwrite", description:" in case of autoExport it remove the first the file if already exist", type:'boolean', optional:true}
+  {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true},
+  {name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true}
  ]
 
-var reference={name:'toAsset',license:'MIT', description:'Creates bunch of batch tasks (one pro image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset. Tasks need from the Tasks tab.'};
+var reference={name:'toAsset',license:'MIT', description:'Creates a bunch of batch tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

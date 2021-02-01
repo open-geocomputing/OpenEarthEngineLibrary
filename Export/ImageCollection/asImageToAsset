@@ -1,5 +1,5 @@
 var inputs=[
-  {name:"imageCollection", description:"The imageColelction to export as single Image.", type:'ee.ImageCollection', optional:false},
+  {name:"imageCollection", description:"The imageCollection to export as single ee.Image.", type:'ee.ImageCollection', optional:false},
   {name:"description", description:'A human-readable name of the task. Defaults to "myExportImageTask"', type:'string|ee.String', defaultValue:"myExportImageTask", optional:true},
   {name:"assetId", description:"The destination asset ID.", type:'string|ee.String', optional:true},
   {name:"pyramidingPolicy", description:'The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to "mean". A special key, ".default" may be used to change the default for all bands.', type:'Object', optional:true},
@@ -11,7 +11,7 @@ var inputs=[
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true}
  ]
 
-var reference={name:'asImageToAsset',license:'MIT', description:'Creates a batch task to export an ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands'};
+var reference={name:'asImageToAsset',license:'MIT', description:'Creates a batch task to export ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

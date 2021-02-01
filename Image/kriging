@@ -1,11 +1,11 @@
-var inputs=[{name:'covFun',description:'the covariance function,fun(ee.Array)', type:'function' ,optional:false},
-            {name:'radius',description:'the half size of the windows use to get neighbours', type:'integer',defaultValue:10 ,optional:false},
-            {name:'skipInfomed',description:'do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',defaultValue:true,optional:false},
-            {name:'kernel',description:'neigbours with weight equal to 0 are ignored, teh size need to be compatible with the radius', type:'ee.Kernel',optional:true},
-            {name:'image',description:'the image on with to run the computation ', type:'ee.Image',optional:true},
+var inputs=[{name:'covFun',description:'The covariance function,fun(ee.Array)', type:'function' ,optional:false},
+            {name:'radius',description:'The radius of the windows used to get neighbors.', type:'integer',defaultValue:10 ,optional:false},
+            {name:'skipInfomed',description:'Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',defaultValue:true,optional:false},
+            {name:'kernel',description:'Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.', type:'ee.Kernel',optional:true},
+            {name:'image',description:'The image on which to run the computation.', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
             
-var reference={name:'kriging',license:'GPLv3', description:'Compute a gap filling interpolation uisng kriging. It return a function, or apply on an image if "image" is informed and return the result of the computation.'};
+var reference={name:'kriging',license:'GPLv3', description:'Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if "image" is informed and return the result of the computation.'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

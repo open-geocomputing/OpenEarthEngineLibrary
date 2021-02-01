@@ -1,7 +1,7 @@
 /*var inputs=[{name:'collection',description:'The image collection on which to perform the moving windows', type:'ee.ImageCollection',defaultValue:null,optional:false},
-            {name:'filter',description:'moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
+            {name:'filter',description:'The moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
             {name:'reducer',description:'The reducer', type:'ee.Reducer',defaultValue:ee.Reduer.mean(),optional:false},
-            {name:'EstimationCollection',description:'specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},
+            {name:'EstimationCollection',description:'Specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}]
             
 var reference={name:'movingWindows',license:'MIT', description:'MovingWindows'};

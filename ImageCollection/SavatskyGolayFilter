@@ -1,12 +1,12 @@
 var inputs=[{name:'collection',description:'The image collection on which to perform the filtering', type:'ee.ImageCollection',defaultValue:null,optional:false},
-            {name:'filter',description:'moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
-            {name:'distanceFunction',description:'a lambda fucntion that specify how to compute distance between two image that return an ee.Image (or a ee.Number to add); fucntion(ee.Image(infromedImage),ee.Image(estimationImage))', type:'function',defaultValue:null,optional:false},
+            {name:'filter',description:'The moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
+            {name:'distanceFunction',description:'A lambda function that specifies how to compute distance between two images that return an ee.Image (or an ee.Number to add); function(ee.Image(infromedImage),ee.Image(estimationImage))', type:'function',defaultValue:null,optional:false},
             {name:'degree',description:'Polynomial degree, odd number >2', type:'integer',defaultValue:3,optional:false},
-            {name:'bandOfInterest',description:'bands selector, by default all of them', type:'ee.List|object',defaultValue:['.*'],optional:false},
-            {name:'EstimationCollection',description:'specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},
+            {name:'bandOfInterest',description:'Band selectors, by default all of them', type:'ee.List|object',defaultValue:['.*'],optional:false},
+            {name:'EstimationCollection',description:'Specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}]
             
-var reference={name:'SavatskyGolayTimeFilter',license:'MIT', description:'Pass a Savatsky-Golay filter along the image colelction'};
+var reference={name:'SavatskyGolayTimeFilter',license:'MIT', description:'Pass a Savatsky-Golay filter along the image collection'};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
