@@ -140,6 +140,8 @@ request.onload = function () {
 	if (request.status >= 200 && request.status < 400) {
 		// Success!
 		data = JSON.parse(request.responseText);
+		$('footer span#lastUpdate').html(new Date(data.timeSinceEpoch))
+		delete data.timeSinceEpoch;
 		$('#menuID').append(displayData(data, 0).removeClass('nested'))
 		makeIndex();
 	} else {
