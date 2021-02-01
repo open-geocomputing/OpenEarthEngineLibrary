@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  buildAndMirrror:
     runs-on: ubuntu-latest
     steps:
 
@@ -49,4 +49,30 @@ jobs:
         run: |
           git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories || bash -c "git checkout --ours . ; git add -u ; git commit -m 'autoMerge'"
           git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
+          git push
+
+  doc:
+    needs: buildAndMirrror
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: load Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
+        run: |
+          git checkout gh-pages -- genearteOpenEEL_doc.py
+          python3 genearteOpenEEL_doc.py
+      - name: create docJson
+        with:
+          node-version: 15.x
+        run: |
+          node openEEL_doc
+          git stash --include-untracked
+          git checkout gh-pages
+          rm -f doc.json openEEL_doc
+          git stash apply
+          git add doc.json
+          git commit -m 'docAutoUpdate'
           git push
