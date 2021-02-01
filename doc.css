@@ -1,0 +1,95 @@
+
+.doc{
+	display: flex;
+	flex-direction: row;
+	height:100vh;
+	position: fixed;
+}
+.navbar{
+	/*display: flex;*/
+}
+
+.splitline{
+	margin: 0 10px 0 10px;
+	padding: 2px;
+	background-color: #dddddd;
+}
+
+.description{
+	/*display: flex;*/
+}
+
+div.title-function{
+	padding-bottom: 10px;
+	border-bottom: solid;
+}
+
+div.title-function span.libName{
+	 font-style: italic;
+}
+
+div.title-function span.optional{
+	 font-style: oblique;
+}
+
+div.title-function span.mandatory{
+	font-weight: bold;
+}
+
+.description li{
+	list-style: '- ';
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+nav >ul{
+	margin: 0;
+	padding: 0;
+}
+
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer; 
+  user-select: none; /* Prevent text selection */
+}
+
+		/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg); 
+}
+
+.nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+}
+
+ul.navLeaf{
+	list-style-type: disc;
+}
+
+.navbar.searchMode li{
+	display: none;
+}
+
+.navbar.searchMode ul{
+	display: block;
+}
+
+.navbar.searchMode li.macthSearch{
+	display:block;
+}
+
