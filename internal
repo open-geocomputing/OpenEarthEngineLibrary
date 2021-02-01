@@ -106,6 +106,8 @@ function getDoc(dict,relativePath){
   return temp;
 }
 
+exports.getDoc=function(obj){return getDoc(obj,'')}
+
 exports.getDocumentation=function(libs,exp){
   return convert2Terminals(libs,"OpenEEL");
 };
