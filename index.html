@@ -4,6 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Documentation Open Earth Engine Library</title>
+	<link rel="icon" type="image/png" href="./favicon.png" />
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
 		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
 	</script>
@@ -11,7 +12,8 @@
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/js/OverlayScrollbars.min.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/minisearch@3.0.2/dist/umd/index.min.js"></script>
 	<link rel='stylesheet' href='https://unpkg.com/bulma@0.9.0/css/bulma.min.css'>
-	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/css/OverlayScrollbars.min.css'>
+	<link rel='stylesheet'
+		href='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/css/OverlayScrollbars.min.css'>
 	<link rel='stylesheet' href='https://kingsora.github.io/OverlayScrollbars/etc/os-theme-thin-dark.css'>
 	<script src="https://kit.fontawesome.com/7dc3015a44.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="prism.css">
@@ -36,17 +38,18 @@
 							<div class="column is-2" style="width: fit-content;">
 								<i class="fas fa-lock-open" style="font-size: 6em;"></i>
 							</div>
-						  </div>-->						
+						  </div>-->
 						<h1 class="title">Open Earth Engine Library (OEEL)</h1>
 						<h3 class="subtitle">
 							Collection of code goodies for Google Earth Engine(GEE)
 						</h3>
-						<a href="https://github.com/mgravey/testGithub_gee-sync_v2" target="_blank" class="button is-primary is-large">
+						<a href="https://github.com/mgravey/testGithub_gee-sync_v2" target="_blank"
+							class="button is-primary is-large">
 							<span class="icon">
-							  <i class="fab fa-github" aria-hidden="true"></i>
+								<i class="fab fa-github" aria-hidden="true"></i>
 							</span>
 							<span>Github</span>
-						  </a>
+						</a>
 					</div>
 				</div>
 			</div>
@@ -57,27 +60,39 @@
 			<div class="columns">
 				<div class="column is-3">
 					<aside class="menu" id="menuID">
-						<input class="input" id='search' type="text" placeholder="Search...">
+						<input class="input" id='search' type="text" placeholder="Search a function...">
 					</aside>
 				</div>
 				<div class="column is-9">
 					<div class="content is-medium">
 						<!--<h3 class="title is-3">Documentation</h3>-->
-						<div class="box" id="description">
-							<h3 class="title is-3">asImageToAsset()</h3>
-							<pre><code class="language-javascript">oeel.Export.ImageCollection.asImageToAsset(imageCollection, description, assetId, pyramidingPolicy, dimensions, region, scale, crs, crsTransform, maxPixels)</code></pre>
+						<div class="box">
+							<img id="reference-license" class="subtitle"
+								src="https://img.shields.io/badge/license-MIT-blue">
+							<h3 id="reference-name" class="title is-3">asImageToAsset()</h3>
+							<div class="codeBlockWithCB">
+								<pre><code id="reference-code" class="language-javascript">oeel.Export.ImageCollection.asImageToAsset(imageCollection, description, assetId, pyramidingPolicy, dimensions, region, scale, crs, crsTransform, maxPixels)</code></pre>
+								<div class="clipboard"><i class="fas fa-copy"></i></div>
+							</div>
 							<article class="message is-primary">
-								<div class="message-body">
-									<b>asImageToAsset</b> creates a batch task to export an ImageCollection as an Image raster to an Earth
-									Engine asset. Tasks can be started from the Tasks tab. each image need to have the
-									same bands
+								<div class="message-body" id="reference-description">
+									<b>asImageToAsset</b> creates a batch task to export an ImageCollection as an Image
+									raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image
+									need to have the same bands
 								</div>
 							</article>
 							<h4 class="title is-4">Arguments:</h4>
-							<ul>
+							<ul id="arguments">
 								<li>
 									<code>imageCollection</code> The imageColelction to export as single Image.
 								</li>
+							</ul>
+							<h4 class="title is-4">Return:</h4>
+							<ul id="returns">
+								<li>
+									<code>Return</code> (Image).
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>

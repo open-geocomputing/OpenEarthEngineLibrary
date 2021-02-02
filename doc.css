@@ -104,8 +104,6 @@ nav >ul{
 
 .tag-perso{
 	padding: .25em .5em .25em;
-	/*-webkit-font-smoothing: auto;
-	font-family: monospace;*/
 	background-color: #fff;
 	border-radius: 4px;
 	cursor: pointer;
@@ -119,11 +117,11 @@ nav >ul{
 }
 
 .clipboard{
-	font-family: "Font Awesome 5 Free2";
 	margin-left: -25px;
-	color: #b4f4ff;
+	color: #fff;
 	cursor: pointer;
 	z-index: 100;
+	display:none;
 }
 
 .codeBlockWithCB{
@@ -132,11 +130,6 @@ nav >ul{
 .codeBlockWithCB pre{
 	flex-grow: 2;
 	padding-right: 50px;
-}
-
-img.licenseBadge
-{
-	float: right;
 }
 
 footer.footer{

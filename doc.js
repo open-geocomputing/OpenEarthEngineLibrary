@@ -1,70 +1,56 @@
 indexDictionary = [];
 
-initialLocation=window.location.href.match('#.*');
-if(initialLocation)
-	initialLocation=initialLocation[0].substring(1);
+initialLocation = window.location.href.match('#.*');
+if (initialLocation)
+	initialLocation = initialLocation[0].substring(1);
 
 function displayDocFunction(data) {
 
 	var doc = $('#description');
 	doc.empty();
 
-	var title = $(document.createElement('h3')).addClass('title is-3');
-	title.html(data.reference.name+'(...)')
-	if(data.reference.license)
-		title.append($(document.createElement('img')).addClass('licenseBadge').attr('src','https://img.shields.io/badge/license-'+data.reference.license+'-blue'))
-	doc.append(title);
-
-	var codeBlock=$(document.createElement('div')).addClass('codeBlockWithCB')
-	doc.append(codeBlock);
-	var bt=$(document.createElement('div')).addClass('clipboard').html('&#xf0c5;');
-	
-
-	var code=$(document.createElement('code')).addClass("language-javascript")
-	codeBlock.append($(document.createElement('pre')).addClass("language-javascript").append(code));
-	code.append($(document.createElement('span')).addClass('libName').html('oeel'))
-	code.append(data.fullPath + '(');
-	codeBlock.append(bt)
-
-	var text2copy='oeel'+data.fullPath + '({\n';
-	//add bar
-	var des = $(document.createElement('article')).addClass('message is-primary').
-		append($(document.createElement('div')).addClass('message-body').html(data.reference.description))
-	doc.append(des);
-	doc.append($(document.createElement('h4')).addClass('is-4').html('Arguments:'));
-
-
-	var args = $(document.createElement('ul'));
-	for (var i = 0; i < data.inputs.length; i++) {
-		var input = data.inputs[i];
-		if (input.name == 'Return') continue;
-		var b = $(document.createElement('li')).append($(document.createElement('code')).html(input.name)).append(input.description)
-		args.append(b);
-
-		var imputTitle = $(document.createElement('span')).html(input.name);
-		if (i > 0)
-			code.append(', ');
-		code.append(imputTitle);
-		if (input.optional) {
-			imputTitle.addClass('optional');
-			text2copy+='// '+input.name+':,\n';
-		}
-		if (input.defaultValue && !input.optional) {
-			text2copy+='// '+input.name+':'+input.defaultValue+',\n';
-		}
-		if ((input.defaultValue === undefined) && !input.optional) {
-			imputTitle.addClass('mandatory')
-			text2copy+=input.name+':,\n';
-		}
+	if (data.reference.license) {
+		$('#reference-license').attr("src",'https://img.shields.io/badge/license-' + data.reference.license + '-blue');
+		$('#reference-license').show()
+	} else {
+		$('#reference-license').hide()
 	}
-	doc.append(args);
-	code.append(')')
-	text2copy+='});'
+	
+	$('#reference-name').html(data.reference.name)
+	$('#reference-code').html('oeel' + data.fullPath + '(' + data.inputs.map(i => i.name).join(', ') +')')
+	$('#reference-description').html('<b>'+data.reference.name+'.</b> '+data.reference.description)
+	var inputs = data.inputs.filter( input => input.name != 'Return');
+	$('#arguments').html(inputs.map( i => {
+		t = '<li><code>' + i.name + (!i.optional ? '*':'')+'</code> ' 
+		t += '<span class="tag">'+ i.type +'</span>'
+		t += i.defaultValue ? ' Default: '+i.defaultValue+'.': ""
+		t += i.description
+		t += '</li>'
+		return t
+	}).join(''))
 
-	bt.click(function(){navigator.clipboard.writeText(text2copy)});
-	Prism.highlightElement(code.get(0));
+	var returns = data.inputs.filter( input => input.name == 'Return');
+	$('#returns').html(returns.map( i => '<li><code>Return</code><span class="tag">'+ i.type +'</span></li>').join(''))
 
-	window.history.pushState("object or string", "Title", "#"+data.fullPath);
+	text2copy = 'oeel' + data.fullPath + '({\n'
+	text2copy += inputs.map( function(i){
+		var t=''
+		if (i.optional | (i.defaultValue && !i.optional) ){
+			t += '// '
+		}
+		t += i.name + ':'
+		if (i.defaultValue){
+			t += i.defaultValue
+		}
+		return t
+	}).join(',\n')
+	text2copy += '});'
+
+	$('.clipboard').click(function () {
+		navigator.clipboard.writeText(text2copy)
+	});
+	Prism.highlightAll();
+	window.history.pushState("object or string", "Title", "#" + data.fullPath);
 }
 
 
@@ -102,15 +88,15 @@ function displayData(data, level) {
 			$(this).toggleClass("caret-down");
 		})
 
-		if(initialLocation==data[keys[i]].fullPath){
-			selectedAtLoading=title;
+		if (initialLocation == data[keys[i]].fullPath) {
+			selectedAtLoading = title;
 		}
 
 	}
 	return a;
 }
 
-function selectMenu(){
+function selectMenu() {
 	selectedAtLoading.parentsUntil().filter('li').children('span').click();
 }
 
@@ -163,6 +149,11 @@ $('#search').on('propertychange input', function (e) {
 	}
 });
 
+$(".codeBlockWithCB").mouseenter(function() {
+	$(".clipboard").show();
+}).mouseleave(function() {
+	$(".clipboard").hide();
+});
 
 // load data 
 var request = new XMLHttpRequest;
