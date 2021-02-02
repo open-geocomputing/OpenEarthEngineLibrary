@@ -118,3 +118,18 @@ nav >ul{
     color: #fff;
 }
 
+.clipboard{
+	font-family: "Font Awesome 5 Free2";
+	margin-left: -25px;
+	color: #b4f4ff;
+	cursor: pointer;
+}
+
+.codeBlockWithCB{
+	display: flex
+}
+.codeBlockWithCB pre{
+	flex-grow: 2;
+	padding-right: 50px;
+}
+

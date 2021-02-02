@@ -1,5 +1,9 @@
 indexDictionary = [];
 
+initialLocation=window.location.href.match('#.*');
+if(initialLocation)
+	initialLocation=initialLocation[0].substring(1);
+
 function displayDocFunction(data) {
 
 	var doc = $('#description');
@@ -9,10 +13,16 @@ function displayDocFunction(data) {
 	title.html(data.reference.name+'(...)')
 	doc.append(title);
 
+	var codeBlock=$(document.createElement('div')).addClass('codeBlockWithCB')
+	doc.append(codeBlock);
+	var bt=$(document.createElement('div')).addClass('clipboard').html('&#xf0c5;');
+	
+
 	var code=$(document.createElement('code')).addClass("language-javascript")
-	doc.append($(document.createElement('pre')).addClass("language-javascript").append(code));
+	codeBlock.append($(document.createElement('pre')).addClass("language-javascript").append(code));
 	code.append($(document.createElement('span')).addClass('libName').html('oeel'))
 	code.append(data.fullPath + '(');
+	codeBlock.append(bt)
 
 	var text2copy='oeel'+data.fullPath + '({\n';
 	//add bar
@@ -49,11 +59,10 @@ function displayDocFunction(data) {
 	code.append(')')
 	text2copy+='});'
 
-	var bt=$(document.createElement('button')).html('copy');
 	bt.click(function(){navigator.clipboard.writeText(text2copy)});
-	doc.append(bt)
-
 	Prism.highlightElement(code.get(0));
+
+	window.history.pushState("object or string", "Title", "#"+data.fullPath);
 }
 
 
@@ -91,8 +100,16 @@ function displayData(data, level) {
 			$(this).toggleClass("caret-down");
 		})
 
+		if(initialLocation==data[keys[i]].fullPath){
+			selectedAtLoading=title;
+		}
+
 	}
 	return a;
+}
+
+function selectMenu(){
+	selectedAtLoading.parentsUntil().filter('li').children('span').click();
 }
 
 //search engine
@@ -157,6 +174,7 @@ request.onload = function () {
 		delete data.timeSinceEpoch;
 		$('#menuID').append(displayData(data, 0).removeClass('nested'))
 		makeIndex();
+		selectMenu();
 	} else {
 		// We reached our target server, but it returned an error
 
