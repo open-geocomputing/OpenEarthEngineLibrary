@@ -162,6 +162,7 @@ footer.footer section.section{
 
 .pageTitle{
 	flex-grow: 2;
+	margin: 0 24px;
 }
 
 .container.content.header{
@@ -175,7 +176,7 @@ footer.footer section.section{
 
 .container.content.header img{
 	width: 200px;
-	margin: 0px 71px;
+	margin: 0px 59px;
 }
 
 
