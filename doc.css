@@ -123,6 +123,7 @@ nav >ul{
 	margin-left: -25px;
 	color: #b4f4ff;
 	cursor: pointer;
+	z-index: 100;
 }
 
 .codeBlockWithCB{
