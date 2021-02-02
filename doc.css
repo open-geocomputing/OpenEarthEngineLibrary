@@ -90,15 +90,15 @@ nav >ul{
 	list-style-type: disc;
 }*/
 
-.navbar.searchMode li{
+.menu.searchMode li{
 	display: none;
 }
 
-.navbar.searchMode ul{
+.menu.searchMode ul{
 	display: block;
 }
 
-.navbar.searchMode li.macthSearch{
+.menu.searchMode li.macthSearch{
 	display:block;
 }
 
