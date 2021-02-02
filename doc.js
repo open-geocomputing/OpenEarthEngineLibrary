@@ -2,45 +2,59 @@ indexDictionary = [];
 
 function displayDocFunction(data) {
 
-	doc = $(document.createElement('div'))
-	var nameFunctionDiv = $(document.createElement('h4')).addClass('title is-3');
-	doc.append(nameFunctionDiv);
-	//add bar
-	var des = $(document.createElement('p')).html(data.reference.description)
-	doc.append(des);
-	doc.append($(document.createElement('h3')).html('Arguments:'));
+	var doc = $('#description');
+	doc.empty();
 
-	nameFunctionDiv.append($(document.createElement('span')).addClass('libName').html('oeel'))
-	nameFunctionDiv.append(data.fullPath + '(');
+	var title = $(document.createElement('h3')).addClass('title is-3');
+	title.html(data.reference.name)
+	doc.append(title);
+
+	var code=$(document.createElement('code')).addClass("language-javascript")
+	doc.append($(document.createElement('pre')).addClass("language-javascript").append(code));
+	code.append($(document.createElement('span')).addClass('libName').html('oeel'))
+	code.append(data.fullPath + '({\n');
+
+	var text2copy='oeel'+data.fullPath + '({\n';
+	//add bar
+	var des = $(document.createElement('article')).addClass('message').
+		append($(document.createElement('div')).addClass('message-body').html(data.reference.description))
+	doc.append(des);
+	doc.append($(document.createElement('h4')).addClass('is-4').html('Arguments:'));
+
+
 	var args = $(document.createElement('ul'));
 	for (var i = 0; i < data.inputs.length; i++) {
 		var input = data.inputs[i];
 		if (input.name == 'Return') continue;
-		var title = $(document.createElement('span')).html(input.name + ':');
-		var b = $(document.createElement('li')).append(title)
-		b.append($(document.createElement('p')).html(input.description))
+		var b = $(document.createElement('li')).append($(document.createElement('code')).html(input.name)).append(input.description)
 		args.append(b);
 
 		var imputTitle = $(document.createElement('span')).html(input.name);
 		if (i > 0)
-			nameFunctionDiv.append(', ');
-		nameFunctionDiv.append(imputTitle);
+			code.append(', ');
+		code.append(imputTitle);
 		if (input.optional) {
 			imputTitle.addClass('optional');
+			text2copy+='// '+input.name+':,\n';
+		}
+		if (input.defaultValue && !input.optional) {
+			text2copy+='// '+input.name+':'+input.defaultValue+',\n';
 		}
 		if ((input.defaultValue === undefined) && !input.optional) {
 			imputTitle.addClass('mandatory')
+			text2copy+=input.name+':,\n';
 		}
 	}
 	doc.append(args);
+	code.append(')')
+	text2copy+='});'
 
-	nameFunctionDiv.append(')')
+	var bt=$(document.createElement('button')).html('copy');
+	bt.click(function(){navigator.clipboard.writeText(text2copy)});
+	doc.append(bt)
 
-
-	$('#description').empty()
-	$('#description').append(doc);
+	Prism.highlightElement(code.get(0));
 }
-
 
 
 function displayData(data, level) {
