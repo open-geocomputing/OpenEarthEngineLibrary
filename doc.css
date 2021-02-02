@@ -148,5 +148,34 @@ footer.footer section.section{
 	margin:0;
 }
 
+.defaultvalue::before {
+  content: "("
+}
+
+.defaultvalue{
+	font-style: italic;
+}
+
+.defaultvalue::after {
+  content: ")"
+}
+
+.pageTitle{
+	flex-grow: 2;
+}
+
+.container.content.header{
+	display: flex;
+	align-items: flex-end;
+}
+
+.pageTitle.subtitle{
+	margin-bottom:0;
+}
+
+.container.content.header img{
+	width: 200px;
+	margin: 0px 71px;
+}
 
 

@@ -23,7 +23,7 @@ function displayDocFunction(data) {
 	$('#arguments').html(inputs.map( i => {
 		t = '<li><code>' + i.name + (!i.optional ? '*':'')+'</code> ' 
 		t += '<span class="tag">'+ i.type +'</span>'
-		t += i.defaultValue ? ' Default: '+i.defaultValue+'.': ""
+		t += i.defaultValue ? ('<span class="defaultvalue">  Default:'+ i.defaultValue+'</span>' )+'.': ""
 		t += i.description
 		t += '</li>'
 		return t
