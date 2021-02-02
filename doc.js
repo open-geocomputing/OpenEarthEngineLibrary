@@ -6,17 +6,17 @@ function displayDocFunction(data) {
 	doc.empty();
 
 	var title = $(document.createElement('h3')).addClass('title is-3');
-	title.html(data.reference.name)
+	title.html(data.reference.name+'(...)')
 	doc.append(title);
 
 	var code=$(document.createElement('code')).addClass("language-javascript")
 	doc.append($(document.createElement('pre')).addClass("language-javascript").append(code));
 	code.append($(document.createElement('span')).addClass('libName').html('oeel'))
-	code.append(data.fullPath + '({\n');
+	code.append(data.fullPath + '(');
 
 	var text2copy='oeel'+data.fullPath + '({\n';
 	//add bar
-	var des = $(document.createElement('article')).addClass('message').
+	var des = $(document.createElement('article')).addClass('message is-primary').
 		append($(document.createElement('div')).addClass('message-body').html(data.reference.description))
 	doc.append(des);
 	doc.append($(document.createElement('h4')).addClass('is-4').html('Arguments:'));

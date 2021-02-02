@@ -1,3 +1,5 @@
+@font-face{font-family:"Font Awesome 5 Free2";font-style:normal;font-weight:900;font-display:block;src:url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.eot);src:url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.eot?#iefix) format("embedded-opentype"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.woff2) format("woff2"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.woff) format("woff"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.ttf) format("truetype"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.svg#fontawesome) format("svg")}
+
 
 .doc{
 	display: flex;
@@ -58,16 +60,22 @@ nav >ul{
 
 		/* Create the caret/arrow with a unicode, and style it */
 .caret::before {
-  content: "\25B6";
+  content: "\f0da";
   color: black;
   display: inline-block;
   margin-right: 6px;
+  font-family: "Font Awesome 5 Free2";
+  transform: rotate(0deg);
+  transition: transform 0.25s linear;
 }
 
 /* Rotate the caret/arrow icon when clicked on (using JavaScript) */
 .caret-down::before {
   transform: rotate(90deg); 
+  transition: transform 0.25s linear;
 }
+
+
 
 .nested {
   display: none;
