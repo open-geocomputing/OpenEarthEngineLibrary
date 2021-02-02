@@ -11,6 +11,8 @@ function displayDocFunction(data) {
 
 	var title = $(document.createElement('h3')).addClass('title is-3');
 	title.html(data.reference.name+'(...)')
+	if(data.reference.license)
+		title.append($(document.createElement('img')).addClass('licenseBadge').attr('src','https://img.shields.io/badge/license-'+data.reference.license+'-blue'))
 	doc.append(title);
 
 	var codeBlock=$(document.createElement('div')).addClass('codeBlockWithCB')

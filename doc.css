@@ -134,3 +134,8 @@ nav >ul{
 	padding-right: 50px;
 }
 
+img.licenseBadge
+{
+	float: right;
+}
+
