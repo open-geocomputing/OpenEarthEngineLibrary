@@ -53,6 +53,7 @@ nav >ul{
 .caret {
   cursor: pointer; 
   user-select: none; /* Prevent text selection */
+  font-size: larger;
 }
 
 		/* Create the caret/arrow with a unicode, and style it */
@@ -77,9 +78,9 @@ nav >ul{
   display: block;
 }
 
-ul.navLeaf{
+/*ul.navLeaf{
 	list-style-type: disc;
-}
+}*/
 
 .navbar.searchMode li{
 	display: none;
@@ -91,5 +92,21 @@ ul.navLeaf{
 
 .navbar.searchMode li.macthSearch{
 	display:block;
+}
+
+.tag-perso{
+	padding: .25em .5em .25em;
+	/*-webkit-font-smoothing: auto;
+	font-family: monospace;*/
+	background-color: #fff;
+	border-radius: 4px;
+	cursor: pointer;
+	word-wrap: break-word;
+	margin-left: 20px;
+}
+.tag-perso:hover{
+	background-color: #3e56c4;
+    border-color: transparent;
+    color: #fff;
 }
 

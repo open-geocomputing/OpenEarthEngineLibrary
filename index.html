@@ -11,9 +11,9 @@
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/js/OverlayScrollbars.min.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/minisearch@3.0.2/dist/umd/index.min.js"></script>
 	<link rel='stylesheet' href='https://unpkg.com/bulma@0.9.0/css/bulma.min.css'>
-	<link rel='stylesheet'
-		href='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/css/OverlayScrollbars.min.css'>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/css/OverlayScrollbars.min.css'>
 	<link rel='stylesheet' href='https://kingsora.github.io/OverlayScrollbars/etc/os-theme-thin-dark.css'>
+	<script src="https://kit.fontawesome.com/7dc3015a44.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="prism.css">
 	<link rel="stylesheet" href="cheatsheet.css">
 	<link rel="stylesheet" href="doc.css">
@@ -25,10 +25,28 @@
 			<div class="columns">
 				<div class="column is-12">
 					<div class="container content">
+						<img style="height:150px;margin-bottom: -20px;" src="./logo_white.svg">
+						<!--<div class="columns is-vcentered">
+							<div class="column is-2" style="width: fit-content;">
+								<img style="height:108px" src="./earth-engine_104264.svg">
+							</div>
+							<div class="column is-2" style="width: fit-content;">
+								<i class="fas fa-plus" style="font-size: 4em;"></i>
+							</div>
+							<div class="column is-2" style="width: fit-content;">
+								<i class="fas fa-lock-open" style="font-size: 6em;"></i>
+							</div>
+						  </div>-->						
 						<h1 class="title">Open Earth Engine Library (OEEL)</h1>
 						<h3 class="subtitle">
 							Collection of code goodies for Google Earth Engine(GEE)
 						</h3>
+						<a href="https://github.com/mgravey/testGithub_gee-sync_v2" target="_blank" class="button is-primary is-large">
+							<span class="icon">
+							  <i class="fab fa-github" aria-hidden="true"></i>
+							</span>
+							<span>Github</span>
+						  </a>
 					</div>
 				</div>
 			</div>
@@ -44,13 +62,13 @@
 				</div>
 				<div class="column is-9">
 					<div class="content is-medium">
-						<h3 class="title is-3">Documentation</h3>
+						<!--<h3 class="title is-3">Documentation</h3>-->
 						<div class="box" id="description">
 							<h3 class="title is-3">asImageToAsset()</h3>
 							<pre><code class="language-javascript">oeel.Export.ImageCollection.asImageToAsset(imageCollection, description, assetId, pyramidingPolicy, dimensions, region, scale, crs, crsTransform, maxPixels)</code></pre>
-							<article class="message">
+							<article class="message is-primary">
 								<div class="message-body">
-									Creates a batch task to export an ImageCollection as an Image raster to an Earth
+									<b>asImageToAsset</b> creates a batch task to export an ImageCollection as an Image raster to an Earth
 									Engine asset. Tasks can be started from the Tasks tab. each image need to have the
 									same bands
 								</div>
@@ -93,7 +111,7 @@
 				</div>
 			</div>
 		</div>
-		Last update :<span id="lastUpdate"></span>
+		Last update: <span id="lastUpdate"></span>
 	</footer>
 </body>
 <script src="doc.js"></script>

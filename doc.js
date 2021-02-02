@@ -64,8 +64,7 @@ function displayData(data, level) {
 			displayDocFunction(data);
 		}
 	}
-	var a = $(document.createElement('ul')).addClass('nested'); //menu-list 
-	//tag is-white
+	var a = $(document.createElement('ul')).addClass('nested');
 	for (var i = 0; i < keys.length; i++) {
 
 		a.addClass('level-' + level);
@@ -75,7 +74,7 @@ function displayData(data, level) {
 		var val = displayData(data[keys[i]], level + 1);
 		if (typeof (val) == 'function') {
 			b.click(val);
-			b.addClass('tag is-white is-medium')
+			b.addClass('tag-perso')
 			a.addClass('navLeaf');
 			addSearchIndex(data[keys[i]], a);
 		} else {
