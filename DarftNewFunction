@@ -1,0 +1,22 @@
+var inputs=[{name:'val',description:'this description', type:'number',defaultValue:null,optional:false},
+            {name:'val2',description:'this description', type:'number',defaultValue:null,optional:true}]
+            
+var reference={name:'example',license:'MIT', description:'blabla'};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference);
+     
+    //do whatever
+    return inputDictionary.val;
+  }
+}
+
+// remove everything after this for submission 
+
+var yourFunction=exports.createFunction(require('users/gravey_mathieu/testlibGithub_v2:openEEL').internal.internal,'');
+
+print(yourFunction(10))
