@@ -19,6 +19,8 @@ return function(){
 
 // remove everything after this for submission 
 
+// load your function
 var yourFunction=exports.createFunction(require('users/gravey_mathieu/testlibGithub_v2:openEEL').internal.internal,'');
 
+// test your function 
 print(yourFunction(10))
