@@ -1,6 +1,6 @@
 var inputs=[{name:'paramName1',description:'the description', type:'number',defaultValue:null,optional:false},
             {name:'paramName1',description:'the description', type:'ee.Image',defaultValue:null,optional:true},
-            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // remove this line if the function do not have output
+            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
             ]
             
 var reference={name:'DarftNewFunction',license:'MIT', description:'teh description of the function'};
