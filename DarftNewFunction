@@ -24,3 +24,4 @@ var yourFunction=exports.createFunction(require('users/gravey_mathieu/testlibGit
 
 // test your function 
 print(yourFunction(10))
+print({val})
