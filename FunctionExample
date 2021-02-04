@@ -18,6 +18,3 @@ return function(){
   }
 }
 
-var yourFunction=exports.createFunction();
-
-yourFunction()
