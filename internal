@@ -81,7 +81,7 @@ exports.setupLibrary=function(libs,exp){
   teminals.internal=libs;
   
   libs.ref=[];
-  libs.internal.addRef=function(ref,path){libs.ref.push(ref+{fullPath:path})}
+  libs.internal.addRef=function(ref,path){libs.ref.push(Object.assign(ref,{fullPath:path}))}
   
   teminals.refs=function(){
     return libs.ref;
