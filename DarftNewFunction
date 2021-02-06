@@ -4,7 +4,7 @@ var inputs=[{name:'paramName1',description:'the description', type:'number',defa
             ]
             
 var reference={name:'DarftNewFunction',license:'MIT', description:'the description of the function'};
-// reference can get any suplementary field that can be relevent, in particular "experimental", "DOI", authors...
+// reference can get any suplementary field that can be relevent, in particular "experimental", "DOI", contributors...
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
