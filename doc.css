@@ -132,6 +132,10 @@ nav >ul{
 	padding-right: 50px;
 }
 
+.codeBlockWithCB:hover .clipboard{
+	display:block;
+}
+
 footer.footer{
 	position: fixed;
     bottom: 0;
@@ -177,6 +181,20 @@ footer.footer section.section{
 .container.content.header img{
 	width: 200px;
 	margin: 0px 59px;
+}
+
+li.tag-perso span{
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li{
+	margin-right: 0;
+}
+
+.DOI{
+	float:right;
 }
 
 

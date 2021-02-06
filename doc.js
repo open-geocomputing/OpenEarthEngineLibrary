@@ -1,4 +1,5 @@
 indexDictionary = [];
+listFunctions={};
 
 initialLocation = window.location.href.match('#.*');
 if (initialLocation)
@@ -10,17 +11,37 @@ function displayDocFunction(data) {
 	doc.empty();
 
 	if (data.reference.license) {
-		$('#reference-license').attr("src",'https://img.shields.io/badge/license-' + data.reference.license + '-blue');
-		$('#reference-license').show()
-	} else {
-		$('#reference-license').hide()
+		doc.append($("<img>", {id: "reference-license", "class": "subtitle", "src":'https://img.shields.io/badge/license-' + data.reference.license + '-blue'}));
 	}
-	
-	$('#reference-name').html(data.reference.name)
-	$('#reference-code').html('oeel' + data.fullPath + '(' + data.inputs.map(i => i.name).join(', ') +')')
-	$('#reference-description').html('<b>'+data.reference.name+'.</b> '+data.reference.description)
+
+	doc.append($("<h3>", {id: "reference-name", "class": "title is-3"}).html('oeel' + data.fullPath+'(...)'));
+	var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+	doc.append($("<div>", {"class": "codeBlockWithCB"})
+		.append($("<pre>")
+		.append($("<code>", {id: "reference-code", "class": "language-javascript"})
+			.html('oeel' + data.fullPath + '(' + data.inputs.map(i => i.name).join(', ') +')')))
+		.append(clipboardElement));
+	doc.append($("<article>", {"class": "message is-primary"})
+		.append($("<div>", {id: "reference-description", "class": "message-body"})
+			.html('<b>'+data.reference.name+'.</b> '+data.reference.description)));
+	if(data.reference.experimental){
+			doc.append($("<article>", {"class": "message is-warning"}) // is-danger
+		.append($("<div>", {id: "reference-experimental", "class": "message-body"})
+			.html('<i class="fas fa-flask"></i>  '+'This is an experimental function!')));
+	}
+
+	doc.append($("<h4>", {"class": "title is-4"}).html('Arguments:'));
+	var argumentsList=$("<ul>", {"id": "arguments"});
+	doc.append(argumentsList);
+
+
+	doc.append($("<h4>", {"class": "title is-4"}).html('Return:'));
+	var returnslist=$("<ul>", {"id": "returns"});
+	doc.append(returnslist);
+
+
 	var inputs = data.inputs.filter( input => input.name != 'Return');
-	$('#arguments').html(inputs.map( i => {
+	argumentsList.html(inputs.map( i => {
 		t = '<li><code>' + i.name + (!i.optional ? '*':'')+'</code> ' 
 		t += '<span class="tag">'+ i.type +'</span>'
 		t += i.defaultValue ? ('<span class="defaultvalue">  Default:'+ i.defaultValue+'</span>' )+'.': ""
@@ -30,7 +51,37 @@ function displayDocFunction(data) {
 	}).join(''))
 
 	var returns = data.inputs.filter( input => input.name == 'Return');
-	$('#returns').html(returns.map( i => '<li><code>Return</code><span class="tag">'+ i.type +'</span></li>').join(''))
+	returnslist.html(returns.map( i => '<li><code>Return</code><span class="tag">'+ i.type +'</span></li>').join(''))
+
+	if (data.reference.DOI) {
+		var doiArticle=$("<article>", {"class": "message is-info"})
+		doc.append(doiArticle)
+		doiArticle.append($("<div>", {id: "reference-description", "class": "message-header"})
+			.html('How to cite').append($("<a>", {id: "reference-DOI", "class": "DOI", "target":"_blank", "href":'https://www.doi.org/'+data.reference.DOI}).html(data.reference.DOI)));
+		var citation=$("<div>", {id: "reference-apa", "class": "message-body"});
+		doiArticle.append(citation)
+
+
+		var request = new XMLHttpRequest;
+		
+		request.open('GET', 'https://dx.doi.org/'+data.reference.DOI, true);
+		request.setRequestHeader('Accept', 'text/x-bibliography; style=apa')
+
+		request.onload = function () {
+			if (request.status >= 200 && request.status < 400) {
+				// Success!
+				data = request.responseText;
+				citation.html(data)
+			}
+		};
+
+		request.send()
+			
+	}
+
+
+
+
 
 	text2copy = 'oeel' + data.fullPath + '({\n'
 	text2copy += inputs.map( function(i){
@@ -46,13 +97,40 @@ function displayDocFunction(data) {
 	}).join(',\n')
 	text2copy += '});'
 
-	$('.clipboard').click(function () {
+	clipboardElement.click(function () {
 		navigator.clipboard.writeText(text2copy)
 	});
 	Prism.highlightAll();
-	window.history.pushState("object or string", "Title", "#" + data.fullPath);
+	var location = window.location.href.match('#.*');
+	var currentLocation='';
+	if(location)
+		currentLocation=location[0].substring(1)
+	if (data.fullPath!=currentLocation)
+	{
+		window.history.pushState("object or string", "Title", "#" + data.fullPath);
+	}
+	
 }
 
+function displayStartingPage(){
+	var doc = $('#description');
+	doc.empty();
+	doc.append($('<p>').html("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod\
+								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,\
+								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo\
+								consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse\
+								cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non\
+								proident, sunt in culpa qui officia deserunt mollit anim id est laborum."));
+}
+
+window.onpopstate = function(event) {
+	var location = window.location.href.match('#.*');
+	if (location)
+		selectMenu(location[0].substring(1));
+	else{
+		displayStartingPage();
+	}
+};
 
 function displayData(data, level) {
 	var keys = Object.keys(data);
@@ -74,6 +152,9 @@ function displayData(data, level) {
 			b.addClass('tag-perso')
 			a.addClass('navLeaf');
 			addSearchIndex(data[keys[i]], a);
+			if(data[keys[i]].reference.experimental){
+				title.append('<i class="fas fa-flask"></i>');
+			}
 		} else {
 			title.addClass('caret');
 			b.append(val);
@@ -88,16 +169,17 @@ function displayData(data, level) {
 			$(this).toggleClass("caret-down");
 		})
 
-		if (initialLocation == data[keys[i]].fullPath) {
-			selectedAtLoading = title;
-		}
+		listFunctions[data[keys[i]].fullPath]=title;
 
 	}
 	return a;
 }
 
-function selectMenu() {
-	selectedAtLoading.parentsUntil().filter('li').children('span').click();
+function selectMenu(location) {
+	var element=listFunctions[location];
+	element.click()
+	element.parentsUntil().filter('li').children('span').addClass('caret-down');
+	element.parentsUntil().filter('li').children('.nested').addClass("active")
 }
 
 //search engine
@@ -149,11 +231,11 @@ $('#search').on('propertychange input', function (e) {
 	}
 });
 
-$(".codeBlockWithCB").mouseenter(function() {
-	$(".clipboard").show();
-}).mouseleave(function() {
-	$(".clipboard").hide();
-});
+// $(".codeBlockWithCB").mouseenter(function() {
+// 	$(".clipboard").show();
+// }).mouseleave(function() {
+// 	$(".clipboard").hide();
+// });
 
 // load data 
 var request = new XMLHttpRequest;
@@ -167,7 +249,7 @@ request.onload = function () {
 		delete data.timeSinceEpoch;
 		$('#menuID').append(displayData(data, 0).removeClass('nested'))
 		makeIndex();
-		selectMenu();
+		selectMenu(initialLocation);
 	} else {
 		// We reached our target server, but it returned an error
 
