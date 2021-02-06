@@ -4,7 +4,10 @@ var inputs=[{name:'paramName1',description:'the description', type:'number',defa
             ]
             
 var reference={name:'DarftNewFunction',license:'MIT', description:'the description of the function'};
-// reference can get any suplementary field that can be relevent, in particular "experimental", "DOI", contributors ...
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
