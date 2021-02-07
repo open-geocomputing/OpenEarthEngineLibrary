@@ -46,10 +46,10 @@ return function(){
     var demImage=inputDictionary.dem;
     
     var fun=function(originalImage){
-      image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
+      var image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
       var SA=image.select('SolarAzimuth').divide(180/3.14);
-      var angleImageMask = ee.Image.constant(maxAngle).gt(SA).and(ee.Image.constant(minAngle).lt(SA));
-      angleImageMask = angleImageMask.not().multiply(100000).add(1);
+      var angleImageMask = ee.Image.constant(maxAngle).gt(SA).and(ee.Image.constant(minAngle).lt(SA)).not().multiply(100000).add(1);
+
       var imageOfBands=demImage.neighborhoodToBands(kernel)
         .subtract(ee.Image.constant(weights.flatten()).multiply(ee.Image.pixelArea().sqrt())  // hypothesis of squared pixel
           .multiply(image.select('SolarZenith').subtract(90).divide(-180/3.14).tan()).multiply(angleImageMask))
