@@ -40,7 +40,8 @@ return function(){
     var fun=function(im){
       
       var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0})
-      if(dataKernel)
+      return mask.rename('estimate');
+      /*if(dataKernel)
       {
         mask=mask.multiply(dataKernel);
       }
@@ -53,7 +54,7 @@ return function(){
       ImageK0=ImageK0.arrayMask(mask);
       return ImageK0.rename('estimate');
       
-      var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
+      /*var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
       
       /*var coef=ImageK.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
       var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
