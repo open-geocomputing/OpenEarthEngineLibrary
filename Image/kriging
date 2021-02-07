@@ -46,14 +46,14 @@ return function(){
       }
       mask=mask.arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],1);
       var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],0).arrayMask(mask);
-      return im.rename('estimate');
+    
       mask=mask.arrayReshape(ee.Array([-1,1]),2);
       
 
       ImageK0=ImageK0.arrayMask(mask);
       return ImageK0.rename('estimate');
       
-      /*var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
+      //var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
       
       /*var coef=ImageK.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
       var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
