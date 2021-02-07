@@ -38,7 +38,7 @@ return function(){
     var kernel=ee.Kernel.square(halfSize);
     
     var fun=function(im){
-      var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0})
+      /*var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0})
       if(dataKernel)
       {
         mask=mask.multiply(dataKernel);
@@ -64,7 +64,7 @@ return function(){
       var reuslt=im.addBands([estimate.rename('estimate'),variance.rename('variance')]);
       
       reuslt=reuslt.reproject(im.projection())
-      return reuslt;
+      return reuslt;*/
     }
     
     if(inputDictionary.image)
