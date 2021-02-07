@@ -32,7 +32,7 @@ return function(){
     
     var K0=covFun(dist.pow(2).reduce(ee.Reducer.sum(), [2]).sqrt().reshape([-1,1])).pad([numberOfElement+1,0],1);
     
-    var ImageK=ee.Image.constant(K);
+    var ImageKc=ee.Image.constant(K);
     var ImageK0c=ee.Image.constant(K0);
     
     var kernel=ee.Kernel.square(halfSize);
@@ -50,7 +50,7 @@ return function(){
       mask=mask.arrayReshape(ee.Array([-1,1]),2);
       
 
-      ImageK0=ImageK0c.arrayMask(mask);
+      var ImageK0=ImageK0c.arrayMask(mask);
       return ImageK0.rename('estimate');
       
       //var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
