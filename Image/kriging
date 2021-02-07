@@ -59,7 +59,6 @@ return function(){
       var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(covFun(ee.Array([0]))).arrayGet([0])
               .subtract(coef.arrayGet([-1]).multiply(2)).multiply(-1).updateMask(dataSize);
       
-      return estimage.rename('estimate')
       if(inputDictionary.skipInfomed){
         estimate=estimate.where(im,im);
         variance=variance.where(im,0);
