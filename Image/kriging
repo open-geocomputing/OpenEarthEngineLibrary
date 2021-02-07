@@ -38,7 +38,7 @@ return function(){
     var kernel=ee.Kernel.square(halfSize);
     
     var fun=function(im){
-      return im;
+      return im.rename('estimate');
       /*var mask=im.mask().neighborhoodToArray({kernel:kernel, defaultValue:0})
       if(dataKernel)
       {
