@@ -197,4 +197,17 @@ li{
 	float:right;
 }
 
+.menu-mainSection li{
+	margin-left: 0;
+}
+
+span.mainSectionButton {
+    left: 50px;
+    position: absolute;
+}
+
+#description p{
+	text-align: justify;
+}
+
 
