@@ -48,7 +48,7 @@ function displayDocFunction(data) {
 		returnslist.html(returns.map( i => '<li><code>Return</code><span class="tag">'+ i.type +'</span></li>').join(''))
 	}
 
- 	// and DOI
+	// and DOI
 	if (data.reference.DOI) {
 		var doiArticle=$("<article>", {"class": "message is-info"})
 		doc.append(doiArticle)
@@ -109,13 +109,29 @@ function displayStartingPage(){
 	doc.empty();
 	doc.append($("<h2>", {id: "startPage ", "class": "title is-3"}).html('How to use the library?'));
 	doc.append($('<p>').html("To use the library simply do the following import in your code, then use the functions."))
-	
+	{
+		var theCode="var oeel=require('users/gravey_mathieu/testlibGithub_v2:openEEL')";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCode)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-javascript"})
+				.html(theCode)))
+			.append(clipboardElement));
+	}
 	doc.append($('<p>').html("It’s as simple!"))
 
 	doc.append($("<h2>", {id: "startPage ", "class": "title is-3"}).html('You need to know which function you used?'));
 	doc.append($('<p>').html("Simply add at the end of your code, and you will get the list of all function used and other related information."))
 
-	
+	{
+		var theCodeRef="print('List of functions used',oeel.refs())";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-javascript"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
 
 	doc.append($("<h2>", {id: "startPage ", "class": "title is-3"}).html('License?'));
 	doc.append($('<p>').html("Each function has its own license so please refer to it directly.<br>The license of the library is GPLv3, but this is only including the library architecture (synchronization with GEE, documentation code…) it’s unrelated to the license of each function."))
