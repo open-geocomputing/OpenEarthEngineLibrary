@@ -1,4 +1,5 @@
-var inputs=[{name:'kernelHalfSize',description:'The radius of the kernel', type:'number',defaultValue:10,optional:false},
+var inputs=[{name:'dem',description:'the DEM to use', type:'ee.Image',optional:false},
+            {name:'kernelHalfSize',description:'The radius of the kernel', type:'number',defaultValue:10,optional:false},
             {name:'image',description:'A MODIS image', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
@@ -42,18 +43,18 @@ return function(){
     var kernel=ee.Kernel.fixed(2*halfSize+1, 2*halfSize+1, weights);
     var maxAngle=computeMaxAngle(halfSize).flatten();
     var minAngle=computeMinAngle(halfSize).flatten();
-    
+    var demImage=
     
     var fun=function(originalImage){
       var image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
       var SA=image.select('SolarAzimuth').divide(180/3.14);
       var angleImageMask = ee.Image.constant(maxAngle).gt(SA).and(ee.Image.constant(minAngle).lt(SA));
       angleImageMask = angleImageMask.not().multiply(100000).add(1);
-      var imageOfBands=srtm.neighborhoodToBands(kernel)
+      var imageOfBands=demImage.neighborhoodToBands(kernel)
         .subtract(ee.Image.constant(weights.flatten()).multiply(ee.Image.pixelArea().sqrt())  // hypothesis of squared pixel
           .multiply(image.select('SolarZenith').subtract(90).divide(-180/3.14).tan()).multiply(angleImageMask))
       var maxElevationWithShadow=imageOfBands.reduce(ee.Reducer.max());
-      return image.addBands(srtm.lt(maxElevationWithShadow).rename('shadowMask'))
+      return image.addBands(demImage.lt(maxElevationWithShadow).rename('shadowMask'))
             .addBands(originalImage.select(['SolarZenith','SolarAzimuth']),['SolarZenith','SolarAzimuth'],true);
     }
     
