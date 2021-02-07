@@ -44,10 +44,9 @@ return function(){
       {
         mask=mask.multiply(dataKernel);
       }
-      return mask.rename('estimate');
       mask=mask.arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],1);
       var r=im.unmask(0).neighborhoodToArray({kernel:kernel, defaultValue:0}).arrayReshape(ee.Array([-1]),1).arrayPad([numberOfElement+1],0).arrayMask(mask);
-    
+      return im.rename('estimate');
       mask=mask.arrayReshape(ee.Array([-1,1]),2);
       
 
