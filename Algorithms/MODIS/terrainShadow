@@ -1,5 +1,6 @@
 var inputs=[{name:'modisImage',description:'A MODIS image', type:'ee.Image',defaultValue:null,optional:false},
             {name:'kernelHalfSize',description:'The radius of the kernel', type:'number',defaultValue:10,optional:false},
+            {name:'image',description:'The image on which to run the computation', type:'ee.Image',optional:true},
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
 var reference={name:'terrainShadow',license:'MIT', description:'Compute the terrain shadow of MODIS images'};
@@ -44,8 +45,8 @@ return function(){
     var minAngle=computeMinAngle(halfSize).flatten();
     
     
-    return function(originalImage){
-      image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
+    var fun=function(originalImage){
+      var image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
       var SA=image.select('SolarAzimuth').divide(180/3.14);
       var angleImageMask = ee.Image.constant(maxAngle).gt(SA).and(ee.Image.constant(minAngle).lt(SA));
       angleImageMask = angleImageMask.not().multiply(100000).add(1);
@@ -56,6 +57,11 @@ return function(){
       return image.addBands(srtm.lt(maxElevationWithShadow).rename('shadowMask'))
             .addBands(originalImage.select(['SolarZenith','SolarAzimuth']),['SolarZenith','SolarAzimuth'],true);
     }
+    
+    if(inputDictionary.image)
+      return fun(inputDictionary.image);
+    else
+      return fun;
   }
 }
 
