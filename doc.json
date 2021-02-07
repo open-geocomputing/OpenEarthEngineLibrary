@@ -26,16 +26,16 @@
                         "optional": false
                     },
                     {
+                        "name": "assetId",
+                        "description": "The destination asset ID.",
+                        "type": "string|ee.String",
+                        "optional": false
+                    },
+                    {
                         "name": "description",
                         "description": "A human-readable name of the task. Defaults to \"myExportImageTask\"",
                         "type": "string|ee.String",
                         "defaultValue": "myExportImageTask",
-                        "optional": true
-                    },
-                    {
-                        "name": "assetId",
-                        "description": "The destination asset ID.",
-                        "type": "string|ee.String",
                         "optional": true
                     },
                     {
@@ -107,7 +107,7 @@
                         "name": "description",
                         "description": "A human-readable prefix name for the tasks.",
                         "type": "string",
-                        "defaultValue": "",
+                        "defaultValue": " ",
                         "optional": false
                     },
                     {
@@ -316,10 +316,9 @@
             "terrainShadow": {
                 "inputs": [
                     {
-                        "name": "modisImage",
-                        "description": "A MODIS image",
+                        "name": "dem",
+                        "description": "the DEM to use",
                         "type": "ee.Image",
-                        "defaultValue": null,
                         "optional": false
                     },
                     {
@@ -328,6 +327,12 @@
                         "type": "number",
                         "defaultValue": 10,
                         "optional": false
+                    },
+                    {
+                        "name": "image",
+                        "description": "A MODIS image",
+                        "type": "ee.Image",
+                        "optional": true
                     },
                     {
                         "name": "Return",
@@ -464,5 +469,5 @@
             "fullPath": ".ImageCollection.fromSingleImage"
         }
     },
-    "timeSinceEpoch": 1612635902844
+    "timeSinceEpoch": 1612716466229
 }
