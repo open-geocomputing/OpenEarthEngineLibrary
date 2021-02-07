@@ -43,7 +43,7 @@ return function(){
     var kernel=ee.Kernel.fixed(2*halfSize+1, 2*halfSize+1, weights);
     var maxAngle=computeMaxAngle(halfSize).flatten();
     var minAngle=computeMinAngle(halfSize).flatten();
-    var demImage=
+    var demImage=inputDictionary.dem;
     
     var fun=function(originalImage){
       var image=originalImage.addBands(originalImage.select(['SolarZenith','SolarAzimuth']).toFloat().divide(100),['SolarZenith','SolarAzimuth'],true);
