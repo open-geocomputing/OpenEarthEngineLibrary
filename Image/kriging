@@ -51,24 +51,23 @@ return function(){
       
 
       var ImageK0=ImageK0c.arrayMask(mask);
-      return ImageK0.rename('estimate');
       
-      //var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
+      var dataSize=ImageK0.gt(0).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0,0]).gt(3);
       
-      /*var coef=ImageK.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
+      var coef=ImageKc.arrayMask(mask).arrayTranspose().arrayMask(mask).matrixSolve(ImageK0).arrayReshape(ee.Array([-1]),1);
       var estimate=coef.multiply(r).arrayReduce(ee.Reducer.sum(),[0]).arrayGet([0]).updateMask(dataSize);
       var variance=coef.multiply(ImageK0.arrayReshape(ee.Array([-1]),1)).arrayReduce(ee.Reducer.sum(),[0]).subtract(covFun(ee.Array([0]))).arrayGet([0])
               .subtract(coef.arrayGet([-1]).multiply(2)).multiply(-1).updateMask(dataSize);
       
       return estimage.rename('estimate')
-      /*if(inputDictionary.skipInfomed){
+      if(inputDictionary.skipInfomed){
         estimate=estimate.where(im,im);
         variance=variance.where(im,0);
       }
       var reuslt=im.addBands([estimate.rename('estimate'),variance.rename('variance')]);
       
       reuslt=reuslt.reproject(im.projection())
-      return reuslt;*/
+      return reuslt;
     }
     
     if(inputDictionary.image)
