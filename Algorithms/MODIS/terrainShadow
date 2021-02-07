@@ -43,7 +43,7 @@ return function(){
     var kernel=ee.Kernel.fixed(2*halfSize+1, 2*halfSize+1, weights);
     var maxAngle=computeMaxAngle(halfSize).flatten();
     var minAngle=computeMinAngle(halfSize).flatten();
-    demImage=inputDictionary.dem;
+     demImage=inputDictionary.dem;
     var demAsBands=demImage.neighborhoodToBands(kernel);
     
     var fun=function(originalImage){
