@@ -86,7 +86,7 @@ function displayDocFunction(data) {
 		}
 		return t
 	}).join(',\n')
-	text2copy += '});'
+	text2copy += '\n});'
 
 	// manage history in the browser
 	clipboardElement.click(function () {
