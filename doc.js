@@ -1,6 +1,6 @@
 indexDictionary = [];
 listFunctions={};
-exampleRepoName="users/gravey_mathieu/example4Lib"
+exampleRepoName="users/OEEL/examples"
 
 function displayDocFunction(data) {
 	$('.documentation-menu').show();
@@ -129,7 +129,7 @@ function displayStartingPage(){
 	doc.append($("<h2>", {id: "startPage ", "class": "title is-3"}).html('How to use the library?'));
 	doc.append($('<p>').html("To use the library simply do the following import in your code, then use the functions."))
 	{
-		var theCode="var oeel=require('users/gravey_mathieu/testlibGithub_v2:openEEL')";
+		var theCode="var oeel=require('users/OEEL/lib:loadAll')";
 		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
 		clipboardElement.click(function () {navigator.clipboard.writeText(theCode)});
 		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
@@ -177,7 +177,7 @@ function displayContributePage(){
 	doc.append($('<p>').html("You know how to fix it? Submit an edit with a justification of the issue (and possible an example). You don’t know? It’s not a problem simply open an issue on GitHub. The community can probably help you."));
 	doc.append($("<h3>", {"class": "title is-3"}).html("A new function?"));
 	doc.append($('<p>').html("You have a new function to add? Already thanks for considering it.\
-		Start with a look on the <a href='https://code.earthengine.google.com/?scriptPath=users%2Fgravey_mathieu%2FtestlibGithub_v2%3ADarftNewFunction' target='_blank'>draft script</a>, that provide a baseline to write new functions.\
+		Start with a look on the <a href='https://code.earthengine.google.com/?scriptPath=users%2FOEEL%2Flib%3ADarftNewFunction' target='_blank'>draft script</a>, that provide a baseline to write new functions.\
 		Start by filing the inputs section and the description, then implement the function. Finally, use the bottom part to implement the test and debug the function."));
 	doc.append($('<p>').html("To submit your contribution simply copy the upper part (from inputs to the end of your function)"));
 	doc.append($("<h4>", {"class": "title is-4"}).html("The inputs:"));
@@ -368,7 +368,7 @@ request.onload = function () {
 
 // load data 
 var requestExample = new XMLHttpRequest;
-requestExample.open('GET', 'https://raw.githubusercontent.com/mgravey/OpenEEL_Examples/master/doc/functionPerExample.json', true);
+requestExample.open('GET', 'https://raw.githubusercontent.com/OEEL/OpenEEL_Examples/master/doc/functionPerExample.json', true);
 
 requestExample.onload = function () {
 	if (requestExample.status >= 200 && requestExample.status < 400) {
