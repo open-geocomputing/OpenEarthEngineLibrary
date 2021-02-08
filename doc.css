@@ -170,7 +170,7 @@ footer.footer section.section{
 
 .pageTitle{
 	flex-grow: 2;
-	margin: 0 24px;
+	/*margin: 0 24px;*/
 }
 
 .container.content.header{
@@ -222,8 +222,15 @@ span.mainSectionButton {
 	font-size: revert;
 }
 
-a.main-logo, a.main-logo img{
+a.main-logo img{
 	height:150px;
+	width: auto;
+}
+
+a.main-logo{
+	height:150px;
+	width: 342px;
+	text-align: center;
 }
 
 .menu-list .documentation-menu  li ul
