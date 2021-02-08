@@ -312,6 +312,39 @@
         }
     },
     "Algorithms": {
+        "Sentinel1": {
+            "removeS1BlackBorders": {
+                "inputs": [
+                    {
+                        "name": "threshold",
+                        "description": "The threshold to remove the black border. ( A number or a parameter name) ",
+                        "type": "number|string|ee.Number",
+                        "defaultValue": -25,
+                        "optional": false
+                    },
+                    {
+                        "name": "image",
+                        "description": "The image on which to run the computation",
+                        "type": "ee.Image",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "function|ee.Image",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "removeS1BlackBorders",
+                    "license": "MIT",
+                    "description": "Remove black borders of Sentinel 1 images.",
+                    "experimental": true
+                },
+                "fullPath": ".Algorithms.Sentinel1.removeS1BlackBorders"
+            }
+        },
         "MODIS": {
             "terrainShadow": {
                 "inputs": [
@@ -469,5 +502,5 @@
             "fullPath": ".ImageCollection.fromSingleImage"
         }
     },
-    "timeSinceEpoch": 1612819425957
+    "timeSinceEpoch": 1612819514109
 }
