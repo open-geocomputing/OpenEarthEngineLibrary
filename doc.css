@@ -241,3 +241,106 @@ a.main-logo{
 .pageTitle .subtitle{
 	margin-bottom: 0px;
 }
+
+html {
+	--text-Color: #4a4a4a;
+	--title-Color:#363636;
+	--deep-bg-Color: #f2f2f2;
+	--light-bg-Color: #fff;
+	--code-bg-Color: #f5f5f5;
+	--code-Color: #f14668;
+	--text-green-border-color:#00d1b2;
+	--text-green-color:#00947e;
+	--text-green-bg-color:#ebfffc;
+	--text-yellow-border-color:#ffdd57;
+	--text-yellow-color:#947600;
+	--text-yellow-bg-color:#fffbeb;
+	--text-blue-border-color:#3273dc;
+	--text-blue-color:#2160c4;
+	--text-blue-bg-color:#eef3fc;
+}
+
+@media (prefers-color-scheme: dark){
+	html {
+		--text-Color: #cfcfcf;
+		--title-Color:#e3e3e3;
+		--deep-bg-Color: #111111;
+		--light-bg-Color: #000;
+		--code-bg-Color: #242424;
+		--code-Color: #b90e30;
+		--text-green-border-color:#2effe0;
+		--text-green-color:#9efff0;
+		--text-green-bg-color:#00473d;
+		--text-yellow-border-color:#dbaf00;
+		--text-yellow-color:#ffec9e;
+		--text-yellow-bg-color:#473900;
+		--text-blue-border-color:#6f9de7;
+		--text-blue-color:#92b5ed;
+		--text-blue-bg-color:#0b1c3d;
+	}
+}
+
+body, .title, .box {
+	color:var(--text-Color);
+}
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6, .title {
+	color:var(--title-Color);
+}
+
+body, html {
+	background: var(--deep-bg-Color);
+}
+
+html{
+	background-color:var(--title-Color);
+}
+
+.box, .tag-perso {
+	background-color: var(--light-bg-Color);
+}
+
+.caret::before{
+	color:var(--text-Color);
+}
+
+code  {
+    background-color: var(--code-bg-Color);
+    /*color: var(--code-Color);*/
+}
+
+.tag:not(body){
+	background-color: var(--code-bg-Color);
+	color: var(--text-Color);
+}
+
+.message.is-primary .message-body{
+	border-color: var(--text-green-border-color);
+	color: var(--text-green-color);
+}
+
+.message.is-primary {
+	background-color: var(--text-green-bg-color);
+}
+
+.message.is-warning .message-body{
+	border-color: var(--text-yellow-border-color);
+	color: var(--text-yellow-color);
+}
+
+.message.is-warning {
+	background-color: var(--text-yellow-bg-color);
+}
+
+.message.is-link .message-body{
+	border-color: var(--text-blue-border-color);
+	color: var(--text-blue-color);
+}
+
+.message.is-link {
+	background-color: var(--text-blue-bg-color);
+}
+
+.footer {
+	background-color: var(--light-bg-Color);
+}
