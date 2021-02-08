@@ -368,7 +368,7 @@ request.onload = function () {
 
 // load data 
 var requestExample = new XMLHttpRequest;
-requestExample.open('GET', 'https://raw.githubusercontent.com/OEEL/OpenEEL_Examples/master/doc/functionPerExample.json', true);
+requestExample.open('GET', 'https://raw.githubusercontent.com/open-geocomputing/OpenEEL_Examples/master/doc/functionPerExample.json', true);
 
 requestExample.onload = function () {
 	if (requestExample.status >= 200 && requestExample.status < 400) {
