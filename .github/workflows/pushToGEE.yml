@@ -39,8 +39,8 @@ jobs:
           GEE_REPO_ADDRESS: ${{secrets.GEE_REPO_ADDRESS}}
         run: |
           python genearteOpenEEL.py
-          git add openEEL
-          git commit -m 'update openEEL'
+          git add loadAll
+          git commit -m 'update loadAll'
           git push
 
       - name: mirror the git

@@ -22,6 +22,6 @@ libString='var libs='+json.dumps(val).replace('"','')+\
 				'\n\n//generated automatically the '+str(datetime.utcnow())+\
 				'UTC \n\n'+'exports=libs.internal.setupLibrary(libs);';
 
-text_file = open("openEEL", "w")
+text_file = open("loadAll", "w")
 text_file.write(libString)
 text_file.close()
