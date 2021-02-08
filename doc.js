@@ -1,5 +1,6 @@
 indexDictionary = [];
 listFunctions={};
+exampleRepoName="users/gravey_mathieu/example4Lib"
 
 function displayDocFunction(data) {
 	$('.documentation-menu').show();
@@ -72,6 +73,24 @@ function displayDocFunction(data) {
 		};
 		request.send()
 	}
+
+	// add examples
+	var localExample=null
+	if(exampleData && (localExample=exampleData["OpenEEL"+data.fullPath])){
+		console.log("OpenEEl"+data.fullPath,localExample)
+		doc.append($("<h4>", {"class": "title is-4"}).html('Examples:'));
+		var examplesList=$("<ul>", {"id": "examplesList"});
+		doc.append(examplesList);
+		examplesList.html(localExample.map( i => {
+			return $("<li>").append($("<a>", {"class": "linkExample", 
+				href:"https://code.earthengine.google.com/?scriptPath="+exampleRepoName+":"+i, target:'_blank'}).html(i));
+			}))
+	}
+
+
+
+
+
 
 	// format copy to be used in GEE
 	text2copy = 'oeel' + data.fullPath + '({\n'
@@ -158,7 +177,7 @@ function displayContributePage(){
 	doc.append($('<p>').html("You know how to fix it? Submit an edit with a justification of the issue (and possible an example). You don’t know? It’s not a problem simply open an issue on GitHub. The community can probably help you."));
 	doc.append($("<h3>", {"class": "title is-3"}).html("A new function?"));
 	doc.append($('<p>').html("You have a new function to add? Already thanks for considering it.\
-		Start with a look on the <a href='https://code.earthengine.google.com/?scriptPath=users%2Fgravey_mathieu%2FtestlibGithub_v2%3ADarftNewFunction' target='_blanck'>draft script</a>, that provide a baseline to write new functions.\
+		Start with a look on the <a href='https://code.earthengine.google.com/?scriptPath=users%2Fgravey_mathieu%2FtestlibGithub_v2%3ADarftNewFunction' target='_blank'>draft script</a>, that provide a baseline to write new functions.\
 		Start by filing the inputs section and the description, then implement the function. Finally, use the bottom part to implement the test and debug the function."));
 	doc.append($('<p>').html("To submit your contribution simply copy the upper part (from inputs to the end of your function)"));
 	doc.append($("<h4>", {"class": "title is-4"}).html("The inputs:"));
@@ -326,8 +345,9 @@ $('#search').on('propertychange input', function (e) {
 	}
 });
 
+
 // load data 
-var request = new XMLHttpRequest;
+request = new XMLHttpRequest;
 request.open('GET', 'doc.json', true);
 
 request.onload = function () {
@@ -345,4 +365,24 @@ request.onload = function () {
 	}
 };
 
-request.send();
+
+// load data 
+var requestExample = new XMLHttpRequest;
+requestExample.open('GET', 'https://raw.githubusercontent.com/mgravey/OpenEEL_Examples/master/doc/functionPerExample.json', true);
+
+requestExample.onload = function () {
+	if (requestExample.status >= 200 && requestExample.status < 400) {
+		// Success!
+		exampleData = JSON.parse(requestExample.responseText);
+		delete exampleData.timeSinceEpoch;
+	} else {
+		// We reached our target server, but it returned an error
+
+	}
+	request.send();
+};
+
+requestExample.send();
+
+
+
