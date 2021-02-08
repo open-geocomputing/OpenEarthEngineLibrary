@@ -1,0 +1,34 @@
+var oeel=require('users/gravey_mathieu/testlibGithub_v2:openEEL')
+
+try{
+  print(oeel.example(10))
+  print("error0 :OK")
+}catch(e){
+  print("error0 :Fail",e)
+}
+
+try{
+  print(oeel.example({val:10,frefv:1}))
+  print("error0 :OK")
+}catch(e){
+  print("error0 :Fail",e)
+}
+try{
+  print(oeel.example({val2:10}))
+  print("error1 :Fail")
+}catch(e){
+  print("error1 :OK",e)
+}
+try{
+  print(oeel.example({}))
+  print("error2 :Fail")
+}catch(e){
+  print("error2 :OK",e)
+}
+try{
+  print(oeel.example())
+  print("error3 :Fail")
+}catch(e){
+  print("error3 :OK",e)
+}
+print('list of functions used',oeel.refs())
