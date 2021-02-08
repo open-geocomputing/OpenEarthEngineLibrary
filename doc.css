@@ -1,5 +1,8 @@
 @font-face{font-family:"Font Awesome 5 Free2";font-style:normal;font-weight:900;font-display:block;src:url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.eot);src:url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.eot?#iefix) format("embedded-opentype"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.woff2) format("woff2"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.woff) format("woff"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.ttf) format("truetype"),url(https://ka-f.fontawesome.com/releases/v5.15.2/webfonts/free-fa-solid-900.svg#fontawesome) format("svg")}
 
+body{
+	min-height: 100vh;
+}
 
 .doc{
 	display: flex;
@@ -138,8 +141,8 @@ nav >ul{
 }
 
 footer.footer{
-	/*position: fixed;*/
-    bottom: 0;
+	position: sticky;
+    top: 100vh;
     width: 100%;
     padding: 2rem 0 2rem 0;
 }
