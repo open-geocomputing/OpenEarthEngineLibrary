@@ -211,6 +211,10 @@ span.mainSectionButton {
 	text-align: justify;
 }
 
+.documentation-menu{
+	padding:0 10px;
+}
+
 .documentation-menu span{
 	font-size: revert;
 }
@@ -219,3 +223,11 @@ a.main-logo, a.main-logo img{
 	height:150px;
 }
 
+.menu-list .documentation-menu  li ul
+{
+	margin:0px;
+}
+
+.pageTitle .subtitle{
+	margin-bottom: 0px;
+}
