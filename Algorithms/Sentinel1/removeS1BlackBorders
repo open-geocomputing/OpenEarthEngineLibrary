@@ -1,0 +1,26 @@
+var inputs=[{name:'threshold',description:'The threshold to remove the black border. ( A number or a parameter name) ', type:'number|string|ee.Number',defaultValue:-25,optional:false},
+            {name:'image',description:'The image on which to run the computation', type:'ee.Image',optional:true},
+            {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
+            
+            
+var reference={name:'removeS1BlackBorders',license:'MIT', description:'Remove black borders of Sentinel 1 images.', experimental:true};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    if(internal.typeObject(inputDictionary.threshold)=='sting'){
+      return function(image){
+        return image.updateMask(ee.Image.constant(1).where(ee.FeatureCollection(image.geometry()).distance(10000),image.select(0).gt(ee.Number(im.get(inputDictionary.threshold)))));
+      }
+    }else
+    {
+      return function(image){
+        return image.updateMask(ee.Image.constant(1).where(ee.FeatureCollection(image.geometry()).distance(10000),image.select(0).gt(inputDictionary.threshold)));
+      }
+    }
+  }
+}
