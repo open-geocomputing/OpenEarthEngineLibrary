@@ -172,7 +172,7 @@ function displayContributePage(){
 	Simply open the related file on GitHub and propose an edit.\
 	<br>On this website, you can edit this web page on the “gh-pages” branch on GitHub."));
 	doc.append($("<h3>", {"class": "title is-3"}).html("Missing examples"));
-	doc.append($('<p>').html("You can simply add example on the dedicated GitHub repository"));
+	doc.append($('<p>').html("You can simply add example on the <a href='https://github.com/open-geocomputing/OpenEEL_Examples' target=_blank>dedicated GitHub repository</a>"));
 	doc.append($("<h3>", {"class": "title is-3"}).html("Bugs?"));
 	doc.append($('<p>').html("You know how to fix it? Submit an edit with a justification of the issue (and possible an example). You don’t know? It’s not a problem simply open an issue on GitHub. The community can probably help you."));
 	doc.append($("<h3>", {"class": "title is-3"}).html("A new function?"));
