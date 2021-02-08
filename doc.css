@@ -109,6 +109,7 @@ nav >ul{
 	cursor: pointer;
 	word-wrap: break-word;
 	margin-left: 20px;
+	font-size: 16px
 }
 .tag-perso:hover{
 	background-color: #3e56c4;
@@ -210,4 +211,11 @@ span.mainSectionButton {
 	text-align: justify;
 }
 
+.documentation-menu span{
+	font-size: revert;
+}
+
+a.main-logo, a.main-logo img{
+	height:150px;
+}
 

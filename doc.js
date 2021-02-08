@@ -3,7 +3,7 @@ listFunctions={};
 exampleRepoName="users/OEEL/examples"
 
 function displayDocFunction(data) {
-	$('.documentation-menu').show();
+	$('.documentation-menu').slideDown();
 	var doc = $('#description');
 	doc.empty();
 
@@ -87,11 +87,6 @@ function displayDocFunction(data) {
 			}))
 	}
 
-
-
-
-
-
 	// format copy to be used in GEE
 	text2copy = 'oeel' + data.fullPath + '({\n'
 	text2copy += inputs.map( function(i){
@@ -123,10 +118,10 @@ function displayDocFunction(data) {
 }
 
 function displayStartingPage(){
-	$('.documentation-menu').show();
+	$('.documentation-menu').slideDown();
 	var doc = $('#description');
 	doc.empty();
-	doc.append($("<h2>", {id: "startPage ", "class": "title is-3"}).html('How to use the library?'));
+	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('How to use the library?'));
 	doc.append($('<p>').html("To use the library simply do the following import in your code, then use the functions."))
 	{
 		var theCode="var oeel=require('users/OEEL/lib:loadAll')";
@@ -139,7 +134,7 @@ function displayStartingPage(){
 	}
 	doc.append($('<p>').html("It’s as simple!"))
 
-	doc.append($("<h2>", {id: "startPage ", "class": "title is-3"}).html('You need to know which function you used?'));
+	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('You need to know which function you used?'));
 	doc.append($('<p>').html("Simply add at the end of your code, and you will get the list of all function used and other related information."))
 
 	{
@@ -152,14 +147,14 @@ function displayStartingPage(){
 			.append(clipboardElement));
 	}
 
-	doc.append($("<h2>", {id: "startPage ", "class": "title is-3"}).html('License?'));
+	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('License?'));
 	doc.append($('<p>').html("Each function has its own license so please refer to it directly.<br>The license of the library is GPLv3, but this is only including the library architecture (synchronization with GEE, documentation code…) it’s unrelated to the license of each function."))
 
 	Prism.highlightAll();
 }
 
 function displayContributePage(){
-	$('.documentation-menu').hide();
+	$('.documentation-menu').slideUp();
 	var doc = $('#description');
 	doc.empty();
 
@@ -210,7 +205,7 @@ function displayContributePage(){
 }
 
 function displayAboutPage(){
-	$('.documentation-menu').hide();
+	$('.documentation-menu').slideUp();
 	var doc = $('#description');
 	doc.empty();
 	
@@ -218,8 +213,8 @@ function displayAboutPage(){
 	doc.append($('<p>').html("The Open Earth Engine Library (aka. OEEL) is part of the <a href='https://www.open-geocomputing.org/' target='_blanck'>open-geocomputing initiative</a>.\
 	 The goal is to provide Google Earth Engine (GEE) users with free and open algorithms. Some of the code requires many hours of design and debugging. It would be a waste not to share them with other users."))
 
-	doc.append($("<h3>", {"class": "title is-3"}).html("Who can contribute?"));
-	doc.append($('<p>').html("The library is open to everyone, from the development of the new algorithm to a simply fix of a typo. Even opening an issue on the GitHub when we detect a bug is a significant contribution to the community."))
+	// doc.append($("<h3>", {"class": "title is-3"}).html("Who can contribute?"));
+	// doc.append($('<p>').html("The library is open to everyone, from the development of the new algorithm to a simply fix of a typo. Even opening an issue on the GitHub when we detect a bug is a significant contribution to the community."))
 
 	doc.append($("<h3>", {"class": "title is-3"}).html("How to contribute:"));
 	doc.append($('<p>').html("To contribute please check the <a href='#How-to-contribute'>dedicated page</a>."))

@@ -5,8 +5,7 @@
 	<meta charset="UTF-8">
 	<title>Documentation Open Earth Engine Library</title>
 	<link rel="icon" type="image/png" href="./favicon.png" />
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js">
 	</script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/prism.js'></script>
 	<script src='https://cdnjs.cloudflare.com/ajax/libs/overlayscrollbars/1.9.1/js/OverlayScrollbars.min.js'></script>
@@ -27,7 +26,7 @@
 			<div class="columns">
 				<div class="column is-12">
 					<div class="container content header">
-						<a href="/testGithub_gee-sync_v2"><img style="height:150px;" src="./logo_white.svg"></a>
+						<a href="#" class='main-logo'><img  src="./logo_white.svg"></a>
 						<!--<div class="columns is-vcentered">
 							<div class="column is-2" style="width: fit-content;">
 								<img style="height:108px" src="./earth-engine_104264.svg">
@@ -65,13 +64,14 @@
 						<div class="menu is-medium">
 							<ul class="menu-list menu-mainSection">
 								<li><a href="#" class="is-active"><i class="fas fa-book"></i><span class='mainSectionButton'>Documentation</span></a></li>
+								<div class='documentation-menu' style='display:none;'>
+									<input class="input" id='search' type="text" placeholder="Search a function...">
+								</div>
 								<li><a href="#How-to-contribute" class="is-active"><i class="fas fa-hands-helping"></i><span class='mainSectionButton'>How to contribute</span></a></li>
 								<li><a href="#About" class="is-active"><i class="fas fa-info-circle"></i><span class='mainSectionButton'>About</span></a></li>
 							</ul>
 						</div>
-						<div class='documentation-menu'>
-							<input class="input" id='search' type="text" placeholder="Search a function...">
-						</div>
+						
 					</aside>
 				</div>
 				<div class="column is-9">
@@ -85,7 +85,7 @@
 		</div>
 	</section>
 	<footer class="footer">
-		<section class="section">
+<!-- 		<section class="section">
 			<div class="container">
 				<h3 class="title is-3">How to use?</h3>
 				<p>To use this library simple copy past the following line you GEE:</p>
@@ -95,7 +95,7 @@
 				</div>
 			</div>
 		</section>
-		<hr>
+		<hr> -->
 		<div class="columns is-mobile is-centered">
 			<div class="field is-grouped is-grouped-multiline">
 				<div class="control">
