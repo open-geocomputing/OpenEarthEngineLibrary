@@ -2,6 +2,7 @@ var inputs=[{name:'radius',description:'The radius of the windows used to get ne
             {name:'power',description:'The power of the inverse distance', type:'number',defaultValue:2 ,optional:false},
             {name:'useConvolution',description:'Use traditional neighborhood reduction or convolution', type:'boolean',defaultValue:true ,optional:false},
             {name:'image',description:'The image on which to run the computation', type:'ee.Image',optional:true},
+            {name:'imageCollection',description:'The image collection on which to run the computation', type:'ee.ImageCollection',optional:true},
             {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
             
 var reference={name:'InverseDistanceInterpolation',license:'MIT', description:'Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if "image" is informed and return the result of the computation.', contributors:['Mathieu Gravey']};
@@ -45,11 +46,13 @@ return function(){
       }
       return result.where(im,im).reproject(im.projection());
     }
-    
+
     if(inputDictionary.image)
       return fun(inputDictionary.image);
-    else
-      return fun;
+    if(inputDictionary.imageCollection)
+      return inputDictionary.imageCollection.map(fun);
+
+    return fun;
   }
 }
 

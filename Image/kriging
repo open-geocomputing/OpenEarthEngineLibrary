@@ -3,6 +3,7 @@ var inputs=[{name:'covFun',description:'The covariance function,fun(ee.Array)', 
             {name:'skipInfomed',description:'Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',defaultValue:true,optional:false},
             {name:'kernel',description:'Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.', type:'ee.Kernel',optional:true},
             {name:'image',description:'The image on which to run the computation.', type:'ee.Image',optional:true},
+            {name:'imageCollection',description:'The image collection on which to run the computation', type:'ee.ImageCollection',optional:true},
             {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
             
 var reference={name:'kriging',license:'GPLv3', description:'Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if "image" is informed and return the result of the computation.', contributors:['Mathieu Gravey']};
@@ -71,8 +72,10 @@ return function(){
     
     if(inputDictionary.image)
       return fun(inputDictionary.image);
-    else
-      return fun;
+    if(inputDictionary.imageCollection)
+      return inputDictionary.imageCollection.map(fun);
+
+    return fun;
   }
 }
 

@@ -12,7 +12,7 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
     
-    if(internal.typeObject(inputDictionary.threshold)=='sting'){
+    if(internal.typeObject(inputDictionary.threshold)=='string'){
       return function(image){
         return image.updateMask(ee.Image.constant(1).where(ee.FeatureCollection(image.geometry()).distance(10000),image.select(0).gt(ee.Number(im.get(inputDictionary.threshold)))));
       }

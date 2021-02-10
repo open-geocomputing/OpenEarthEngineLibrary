@@ -1,6 +1,7 @@
 var inputs=[{name:'dem',description:'the DEM to use', type:'ee.Image',optional:false},
             {name:'kernelHalfSize',description:'The radius of the kernel', type:'number',defaultValue:10,optional:false},
             {name:'image',description:'A MODIS image', type:'ee.Image',optional:true},
+            {name:'imageCollection',description:'The MODIS collection on which to run the computation', type:'ee.ImageCollection',optional:true},
             {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true}]
             
 var reference={name:'terrainShadow',license:'MIT', description:'Compute the terrain shadow of MODIS images', contributors:['Mathieu Gravey']};
@@ -60,8 +61,10 @@ return function(){
     
     if(inputDictionary.image)
       return fun(inputDictionary.image);
-    else
-      return fun;
+    if(inputDictionary.imageCollection)
+      return inputDictionary.imageCollection.map(fun);
+
+    return fun;
   }
 }
 
