@@ -1,0 +1,52 @@
+var inputs=[{name:'imageCollection',description:'The imageCollection', type:'ee.ImageCollection',defaultValue:null,optional:false},
+            {name:'selectBand',description:'The bands for thresholding', type:'string|integer',defaultValue:0,optional:false},
+            {name:'mode',description:'Select the mdoe between to compute potential values ("sequence|percentile|explicite"', type:'string',defaultValue:'sequence',optional:false},
+            {name:'nbThreshold',description:'To use if the mode is sequence or percentile, to set the number of thresholds', type:'integer',defaultValue:100,optional:false},
+            {name:'thresholdsCollection',description:'To use if the mode is explicite, an image collection of threshold', type:'ee.ImageCollection',optional:true},
+            {name:'getCoefCollection',description:'To get the imageCollection of the score and threshold',type:'boolean', optional:true},
+            {name:'Return',description:'Return', type:'ee.Image|ee.ImageCollection',defaultValue:null,optional:true}
+            ]
+            
+var reference={name:'OtsuThreshold',license:'MIT', description:"Compute the Otsu's threshold along a collection", contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+
+    var colIm=inputDictionary.imageCollection.select([inputDictionary.selectBand]);
+
+    
+    if(inputDictionary.mode=='sequence'){
+      var minImage=colIm.min();
+      var maxImage=colIm.max();
+      var diff=maxImage.subtract(minImage);
+      var thresholdsCollection=ee.ImageCollection(ee.List.sequence(0, 1, null, inputDictionary.nbThreshold).map(function(perc){return diff.multiply(ee.Number(perc)).add(minImage).toFloat();}));
+    }
+    else if(inputDictionary.mode=='percentile'){
+      var thresholdsCollection=ee.ImageCollection(ee.List.sequence(0, 100, null, inputDictionary.nbThreshold).map(function(perc){return colIm.reduce(ee.Reducer.percentile([perc]))}));
+      print(thresholdsCollection)
+    }
+    else if(inputDictionary.mode=='explicite'){
+      var thresholdsCollection=imageCollection.collection;
+    }else{
+      throw 'select a valide mode';
+    }
+    var scoreCol= thresholdsCollection.map(function(thImage){
+      var prop=colIm.map(function(im){return im.lte(thImage);}).mean();
+      var stdLow=colIm.map(function(im){return im.updateMask(im.lte(thImage));}).reduce(ee.Reducer.stdDev());
+      var stdHig=colIm.map(function(im){return im.updateMask(im.gt(thImage));}).reduce(ee.Reducer.stdDev());
+      var ossuScore=prop.multiply(stdLow).add(ee.Image.constant(1).subtract(prop).multiply(stdHig));
+      return ossuScore.multiply(-1).toFloat().rename('score').addBands(thImage.rename('threshold').toFloat());
+    });
+    
+    if(inputDictionary.getCoefCollection){
+      return scoreCol;
+    }else{
+      return scoreCol.qualityMosaic('score').select('threshold');
+    }
+  }
+}
+
