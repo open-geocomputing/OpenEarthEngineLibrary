@@ -4,7 +4,7 @@ var inputs=[
   {name:"pageSize", description:"Maximum number of elements", type:'integer', defaultValue:10, optional:false}
  ]
 
-var reference={name:'deleteImageCollection',license:'MIT', description:'Delete all ee.Image inside an ImageCollection and the ImageCollection.'};
+var reference={name:'deleteImageCollection',license:'MIT', description:'Delete all ee.Image inside an ImageCollection and the ImageCollection.', contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

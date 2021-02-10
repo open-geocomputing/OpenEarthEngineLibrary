@@ -2,7 +2,7 @@
 var inputs=[{name:'args',description:'The assetID', type:'ee.Image|string|ee.String',optional:false},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}];
             
-var reference={name:'example',license:'MIT', description:'Load an image as collection.'};
+var reference={name:'example',license:'MIT', description:'Load an image as collection.', contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

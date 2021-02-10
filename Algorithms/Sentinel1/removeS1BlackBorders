@@ -3,7 +3,7 @@ var inputs=[{name:'threshold',description:'The threshold to remove the black bor
             {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
             
             
-var reference={name:'removeS1BlackBorders',license:'MIT', description:'Remove black borders of Sentinel 1 images.', experimental:true};
+var reference={name:'removeS1BlackBorders',license:'MIT', description:'Remove black borders of Sentinel 1 images.', experimental:true, contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

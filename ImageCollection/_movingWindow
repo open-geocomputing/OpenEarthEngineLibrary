@@ -4,7 +4,7 @@
             {name:'EstimationCollection',description:'Specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}]
             
-var reference={name:'movingWindows',license:'MIT', description:'MovingWindows'};
+var reference={name:'movingWindows',license:'MIT', description:'MovingWindows', contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 

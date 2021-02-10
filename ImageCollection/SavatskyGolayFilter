@@ -6,7 +6,7 @@ var inputs=[{name:'collection',description:'The image collection on which to per
             {name:'EstimationCollection',description:'Specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}]
             
-var reference={name:'SavatskyGolayTimeFilter',license:'MIT', description:'Pass a Savatsky-Golay filter along the image collection'};
+var reference={name:'SavatskyGolayTimeFilter',license:'MIT', description:'Pass a Savatsky-Golay filter along the image collection', contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
