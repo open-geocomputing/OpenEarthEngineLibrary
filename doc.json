@@ -12,7 +12,10 @@
             "reference": {
                 "name": "loadIfExistElseExport",
                 "license": "MIT",
-                "description": "Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...)."
+                "description": "Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...).",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
             "fullPath": ".Export.loadIfExistElseExport"
         },
@@ -84,7 +87,10 @@
                 "reference": {
                     "name": "asImageToAsset",
                     "license": "MIT",
-                    "description": "Creates a batch task to export ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands."
+                    "description": "Creates a batch task to export ImageCollection as an Image raster to an Earth Engine asset. Tasks can be started from the Tasks tab. each image need to have the same bands.",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
                 },
                 "fullPath": ".Export.ImageCollection.asImageToAsset"
             },
@@ -174,7 +180,10 @@
                 "reference": {
                     "name": "toAsset",
                     "license": "MIT",
-                    "description": "Creates a bunch of batch tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset."
+                    "description": "Creates a bunch of batch tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset.",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
                 },
                 "fullPath": ".Export.ImageCollection.toAsset"
             }
@@ -213,7 +222,10 @@
             "reference": {
                 "name": "semivariogram",
                 "license": "GPLv3",
-                "description": "Compute the semivariogram"
+                "description": "Compute the semivariogram",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
             "fullPath": ".Image.semivariogram"
         },
@@ -257,7 +269,10 @@
             "reference": {
                 "name": "InverseDistanceInterpolation",
                 "license": "MIT",
-                "description": "Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation."
+                "description": "Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
             "fullPath": ".Image.inverseDistanceInterpolation"
         },
@@ -306,7 +321,10 @@
             "reference": {
                 "name": "kriging",
                 "license": "GPLv3",
-                "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation."
+                "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
             "fullPath": ".Image.kriging"
         }
@@ -340,7 +358,10 @@
                     "name": "removeS1BlackBorders",
                     "license": "MIT",
                     "description": "Remove black borders of Sentinel 1 images.",
-                    "experimental": true
+                    "experimental": true,
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
                 },
                 "fullPath": ".Algorithms.Sentinel1.removeS1BlackBorders"
             }
@@ -378,7 +399,10 @@
                 "reference": {
                     "name": "terrainShadow",
                     "license": "MIT",
-                    "description": "Compute the terrain shadow of MODIS images"
+                    "description": "Compute the terrain shadow of MODIS images",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
                 },
                 "fullPath": ".Algorithms.MODIS.terrainShadow"
             }
@@ -411,7 +435,10 @@
             "reference": {
                 "name": "deleteImageCollection",
                 "license": "MIT",
-                "description": "Delete all ee.Image inside an ImageCollection and the ImageCollection."
+                "description": "Delete all ee.Image inside an ImageCollection and the ImageCollection.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
             "fullPath": ".data.deleteImageCollection"
         }
@@ -474,9 +501,72 @@
             "reference": {
                 "name": "SavatskyGolayTimeFilter",
                 "license": "MIT",
-                "description": "Pass a Savatsky-Golay filter along the image collection"
+                "description": "Pass a Savatsky-Golay filter along the image collection",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
             "fullPath": ".ImageCollection.SavatskyGolayFilter"
+        },
+        "OtsuThreshold": {
+            "inputs": [
+                {
+                    "name": "imageCollection",
+                    "description": "The imageCollection",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "selectBand",
+                    "description": "The bands for thresholding",
+                    "type": "string|integer",
+                    "defaultValue": 0,
+                    "optional": false
+                },
+                {
+                    "name": "mode",
+                    "description": "Select the mdoe between to compute potential values (\"sequence|percentile|explicite\"",
+                    "type": "string",
+                    "defaultValue": "sequence",
+                    "optional": false
+                },
+                {
+                    "name": "nbThreshold",
+                    "description": "To use if the mode is sequence or percentile, to set the number of thresholds",
+                    "type": "integer",
+                    "defaultValue": 100,
+                    "optional": false
+                },
+                {
+                    "name": "thresholdsCollection",
+                    "description": "To use if the mode is explicite, an image collection of threshold",
+                    "type": "ee.ImageCollection",
+                    "optional": true
+                },
+                {
+                    "name": "getCoefCollection",
+                    "description": "To get the imageCollection of the score and threshold",
+                    "type": "boolean",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Image|ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "OtsuThreshold",
+                "license": "MIT",
+                "description": "Compute the Otsu's threshold along a collection",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".ImageCollection.OtsuThreshold"
         },
         "fromSingleImage": {
             "inputs": [
@@ -497,10 +587,13 @@
             "reference": {
                 "name": "example",
                 "license": "MIT",
-                "description": "Load an image as collection."
+                "description": "Load an image as collection.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
             "fullPath": ".ImageCollection.fromSingleImage"
         }
     },
-    "timeSinceEpoch": 1612819514109
+    "timeSinceEpoch": 1612958059884
 }
