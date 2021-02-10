@@ -1,0 +1,26 @@
+var inputs=[{name:'maxCloud',description:'teh threshold to remove clouds in percent', type:'number',defaultValue:20,optional:false},
+            {name:'S2Collection',description:'the Sentinel 2 collection', type:'ee.ImageCollectionr',defaultValue:ee.ImageCollection('COPERNICUS/S2_SR'),optional:false},
+            {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true} 
+            ]
+            
+var reference={name:'cloudfree',license:'MIT', description:'Apply the cloud maks described in https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_CLOUD_PROBABILITY', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath); 
+    inputDictionary.S2Collection=inputDictionary.S2Collection.select(inputDictionary.S2Collection.first().bandNames());
+    var s2Clouds = ee.ImageCollection('COPERNICUS/S2_CLOUD_PROBABILITY');
+
+    var s2Sr = inputDictionary.S2Collection.map(function(s2_img) {return s2_img.updateMask(s2_img.select('B8A').mask().updateMask(s2_img.select('B9').mask()));});
+    // Join S2 SR with cloud probability dataset to add cloud mask.
+    return ee.ImageCollection(ee.Join.saveFirst('cloud_mask').apply({
+      primary: s2Sr,
+      secondary: s2Clouds,
+      condition: ee.Filter.equals({leftField: 'system:index', rightField: 'system:index'})
+    }).map(function(img){return ee.Image(img).updateMask(ee.Image(img.get('cloud_mask')).select('probability').lt(inputDictionary.maxCloud));}));
+
+  }
+}
