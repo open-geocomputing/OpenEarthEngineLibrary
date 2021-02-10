@@ -1,5 +1,5 @@
 var libs={Export: {loadIfExistElseExport: require('users/OEEL/lib:/Export/loadIfExistElseExport'), ImageCollection: {asImageToAsset: require('users/OEEL/lib:/Export/ImageCollection/asImageToAsset'), toAsset: require('users/OEEL/lib:/Export/ImageCollection/toAsset')}}, Image: {semivariogram: require('users/OEEL/lib:/Image/semivariogram'), inverseDistanceInterpolation: require('users/OEEL/lib:/Image/inverseDistanceInterpolation'), kriging: require('users/OEEL/lib:/Image/kriging')}, Algorithms: {Sentinel1: {removeS1BlackBorders: require('users/OEEL/lib:/Algorithms/Sentinel1/removeS1BlackBorders')}, MODIS: {terrainShadow: require('users/OEEL/lib:/Algorithms/MODIS/terrainShadow')}, Sentinel2: {cloudfree: require('users/OEEL/lib:/Algorithms/Sentinel2/cloudfree')}}, data: {deleteImageCollection: require('users/OEEL/lib:/data/deleteImageCollection')}, ImageCollection: {SavatskyGolayFilter: require('users/OEEL/lib:/ImageCollection/SavatskyGolayFilter'), OtsuThreshold: require('users/OEEL/lib:/ImageCollection/OtsuThreshold'), fromSingleImage: require('users/OEEL/lib:/ImageCollection/fromSingleImage')}, internal: require('users/OEEL/lib:/internal')}
 
-//generated automatically the 2021-02-10 14:07:57.921004UTC 
+//generated automatically the 2021-02-10 14:14:53.626590UTC 
 
 exports=libs.internal.setupLibrary(libs);
