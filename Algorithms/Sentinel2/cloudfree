@@ -1,5 +1,5 @@
 var inputs=[{name:'maxCloud',description:'The threshold to remove clouds (in percent of the probability).', type:'number',defaultValue:20,optional:false},
-            {name:'S2Collection',description:'The Sentinel 2 collection (default: ee.ImageCollection("COPERNICUS/S2_SR"))', type:'ee.ImageCollectionr',optional:true},
+            {name:'S2Collection',description:'The Sentinel 2 collection (default: ee.ImageCollection("COPERNICUS/S2_SR"))', type:'ee.ImageCollection',optional:true},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true} 
             ]
             
@@ -10,13 +10,13 @@ exports.createDocumentation=function(){ return {inputs:inputs, reference:referen
 exports.createFunction=function(internal,relPath){
 return function(){
   
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath); 
+  
     if(!inputDictionary.S2Collection){
       var S2Coll=ee.ImageCollection('COPERNICUS/S2_SR');
       inputDictionary.S2Collection=S2Coll.select(S2Coll.first().bandNames());
     }
-
-    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
-    internal.addRef(reference,relPath); 
     var s2Clouds = ee.ImageCollection('COPERNICUS/S2_CLOUD_PROBABILITY');
 
     var s2Sr = inputDictionary.S2Collection.map(function(s2_img) {return s2_img.updateMask(s2_img.select('B8A').mask().updateMask(s2_img.select('B9').mask()));});
