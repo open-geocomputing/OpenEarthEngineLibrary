@@ -209,7 +209,7 @@ function displayAboutPage(){
 	var doc = $('#description');
 	doc.empty();
 	
-	doc.append($("<h3>", {"class": "title is-3"}).html("The Goal"));
+	doc.append($("<h3>", {"class": "title is-3"}).html("Aims and values"));
 	doc.append($("<a>", {"target":"_blank", "href":'/'}).append($("<img>", {"src": "/images/digitalWorld.gif", style:"width: 140px; float: left; margin-right: 10px; filter: brightness(200%);"})));
 
 	doc.append($('<p>').html("The Open Earth Engine Library (aka. OEEL) is part of the <a href='/' target='_blanck'>open-geocomputing initiative</a>.\
@@ -218,10 +218,10 @@ function displayAboutPage(){
 	// doc.append($("<h3>", {"class": "title is-3"}).html("Who can contribute?"));
 	// doc.append($('<p>').html("The library is open to everyone, from the development of the new algorithm to a simply fix of a typo. Even opening an issue on the GitHub when we detect a bug is a significant contribution to the community."))
 
-	doc.append($("<h3>", {"class": "title is-3"}).html("How to contribute:"));
-	doc.append($('<p>').html("To contribute please check the <a href='#How-to-contribute'>dedicated page</a>."))
+	// doc.append($("<h3>", {"class": "title is-3"}).html("How to contribute:"));
+	// doc.append($('<p>').html("To contribute please check the <a href='#How-to-contribute'>dedicated page</a>."))
 
-	doc.append($("<h3>", {"class": "title is-3"}).html("The origins"));
+	doc.append($("<h3>", {"class": "title is-3"}).html("The origin"));
 	doc.append($("<a>", {"target":"_blank", "href":'https://unil.ch'}).append($("<img>", {"src": "https://www.unil.ch/modules/unil-core/img/unil-logo.svg", style:"width: 165px; float: left; margin-right: 10px;"})));
 	doc.append($('<p>').html("The project finds its origin from a library developed by Mathieu Gravey for his personal usage and store the algorithms developed during his PhD at the University of Lausanne. Starting with a simple git mapping between GitHub and \"Google Earth Engine\". Finally, the project was enhanced with automatic documentation and examples, to allow easy integration of new codes. A particular thanks to Dr. Raphaël Nussbaumer that designed this web site."))
 
