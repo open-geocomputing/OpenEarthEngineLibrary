@@ -210,9 +210,9 @@ function displayAboutPage(){
 	doc.empty();
 	
 	doc.append($("<h3>", {"class": "title is-3"}).html("The Goal"));
-	doc.append($("<a>", {"target":"_blank", "href":'https://www.open-geocomputing.org/'}).append($("<img>", {"src": "/images/digitalWorld.gif", style:"width: 140px; float: left; margin-right: 10px; filter: brightness(200%);"})));
+	doc.append($("<a>", {"target":"_blank", "href":'/'}).append($("<img>", {"src": "/images/digitalWorld.gif", style:"width: 140px; float: left; margin-right: 10px; filter: brightness(200%);"})));
 
-	doc.append($('<p>').html("The Open Earth Engine Library (aka. OEEL) is part of the <a href='https://www.open-geocomputing.org/' target='_blanck'>open-geocomputing initiative</a>.\
+	doc.append($('<p>').html("The Open Earth Engine Library (aka. OEEL) is part of the <a href='/' target='_blanck'>open-geocomputing initiative</a>.\
 	 The goal is to provide \"Google Earth Engine\" (GEE) users with free and open algorithms. Some of the code requires many hours of design and debugging. It would be a waste not to share them with other users."))
 
 	// doc.append($("<h3>", {"class": "title is-3"}).html("Who can contribute?"));
