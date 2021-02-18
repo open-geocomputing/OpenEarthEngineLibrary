@@ -132,10 +132,10 @@ function displayStartingPage(){
 				.html(theCode)))
 			.append(clipboardElement));
 	}
-	doc.append($('<p>').html("It’s as simple!"))
+	doc.append($('<p>').html("it's as simple as that!"))
 
 	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('You need to know which function you used?'));
-	doc.append($('<p>').html("Simply add at the end of your code, and you will get the list of all function used and other related information."))
+	doc.append($('<p>').html("Simply add at the following line at the end of your code, and you will get the list of all function used and other related information."))
 
 	{
 		var theCodeRef="print('List of functions used',oeel.refs())";
@@ -167,12 +167,12 @@ function displayContributePage(){
 	Simply open the related file on GitHub and propose an edit.\
 	<br>On this website, you can edit this web page on the “gh-pages” branch on GitHub."));
 	doc.append($("<h3>", {"class": "title is-3"}).html("Missing examples"));
-	doc.append($('<p>').html("You can simply add example on the <a href='https://github.com/open-geocomputing/OpenEEL_Examples' target=_blank>dedicated GitHub repository</a>"));
+	doc.append($('<p>').html("You can simply add examples on the <a href='https://github.com/open-geocomputing/OpenEEL_Examples' target=_blank>dedicated GitHub repository</a>"));
 	doc.append($("<h3>", {"class": "title is-3"}).html("Bugs?"));
-	doc.append($('<p>').html("You know how to fix it? Submit an edit with a justification of the issue (and possible an example). You don’t know? It’s not a problem simply open an issue on GitHub. The community can probably help you."));
+	doc.append($('<p>').html("You know how to fix it? Submit an edit with a justification of the issue (and possible an example). You don’t know? It’s not a problem, simply open an issue on GitHub. The community can probably help you."));
 	doc.append($("<h3>", {"class": "title is-3"}).html("A new function?"));
 	doc.append($('<p>').html("You have a new function to add? Already thanks for considering it.\
-		Start with a look on the <a href='https://code.earthengine.google.com/?scriptPath=users%2FOEEL%2Flib%3ADarftNewFunction' target='_blank'>draft script</a>, that provide a baseline to write new functions.\
+		Start with a look on the <a href='https://code.earthengine.google.com/?scriptPath=users%2FOEEL%2Flib%3ADarftNewFunction' target='_blank'>draft script</a>, that provides a baseline to write new functions.\
 		Start by filing the inputs section and the description, then implement the function. Finally, use the bottom part to implement the test and debug the function."));
 	doc.append($('<p>').html("To submit your contribution simply copy the upper part (from inputs to the end of your function)"));
 	doc.append($("<h4>", {"class": "title is-4"}).html("The inputs:"));
@@ -185,7 +185,7 @@ function displayContributePage(){
 	doc.append(ref);
 	doc.append($('<p>').html("Add any other field that you think can be relevant."));
 	doc.append($("<h4>", {"class": "title is-4"}).html("The function:"));
-	doc.append($('<p>').html("The parameters are automatically read that the function is informed as list or an object, and automatically generate an object (after checking the type), where each key refers to name in the input list. "));
+	doc.append($('<p>').html("The parameters are automatically read that the function is informed as list or an object, and automatically generates an object (after checking the type), where each key refers to a name in the input list. "));
 
 	inp.append($('<li>').append($('<code>').html('name')).append($('<span>').html(" use to build the dictionary of parameters used in the functions.")))
 	inp.append($('<li>').append($('<code>').html('description')).append($('<span>').html(" description use in the documentation.")))
@@ -213,7 +213,7 @@ function displayAboutPage(){
 	doc.append($("<a>", {"target":"_blank", "href":'/'}).append($("<img>", {"src": "/images/digitalWorld.gif", style:"width: 140px; float: left; margin-right: 10px; filter: brightness(200%);"})));
 
 	doc.append($('<p>').html("The Open Earth Engine Library (aka. OEEL) is part of the <a href='/' target='_blanck'>open-geocomputing initiative</a>.\
-	 The goal is to provide Google Earth Engine (GEE) users with free and open algorithms. Some of the code requires many hours of design and debugging. It would be a waste not to share them with other users."))
+	 The goal is to provide Google Earth Engine (GEE) users with free and open algorithms. Some of the codes required many hours of design and debugging. It would be a waste not to share them with other users."))
 
 	// doc.append($("<h3>", {"class": "title is-3"}).html("Who can contribute?"));
 	// doc.append($('<p>').html("The library is open to everyone, from the development of the new algorithm to a simply fix of a typo. Even opening an issue on the GitHub when we detect a bug is a significant contribution to the community."))
@@ -223,7 +223,7 @@ function displayAboutPage(){
 
 	doc.append($("<h3>", {"class": "title is-3"}).html("The origin"));
 	doc.append($("<a>", {"target":"_blank", "href":'https://unil.ch'}).append($("<img>", {"src": "https://www.unil.ch/modules/unil-core/img/unil-logo.svg", style:"width: 165px; float: left; margin-right: 10px;"})));
-	doc.append($('<p>').html("The project finds its origin from a library developed by Mathieu Gravey for his personal usage and store the algorithms developed during his PhD at the University of Lausanne. Starting with a simple git mapping between GitHub and Google Earth Engine. Finally, the project was enhanced with automatic documentation and examples, to allow easy integration of new codes. A particular thanks to Dr. Raphaël Nussbaumer that designed this web site."))
+	doc.append($('<p>').html("The project finds its origin from a library developed by Mathieu Gravey for his personal usage and stores the algorithms developed during his PhD at the University of Lausanne. Starting with a simple git mapping between GitHub and Google Earth Engine. Finally, the project was enhanced with automatic documentation and examples, to allow easy integration of new codes. A particular thanks to Dr. Raphaël Nussbaumer who designed this web site."))
 
 }
 
