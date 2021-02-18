@@ -185,7 +185,7 @@ function displayContributePage(){
 	doc.append(ref);
 	doc.append($('<p>').html("Add any other field that you think can be relevant."));
 	doc.append($("<h4>", {"class": "title is-4"}).html("The function:"));
-	doc.append($('<p>').html("The parameters are automatically read that the function is informed as list or an object, and automatically generates an object (after checking the type), where each key refers to a name in the input list. "));
+	doc.append($('<p>').html("The parameters are automatically read whether the function is informed as list or an object, and automatically generates an object (after checking the type), where each key refers to a name in the input list. "));
 
 	inp.append($('<li>').append($('<code>').html('name')).append($('<span>').html(" use to build the dictionary of parameters used in the functions.")))
 	inp.append($('<li>').append($('<code>').html('description')).append($('<span>').html(" description use in the documentation.")))
