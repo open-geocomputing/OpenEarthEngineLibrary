@@ -1,0 +1,3 @@
+* linguist-language=JavaScript
+*.py linguist-language=Python
+loadAll linguist-generated
