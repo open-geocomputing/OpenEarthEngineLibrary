@@ -19,7 +19,7 @@ return function(){
       inputDictionary.EstimationCollection=inputDictionary.collection;
     }
 
-    var isFeatureCollection=internal.typeObject(inputDictionary.args)=='ee.FeatureCollection';
+    var isFeatureCollection=internal.typeObject(inputDictionary.EstimationCollection)=='ee.FeatureCollection';
 
     var saveAllJoin = ee.Join.saveAll({
       matchesKey: 'neighbours',  //every day of the year is a neighbor... 180 days both directions
