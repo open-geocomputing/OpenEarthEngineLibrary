@@ -66,6 +66,7 @@ jobs:
       - name: generate node file
         run: |
           git checkout origin/gh-pages -- genearteOpenEEL_doc.py
+          git checkout origin/gh-pages -- ee.js
           python3 genearteOpenEEL_doc.py
       - name: load node
         uses: actions/setup-node@v2
@@ -73,7 +74,7 @@ jobs:
           node-version: 15.x
       - name: create docJson
         run: |
-          node openEEL_doc
+          node -e " var fs = require('fs'); eval(fs.readFileSync('./openEEL_doc').toString())"
           git stash --include-untracked
           git checkout gh-pages
           rm -f doc.json openEEL_doc
