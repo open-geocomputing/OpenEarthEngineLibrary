@@ -18,7 +18,9 @@ def generateDictionary(requirePath,path,dirList):
 val=generateDictionary(repo,'.',
 	[ name for name in os.listdir('.') if os.path.isdir(os.path.join('.', name)) and name[0]!='.' ]+['internal']);
 
-libString='var oeel='+json.dumps(val).replace('"','')+\
+libString="var ee=require('./ee.js');"
+
+libString+='var oeel='+json.dumps(val).replace('"','')+\
 				'\n\n//generated automatically the '+str(datetime.utcnow())+\
 				'UTC \n\n'+"var doc=oeel.internal.getDoc(oeel,'');\n\
 \n\
