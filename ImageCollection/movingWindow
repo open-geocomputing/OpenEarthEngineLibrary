@@ -1,0 +1,44 @@
+var inputs=[{name:'collection',description:'The image collection on which to perform the moving windows', type:'ee.ImageCollection',defaultValue:null,optional:false},
+            {name:'filter',description:'The moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
+            {name:'reducer',description:'The reducer', type:'ee.Reducer|function',defaultValue:ee.Reducer.mean(),optional:false},
+            {name:'copyProperties',description:'Should the properties be added', type:'boolean',defaultValue:true,optional:false},
+            {name:'EstimationCollection',description:'Specify the collection where to do the estimations (by default use the main collection)', type:'ee.Collection',defaultValue:null,optional:true},
+            {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}]
+            
+var reference={name:'movingWindows',license:'MIT', description:'MovingWindows', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    if(!inputDictionary.EstimationCollection){
+      inputDictionary.EstimationCollection=inputDictionary.collection;
+    }
+
+    var isFeatureCollection=internal.typeObject(inputDictionary.EstimationCollection)=='ee.FeatureCollection';
+    var useCustomReducer=internal.typeObject(inputDictionary.reducer)=='function';
+    
+    var saveAllJoin = ee.Join.saveAll({
+      matchesKey: 'neighbours',
+      measureKey: 'distanceError'
+    });
+    
+    return ee.ImageCollection(saveAllJoin.apply(inputDictionary.EstimationCollection, inputDictionary.collection, inputDictionary.filter)).map(
+      function(im){
+        var imCol=ee.ImageCollection(ee.List(im.get('neighbours')));
+      
+        if(useCustomReducer)
+          var finalim=inputDictionary.reducer(imCol);
+        else
+          var finalim=imCol.reduce(inputDictionary.reducer);
+          
+        if (inputDictionary.copyProperties)
+          return finalim.copyProperties(im,im.propertyNames().remove('neighbours'))
+        else
+          return finalim;
+    });
+  }
+}
