@@ -1,157 +1,159 @@
 {
-    "Image": {
-        "kriging": {
+    "data": {
+        "deleteImageCollection": {
             "inputs": [
                 {
-                    "name": "covFun",
-                    "description": "The covariance function,fun(ee.Array)",
-                    "type": "function",
+                    "name": "imageCollectionAssetID",
+                    "description": "The imageCollection to delete",
+                    "type": "string",
                     "optional": false
                 },
                 {
-                    "name": "radius",
-                    "description": "The radius of the windows used to get neighbors.",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                },
-                {
-                    "name": "skipInfomed",
-                    "description": "Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center",
+                    "name": "keepEmptyCollection",
+                    "description": "Keep the empty collection",
                     "type": "boolean",
-                    "defaultValue": true,
+                    "defaultValue": false,
                     "optional": false
                 },
                 {
-                    "name": "kernel",
-                    "description": "Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.",
-                    "type": "ee.Kernel",
-                    "optional": true
-                },
-                {
-                    "name": "image",
-                    "description": "The image on which to run the computation.",
-                    "type": "ee.Image",
-                    "optional": true
-                },
-                {
-                    "name": "imageCollection",
-                    "description": "The image collection on which to run the computation",
-                    "type": "ee.ImageCollection",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "function|ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "kriging",
-                "license": "GPLv3",
-                "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Image.kriging"
-        },
-        "semivariogram": {
-            "inputs": [
-                {
-                    "name": "input",
-                    "description": "Single band image or imageCollection on which to run the computation.",
-                    "type": "ee.Image|ee.ImageCollection",
-                    "optional": false
-                },
-                {
-                    "name": "region",
-                    "description": "The region on which to compute the variogram ",
-                    "type": "ee.Geometry",
-                    "optional": false
-                },
-                {
-                    "name": "radius",
-                    "description": "The radius of the windows used to get neighbors.",
+                    "name": "pageSize",
+                    "description": "Maximum number of elements",
                     "type": "integer",
                     "defaultValue": 10,
                     "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.FeatureCollection",
-                    "defaultValue": null,
-                    "optional": true
                 }
             ],
             "reference": {
-                "name": "semivariogram",
-                "license": "GPLv3",
-                "description": "Compute the semivariogram",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Image.semivariogram"
-        },
-        "inverseDistanceInterpolation": {
-            "inputs": [
-                {
-                    "name": "radius",
-                    "description": "The radius of the windows used to get neighbors.",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                },
-                {
-                    "name": "power",
-                    "description": "The power of the inverse distance",
-                    "type": "number",
-                    "defaultValue": 2,
-                    "optional": false
-                },
-                {
-                    "name": "useConvolution",
-                    "description": "Use traditional neighborhood reduction or convolution",
-                    "type": "boolean",
-                    "defaultValue": true,
-                    "optional": false
-                },
-                {
-                    "name": "image",
-                    "description": "The image on which to run the computation",
-                    "type": "ee.Image",
-                    "optional": true
-                },
-                {
-                    "name": "imageCollection",
-                    "description": "The image collection on which to run the computation",
-                    "type": "ee.ImageCollection",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "function|ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "InverseDistanceInterpolation",
+                "name": "deleteImageCollection",
                 "license": "MIT",
-                "description": "Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
+                "description": "Delete all ee.Image inside an ImageCollection and the ImageCollection.",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
             },
-            "fullPath": ".Image.inverseDistanceInterpolation"
+            "fullPath": ".data.deleteImageCollection"
         }
     },
     "ImageCollection": {
+        "movingWindow": {
+            "inputs": [
+                {
+                    "name": "collection",
+                    "description": "The image collection on which to perform the moving windows",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "filter",
+                    "description": "The moving windows filter",
+                    "type": "ee.Filter",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "reducer",
+                    "description": "The reducer",
+                    "type": "ee.Reducer|function",
+                    "defaultValue": "ee.Reducer.mean()",
+                    "optional": false
+                },
+                {
+                    "name": "copyProperties",
+                    "description": "Should the properties be added",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "estimationCollection",
+                    "description": "Specify the collection where to do the estimations (by default use the main collection)",
+                    "type": "ee.Collection",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "movingWindows",
+                "license": "MIT",
+                "description": "MovingWindows",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".ImageCollection.movingWindow"
+        },
+        "SavatskyGolayFilter": {
+            "inputs": [
+                {
+                    "name": "collection",
+                    "description": "The image collection on which to perform the filtering",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "filter",
+                    "description": "The moving windows filter",
+                    "type": "ee.Filter",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "distanceFunction",
+                    "description": "A lambda function that specifies how to compute distance between two images that return an ee.Image (or an ee.Number to add); function(ee.Image(infromedImage),ee.Image(estimationImage))",
+                    "type": "function",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "degree",
+                    "description": "Polynomial degree, odd number >2",
+                    "type": "integer",
+                    "defaultValue": 3,
+                    "optional": false
+                },
+                {
+                    "name": "bandOfInterest",
+                    "description": "Band selectors, by default all of them",
+                    "type": "ee.List|object",
+                    "defaultValue": [
+                        ".*"
+                    ],
+                    "optional": false
+                },
+                {
+                    "name": "EstimationCollection",
+                    "description": "Specify the collection where to do the estimations (by default use the main collection)",
+                    "type": "ee.Collection",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "SavatskyGolayTimeFilter",
+                "license": "MIT",
+                "description": "Pass a Savatsky-Golay filter along the image collection",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".ImageCollection.SavatskyGolayFilter"
+        },
         "OtsuThreshold": {
             "inputs": [
                 {
@@ -237,105 +239,126 @@
                 ]
             },
             "fullPath": ".ImageCollection.fromSingleImage"
-        },
-        "SavatskyGolayFilter": {
-            "inputs": [
-                {
-                    "name": "collection",
-                    "description": "The image collection on which to perform the filtering",
-                    "type": "ee.ImageCollection",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "filter",
-                    "description": "The moving windows filter",
-                    "type": "ee.Filter",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "distanceFunction",
-                    "description": "A lambda function that specifies how to compute distance between two images that return an ee.Image (or an ee.Number to add); function(ee.Image(infromedImage),ee.Image(estimationImage))",
-                    "type": "function",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "degree",
-                    "description": "Polynomial degree, odd number >2",
-                    "type": "integer",
-                    "defaultValue": 3,
-                    "optional": false
-                },
-                {
-                    "name": "bandOfInterest",
-                    "description": "Band selectors, by default all of them",
-                    "type": "ee.List|object",
-                    "defaultValue": [
-                        ".*"
-                    ],
-                    "optional": false
-                },
-                {
-                    "name": "EstimationCollection",
-                    "description": "Specify the collection where to do the estimations (by default use the main collection)",
-                    "type": "ee.Collection",
-                    "defaultValue": null,
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.ImageCollection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "SavatskyGolayTimeFilter",
-                "license": "MIT",
-                "description": "Pass a Savatsky-Golay filter along the image collection",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".ImageCollection.SavatskyGolayFilter"
         }
     },
-    "data": {
-        "deleteImageCollection": {
-            "inputs": [
-                {
-                    "name": "imageCollectionAssetID",
-                    "description": "The imageCollection to delete",
-                    "type": "string",
-                    "optional": false
+    "Algorithms": {
+        "Sentinel1": {
+            "removeS1BlackBorders": {
+                "inputs": [
+                    {
+                        "name": "threshold",
+                        "description": "The threshold to remove the black border. ( A number or a parameter name) ",
+                        "type": "number|string|ee.Number",
+                        "defaultValue": -25,
+                        "optional": false
+                    },
+                    {
+                        "name": "image",
+                        "description": "The image on which to run the computation",
+                        "type": "ee.Image",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "function|ee.Image",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "removeS1BlackBorders",
+                    "license": "MIT",
+                    "description": "Remove black borders of Sentinel 1 images.",
+                    "experimental": true,
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
                 },
-                {
-                    "name": "keepEmptyCollection",
-                    "description": "Keep the empty collection",
-                    "type": "boolean",
-                    "defaultValue": false,
-                    "optional": false
+                "fullPath": ".Algorithms.Sentinel1.removeS1BlackBorders"
+            }
+        },
+        "MODIS": {
+            "terrainShadow": {
+                "inputs": [
+                    {
+                        "name": "dem",
+                        "description": "the DEM to use",
+                        "type": "ee.Image",
+                        "optional": false
+                    },
+                    {
+                        "name": "kernelHalfSize",
+                        "description": "The radius of the kernel",
+                        "type": "number",
+                        "defaultValue": 10,
+                        "optional": false
+                    },
+                    {
+                        "name": "image",
+                        "description": "A MODIS image",
+                        "type": "ee.Image",
+                        "optional": true
+                    },
+                    {
+                        "name": "imageCollection",
+                        "description": "The MODIS collection on which to run the computation",
+                        "type": "ee.ImageCollection",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "function",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "terrainShadow",
+                    "license": "MIT",
+                    "description": "Compute the terrain shadow of MODIS images",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
                 },
-                {
-                    "name": "pageSize",
-                    "description": "Maximum number of elements",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                }
-            ],
-            "reference": {
-                "name": "deleteImageCollection",
-                "license": "MIT",
-                "description": "Delete all ee.Image inside an ImageCollection and the ImageCollection.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".data.deleteImageCollection"
+                "fullPath": ".Algorithms.MODIS.terrainShadow"
+            }
+        },
+        "Sentinel2": {
+            "cloudfree": {
+                "inputs": [
+                    {
+                        "name": "maxCloud",
+                        "description": "The threshold to remove clouds (in percent of the probability).",
+                        "type": "number",
+                        "defaultValue": 20,
+                        "optional": false
+                    },
+                    {
+                        "name": "S2Collection",
+                        "description": "The Sentinel 2 collection (default: ee.ImageCollection(\"COPERNICUS/S2_SR\"))",
+                        "type": "ee.ImageCollection",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "ee.ImageCollection",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "cloudfree",
+                    "license": "MIT",
+                    "description": "Apply the cloud maks described in https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_CLOUD_PROBABILITY",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
+                },
+                "fullPath": ".Algorithms.Sentinel2.cloudfree"
+            }
         }
     },
     "Export": {
@@ -528,125 +551,157 @@
             "fullPath": ".Export.loadIfExistElseExport"
         }
     },
-    "Algorithms": {
-        "Sentinel1": {
-            "removeS1BlackBorders": {
-                "inputs": [
-                    {
-                        "name": "threshold",
-                        "description": "The threshold to remove the black border. ( A number or a parameter name) ",
-                        "type": "number|string|ee.Number",
-                        "defaultValue": -25,
-                        "optional": false
-                    },
-                    {
-                        "name": "image",
-                        "description": "The image on which to run the computation",
-                        "type": "ee.Image",
-                        "optional": true
-                    },
-                    {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "function|ee.Image",
-                        "defaultValue": null,
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "removeS1BlackBorders",
-                    "license": "MIT",
-                    "description": "Remove black borders of Sentinel 1 images.",
-                    "experimental": true,
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
+    "Image": {
+        "kriging": {
+            "inputs": [
+                {
+                    "name": "covFun",
+                    "description": "The covariance function,fun(ee.Array)",
+                    "type": "function",
+                    "optional": false
                 },
-                "fullPath": ".Algorithms.Sentinel1.removeS1BlackBorders"
-            }
+                {
+                    "name": "radius",
+                    "description": "The radius of the windows used to get neighbors.",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "skipInfomed",
+                    "description": "Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "kernel",
+                    "description": "Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.",
+                    "type": "ee.Kernel",
+                    "optional": true
+                },
+                {
+                    "name": "image",
+                    "description": "The image on which to run the computation.",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "imageCollection",
+                    "description": "The image collection on which to run the computation",
+                    "type": "ee.ImageCollection",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function|ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "kriging",
+                "license": "GPLv3",
+                "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Image.kriging"
         },
-        "Sentinel2": {
-            "cloudfree": {
-                "inputs": [
-                    {
-                        "name": "maxCloud",
-                        "description": "The threshold to remove clouds (in percent of the probability).",
-                        "type": "number",
-                        "defaultValue": 20,
-                        "optional": false
-                    },
-                    {
-                        "name": "S2Collection",
-                        "description": "The Sentinel 2 collection (default: ee.ImageCollection(\"COPERNICUS/S2_SR\"))",
-                        "type": "ee.ImageCollection",
-                        "optional": true
-                    },
-                    {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "ee.ImageCollection",
-                        "defaultValue": null,
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "cloudfree",
-                    "license": "MIT",
-                    "description": "Apply the cloud maks described in https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_CLOUD_PROBABILITY",
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
+        "inverseDistanceInterpolation": {
+            "inputs": [
+                {
+                    "name": "radius",
+                    "description": "The radius of the windows used to get neighbors.",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
                 },
-                "fullPath": ".Algorithms.Sentinel2.cloudfree"
-            }
+                {
+                    "name": "power",
+                    "description": "The power of the inverse distance",
+                    "type": "number",
+                    "defaultValue": 2,
+                    "optional": false
+                },
+                {
+                    "name": "useConvolution",
+                    "description": "Use traditional neighborhood reduction or convolution",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "image",
+                    "description": "The image on which to run the computation",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "imageCollection",
+                    "description": "The image collection on which to run the computation",
+                    "type": "ee.ImageCollection",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function|ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "InverseDistanceInterpolation",
+                "license": "MIT",
+                "description": "Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Image.inverseDistanceInterpolation"
         },
-        "MODIS": {
-            "terrainShadow": {
-                "inputs": [
-                    {
-                        "name": "dem",
-                        "description": "the DEM to use",
-                        "type": "ee.Image",
-                        "optional": false
-                    },
-                    {
-                        "name": "kernelHalfSize",
-                        "description": "The radius of the kernel",
-                        "type": "number",
-                        "defaultValue": 10,
-                        "optional": false
-                    },
-                    {
-                        "name": "image",
-                        "description": "A MODIS image",
-                        "type": "ee.Image",
-                        "optional": true
-                    },
-                    {
-                        "name": "imageCollection",
-                        "description": "The MODIS collection on which to run the computation",
-                        "type": "ee.ImageCollection",
-                        "optional": true
-                    },
-                    {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "function",
-                        "defaultValue": null,
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "terrainShadow",
-                    "license": "MIT",
-                    "description": "Compute the terrain shadow of MODIS images",
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
+        "semivariogram": {
+            "inputs": [
+                {
+                    "name": "input",
+                    "description": "Single band image or imageCollection on which to run the computation.",
+                    "type": "ee.Image|ee.ImageCollection",
+                    "optional": false
                 },
-                "fullPath": ".Algorithms.MODIS.terrainShadow"
-            }
+                {
+                    "name": "region",
+                    "description": "The region on which to compute the variogram ",
+                    "type": "ee.Geometry",
+                    "optional": false
+                },
+                {
+                    "name": "radius",
+                    "description": "The radius of the windows used to get neighbors.",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.FeatureCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "semivariogram",
+                "license": "GPLv3",
+                "description": "Compute the semivariogram",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Image.semivariogram"
         }
     },
-    "timeSinceEpoch": 1615222360374
+    "timeSinceEpoch": 1615566395917
 }
