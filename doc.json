@@ -703,6 +703,66 @@
             "fullPath": ".Image.semivariogram"
         }
     },
+    "Filter": {
+        "asymmetricMaxDifference": {
+            "inputs": [
+                {
+                    "name": "difference",
+                    "description": "The maximum difference for which the filter will return true.",
+                    "type": "number|ee.Number",
+                    "optional": false
+                },
+                {
+                    "name": "leftField",
+                    "description": "A selector for the left operand. Should not be specified if leftValue is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "rightValue",
+                    "description": "The value of the right operand. Should not be specified if rightField is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "rightField",
+                    "description": "A selector for the right operand. Should not be specified if rightValue is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "leftValue",
+                    "description": "The value of the left operand. Should not be specified if leftField is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "asymmetry",
+                    "description": "The type of asymmetry. ('gt','lt','gte','lte','none')",
+                    "type": "string",
+                    "defaultValue": "gt",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Filter",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "asymmetricMaxDifference",
+                "license": "MIT",
+                "description": "Create an asymetric max difference filter"
+            },
+            "fullPath": ".Filter.asymmetricMaxDifference"
+        }
+    },
     "FeatureCollection": {
         "fromList": {
             "inputs": [
@@ -734,5 +794,5 @@
             "fullPath": ".FeatureCollection.fromList"
         }
     },
-    "timeSinceEpoch": 1615638676882
+    "timeSinceEpoch": 1615646667734
 }
