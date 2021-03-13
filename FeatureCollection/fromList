@@ -1,0 +1,24 @@
+var inputs=[{name:'list',description:'The list', type:'ee.List',optional:false},
+            {name:'propertyName',description:'The property name. If empty string then it assumes a list of the dictionary.', type:'ee.String|string',optional:false},
+            {name:'Return',description:'Return', type:'ee.FeatureCollection',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'fromList',license:'MIT', description:'Convert a List into a FeatureCollection'};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    if (inputDictionary.propertyName=="")
+      return ee.FeatureCollection(inputDictionary.list.map(function(val){return ee.Feature(null, val )}));
+    else
+      return ee.FeatureCollection(inputDictionary.list.map(function(val){return ee.Feature(null, ee.Dictionary.fromLists([inputDictionary.propertyName], [val]))}));
+  }
+}

@@ -114,6 +114,8 @@ exports.getDocumentation=function(libs,exp){
 
 
 exports.typeObject=function(a){ 
+  if(typeof(a)=='object' && a==null)
+    return 'null';
   if(typeof(a)=='object' && String(a).slice(0,3)=='ee.')
   {
     return String(a).match('ee.*\\(')[0].slice(0,-1);
