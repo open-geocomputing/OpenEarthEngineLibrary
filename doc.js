@@ -247,7 +247,7 @@ window.onpopstate = function(event) {
 };
 
 function displayData(data, level) {
-	var keys = Object.keys(data);
+	var keys = Object.keys(data).sort();
 	if (keys.includes('fullPath')) {
 		return function () {
 			displayDocFunction(data);
