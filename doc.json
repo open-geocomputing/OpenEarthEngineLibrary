@@ -236,6 +236,12 @@
                     "optional": false
                 },
                 {
+                    "name": "customFunction",
+                    "description": "A custom function to merge the two images function(im1,im2) (default: addBands).",
+                    "type": "function",
+                    "optional": true
+                },
+                {
                     "name": "Return",
                     "description": "Return",
                     "type": "ee.ImageCollection",
@@ -830,5 +836,5 @@
             "fullPath": ".FeatureCollection.fromList"
         }
     },
-    "timeSinceEpoch": 1615834599223
+    "timeSinceEpoch": 1615835491658
 }
