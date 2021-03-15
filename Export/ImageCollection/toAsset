@@ -11,7 +11,7 @@ var inputs=[
   {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|string|ee.String', optional:true},
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
   {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true},
-  {name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true}
+  {name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true},
   {name:"exportSize", description:"Allow to explicitly set the size of the collection to export", type:'integer|ee.Number', optional:true}
  ]
 
