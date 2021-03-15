@@ -486,6 +486,12 @@
                         "description": "In the case of use of autoExports, it removes first the file if it already exists.",
                         "type": "boolean",
                         "optional": true
+                    },
+                    {
+                        "name": "exportSize",
+                        "description": "Allow to explicitly set the size of the collection to export",
+                        "type": "integer|ee.Number",
+                        "optional": true
                     }
                 ],
                 "reference": {
@@ -836,5 +842,5 @@
             "fullPath": ".FeatureCollection.fromList"
         }
     },
-    "timeSinceEpoch": 1615848830055
+    "timeSinceEpoch": 1615849612076
 }
