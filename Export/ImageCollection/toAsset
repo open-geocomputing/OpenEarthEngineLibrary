@@ -63,7 +63,7 @@ return function(){
       }
     }
     //print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.createAsset');
-    if(exportSize){}
+    if(exportSize)
       var size=ee.Number(exportSize);
     else
       var size=col.size();
