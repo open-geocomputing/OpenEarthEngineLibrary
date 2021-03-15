@@ -460,7 +460,7 @@
                     {
                         "name": "crs",
                         "description": "CRS to use for the exported image.",
-                        "type": "string|ee.String",
+                        "type": "string|ee.String|ee.Projection",
                         "optional": true
                     },
                     {
@@ -836,5 +836,5 @@
             "fullPath": ".FeatureCollection.fromList"
         }
     },
-    "timeSinceEpoch": 1615835491658
+    "timeSinceEpoch": 1615848830055
 }
