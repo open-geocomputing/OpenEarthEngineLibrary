@@ -12,6 +12,7 @@ var inputs=[
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
   {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true},
   {name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true}
+  {name:"exportSize", description:"Allow to explicitly set the size of the collection to export", type:'integer|ee.Number', optional:true}
  ]
 
 var reference={name:'toAsset',license:'MIT', description:'Creates a bunch of batch tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset.', contributors:['Mathieu Gravey']};
@@ -29,11 +30,13 @@ return function(){
     var prefix=inputDictionary.description;
     var autoExport=inputDictionary.autoExport;
     var overwrite=inputDictionary.overwrite;
+    var exportSize=inputDictionary.exportSize;
     delete inputDictionary.nameProperty;
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
     delete inputDictionary.autoExport;
     delete inputDictionary.overwrite;
+    delete inputDictionary.exportSize;
     //print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.createAsset');
     //print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.startProcessing')
     //print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.deleteAsset');
@@ -60,8 +63,13 @@ return function(){
       }
     }
     //print('GEE_Addon_confirmManager:resetConfirmOn:ee.data.createAsset');
+    if(exportSize){}
+      var size=ee.Number(exportSize);
+    else
+      var size=col.size();
     
-    col.size().evaluate(function(amountImage){
+
+    size.evaluate(function(amountImage){
       if(autoExport)
       {
         var taskIds=ee.data.newTaskId(amountImage);
