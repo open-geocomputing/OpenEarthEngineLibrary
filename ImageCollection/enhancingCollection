@@ -1,14 +1,12 @@
 var inputs=[{name:'collection',description:'The collection to enhance', type:'ee.ImageCollection',optional:false},
             {name:'enhancingCollection',description:'The collection to use to enhance', type:'ee.ImageCollection',optional:false},
             {name:'matchingPropety',description:'The property to use to do the matching', type:'string',defaultValue:'system:index',optional:false},
-            {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            {name:'customFunction',description:'A custom function to merge the two images function(im1,im2) (default: addBands).', type:'function',optional:true},
+            {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}
             ]
             
 var reference={name:'enhancingCollection',license:'MIT', description:'An algorithm that enhances a collection using another one. Merging image one to one.'};
-// reference can get any supplementary field that can be relevant, in particular
-// "experimental" which add a small flask to highlight the experimental point in the documentation,
-// "DOI" that automatically add a citation field in the documentation with APA citation,
-// but many other can be added such as "contributors" ...
+
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
@@ -16,11 +14,17 @@ exports.createFunction=function(internal,relPath){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
+    
+    if(inputDictionary.customFunction){
+      var mapFunction=function(img){return inputDictionary.customFunction(ee.Image(img),ee.Image(img.get('matched')));};
+    }else{
+      var mapFunction=function(img){return ee.Image(img).addBands(ee.Image(img.get('matched')),null,true).setMulti({'matched':null});}
+    }
      
     return ee.ImageCollection(ee.Join.saveFirst('matched').apply({
       primary: inputDictionary.collection,
       secondary: inputDictionary.enhancingCollection,
       condition: ee.Filter.equals({leftField: inputDictionary.matchingPropety, rightField: inputDictionary.matchingPropety})
-    }).map(function(img){return ee.Image(img).addBands(ee.Image(img.get('matched')),null,true).setMulti({'matched':null});}))
+    }).map(mapFunction));
   }
 }
