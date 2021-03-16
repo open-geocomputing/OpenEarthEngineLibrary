@@ -52,7 +52,7 @@ return function(){
     
     try{
       var info=ee.data.getAsset(assetId);
-      print(info)
+      //print(info)
       if(info.type!='ImageCollection')
        throw "Not an ImageCollection";
     }catch(e){

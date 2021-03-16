@@ -1,7 +1,7 @@
 var inputs=[{name:'covFun',description:'The covariance function,fun(ee.Array)', type:'function' ,optional:false},
             {name:'radius',description:'The radius of the windows used to get neighbors.', type:'integer',defaultValue:10 ,optional:false},
             {name:'skipInfomed',description:'Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',defaultValue:true,optional:false},
-            {name:'kernel',description:'Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.', type:'ee.Kernel',optional:true},
+            {name:'kernel',description:'Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.', type:'ee.Kernel|ee.Array',optional:true},
             {name:'image',description:'The image on which to run the computation.', type:'ee.Image',optional:true},
             {name:'imageCollection',description:'The image collection on which to run the computation', type:'ee.ImageCollection',optional:true},
             {name:'Return',description:'Return', type:'function|ee.Image',defaultValue:null,optional:true}]
@@ -37,6 +37,14 @@ return function(){
     var ImageK0c=ee.Image.constant(K0);
     
     var kernel=ee.Kernel.square(halfSize);
+
+    var ker=ee.Kernel.circle(5).getInfo();
+
+    if(dataKernel && internal.typeObject(dataKernel)=='ee.Kernel'){
+      var ker=dataKernel.getInfo().weights.replace(/\n/g, ",")
+      var val='['+ker.slice(1,ker.length)+']';
+      dataKernel=ee.Array(JSON.parse(val));
+    }
     
     var fun=function(im){
       
