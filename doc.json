@@ -625,7 +625,7 @@
                 {
                     "name": "kernel",
                     "description": "Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.",
-                    "type": "ee.Kernel",
+                    "type": "ee.Kernel|ee.Array",
                     "optional": true
                 },
                 {
@@ -842,5 +842,5 @@
             "fullPath": ".FeatureCollection.fromList"
         }
     },
-    "timeSinceEpoch": 1615849612076
+    "timeSinceEpoch": 1615889535873
 }
