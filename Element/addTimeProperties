@@ -43,10 +43,10 @@ return function(){
         }
         
         if(sinceEpoch){
-          obj["oeel:"+localName+"_day_epoch"]=time.difference(epoch,'day');
-          obj["oeel:"+localName+"_week_epoch"]=time.difference(epoch,'week');
-          obj["oeel:"+localName+"_month_epoch"]=time.difference(epoch,'month');
-          obj["oeel:"+localName+"_year_epoch"]=time.difference(epoch,'year');
+          obj["oeel:"+localName+"_day_epoch"]=time.difference(epoch,'day').floor();
+          obj["oeel:"+localName+"_week_epoch"]=time.difference(epoch,'week').floor();
+          obj["oeel:"+localName+"_month_epoch"]=time.difference(epoch,'month').floor();
+          obj["oeel:"+localName+"_year_epoch"]=time.difference(epoch,'year').floor();
         }
         else{
           obj["oeel:"+localName+"_day"]=time.get('day', timeZone);
