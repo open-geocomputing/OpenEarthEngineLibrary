@@ -12,7 +12,8 @@ var inputs=[
   {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
   {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true},
   {name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true},
-  {name:"exportSize", description:"Allow to explicitly set the size of the collection to export", type:'integer|ee.Number', optional:true}
+  {name:"exportSize", description:"Allow to explicitly set the size of the collection to export", type:'integer|ee.Number', optional:true},
+  {name:"usePrefix", description:"To NOT use an nameProperty but the following prefixwith the export index", type:'string', optional:true}
  ]
 
 var reference={name:'toAsset',license:'MIT', description:'Creates a bunch of batch tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset.', contributors:['Mathieu Gravey']};
@@ -31,12 +32,15 @@ return function(){
     var autoExport=inputDictionary.autoExport;
     var overwrite=inputDictionary.overwrite;
     var exportSize=inputDictionary.exportSize;
+    var usePrefix=inputDictionary.usePrefix;
+    
     delete inputDictionary.nameProperty;
     delete inputDictionary.imageCollection;
     delete inputDictionary.assetId;
     delete inputDictionary.autoExport;
     delete inputDictionary.overwrite;
     delete inputDictionary.exportSize;
+    delete inputDictionary.usePrefix;
     //print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.createAsset');
     //print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.startProcessing')
     //print('GEE_Addon_confirmManager:removeConfirmOn:ee.data.deleteAsset');
@@ -77,7 +81,13 @@ return function(){
       for (var i=0; i<amountImage; i++){
         var exportDic=inputDictionary;
         var im=ee.Image(col.toList(amountImage).get(i));
-        var name=im.get(ee.String(prop)).getInfo(); // need to be improuved
+        if(usePrefix){
+          var name=usePrefix+i;
+        }else{
+          var name=im.get(ee.String(prop)).getInfo();
+        }
+         // need to be improuved
+        
         exportDic.image=im;
         exportDic.assetId=assetId+'/'+name;
         exportDic.description=prefix+i;//ee.String(exportDic.description).cat(i)//im.get(prop))
@@ -110,5 +120,3 @@ return function(){
     })
   }
 }
-
- 
