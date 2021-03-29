@@ -107,6 +107,12 @@
                         "description": "Allow to explicitly set the size of the collection to export",
                         "type": "integer|ee.Number",
                         "optional": true
+                    },
+                    {
+                        "name": "usePrefix",
+                        "description": "To NOT use an nameProperty but the following prefixwith the export index",
+                        "type": "string",
+                        "optional": true
                     }
                 ],
                 "reference": {
@@ -903,5 +909,5 @@
             "fullPath": ".Image.inverseDistanceInterpolation"
         }
     },
-    "timeSinceEpoch": 1616869369283
+    "timeSinceEpoch": 1617012391386
 }
