@@ -344,3 +344,15 @@ code  {
 .footer {
 	background-color: var(--light-bg-Color);
 }
+
+
+@media (max-width: 768px) {
+	.container.content.header{
+	    align-items: center;
+	    flex-direction: column;
+	}
+
+	.container.content.header .pageTitle{
+	    margin:15px 0;
+	}
+}
