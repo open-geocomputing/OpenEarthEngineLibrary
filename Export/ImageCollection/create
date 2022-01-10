@@ -1,0 +1,35 @@
+var inputs=[
+  {name:"path", description:"Path to teh collection to create", type:'string', optional:false},
+  {name:"noError", description:'Try to create the collection but if the colelction exist it dosen\'t fail.', type:'boolean', defaultValue:true, optional:false},
+ ]
+            
+var reference={name:'create',license:'MIT', description:'Create an ImageCollection.'};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+
+    var createCollection=function(path){
+      if(path.match(/(users|projects)(\/|[a-zA-Z0-9]|\-|\_)+/g)===null){
+        path=ee.data.getAssetRoots()[0].id+'/'+path;
+      }
+      /*
+      if(path.match(/^projects\/(.+)\/assets\/(.*$)/)===null){
+        path='projects/earthengine-legacy/assets/'+path;
+      }*/
+      internal.oeeex.sendMessage('createCollection:'+path);
+    }
+    
+    if(inputDictionary.noError){
+      try{
+        createCollection(inputDictionary.path)
+      }
+      catch(e){}
+    }else{
+      createCollection(inputDictionary.path)
+    }
+  }
+}
