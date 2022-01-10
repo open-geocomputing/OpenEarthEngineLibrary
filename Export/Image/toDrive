@@ -1,0 +1,107 @@
+var inputs=[
+  {name:"image", description:"The image to export.", type:'ee.Image', optional:false},
+  {name:"description", description:'A human-readable prefix name for the tasks.', type:'string', defaultValue:" ", optional:false},
+  {name:"folder", description:"The Google Drive Folder that the export will reside in. Note: (a) if the folder name exists at any level, the output is written to it, (b) if duplicate folder names exist, output is written to the most recently modified folder, (c) if the folder name does not exist, a new folder will be created at the root, and (d) folder names with separators (e.g. 'path/to/file') are interpreted as literal strings, not system paths. Defaults to Drive root.", type:'string', optional:true},
+  {name:"fileNamePrefix", description:"The filename prefix. May contain letters, numbers, -, _ (no spaces). Defaults to the description.", type:'string', optional:true},
+  {name:"dimensions", description:'The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or "WIDTHxHEIGHT" where WIDTH and HEIGHT are each positive integers.', type:'number|string', optional:true},
+  {name:"region", description:"A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.", type:'ee.Geometry', optional:true},
+  {name:"scale", description:"Resolution in meters per pixel. Defaults to 1000.", type:'number', optional:true},
+  {name:"crs", description:"CRS to use for the exported image.", type:'string|ee.String|ee.Projection', optional:true},
+  {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|string|ee.String', optional:true},
+  {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
+  {name:"shardSize", description:"Size in pixels of the tiles in which this image will be computed. Defaults to 256.", type:'number', optional:true},
+  {name:"fileDimensions", description:"The dimensions in pixels of each image file, if the image is too large to fit in a single file. May specify a single number to indicate a square shape, or an array of two dimensions to indicate (width,height). Note that the image will still be clipped to the overall image dimensions. Must be a multiple of shardSize.", type:'number', optional:true},
+  {name:"skipEmptyTiles", description:"If true, skip writing empty (i.e. fully-masked) image tiles. Defaults to false.", type:'boolean', optional:true},
+  {name:"fileFormat", description:"The string file format to which the image is exported. Currently only 'GeoTIFF' and 'TFRecord' are supported, defaults to 'GeoTIFF'.", type:'string', optional:true, default:"GeoTIFF"},
+  {name:"formatOptions", description:"A dictionary of string keys to format specific options.", type:'object', optional:true},
+  {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true}
+  //{name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true},
+
+ ]
+            
+var reference={name:'toDrive',license:'MIT', description:'Allow automatic image export to Google Drive', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+
+    if(!inputDictionary.autoExport){
+      delete inputDictionary.autoExport;
+      Export.image.toDrive(inputDictionary);
+      return;
+    }
+
+    if(inputDictionary.crs){
+      if(inputDictionary.crsTransform){
+        inputDictionary.image=inputDictionary.image.setDefaultProjection(inputDictionary.crs, inputDictionary.crsTransform);
+      }else{
+        inputDictionary.image=inputDictionary.image.setDefaultProjection(inputDictionary.crs);
+      }
+    }
+
+    if(inputDictionary.region){
+      var scaleParam={geometry:inputDictionary.region};
+      if(inputDictionary.dimensions){
+        if(typeof(inputDictionary.dimensions)==string){
+          var index=inputDictionary.dimensions.indexOf('x');
+          scaleParam.width=parseInt(inputDictionary.dimensions.slice(0,index));
+          scaleParam.height=parseInt(inputDictionary.dimensions.slice(index+1));
+        }else{
+          scaleParam.width=inputDictionary.dimensions[0];
+          scaleParam.height=inputDictionary.dimensions[1];
+        }
+      }
+      if(inputDictionary.scale){
+        scaleParam.scale=inputDictionary.scale;
+      }
+      inputDictionary.image=inputDictionary.image.clipToBoundsAndScale(scaleParam);
+    }
+
+    var fileExportOptionsConfig={driveDestination:{filenamePrefix: "computationDrive", folder: ""},fileFormat:"GEO_TIFF",geoTiffOptions:{}};
+    if(inputDictionary.formatOptions)fileExportOptionsConfig.geoTiffOptions=inputDictionary.formatOptions;
+    if(inputDictionary.folder)fileExportOptionsConfig.driveDestination.folder=inputDictionary.folder;
+    if(inputDictionary.fileNamePrefix)fileExportOptionsConfig.driveDestination.filenamePrefix=inputDictionary.fileNamePrefix;
+    if(inputDictionary.fileFormat){
+      fileExportOptionsConfig.fileFormat=inputDictionary.fileFormat;
+      if(fileExportOptionsConfig.fileFormat=='GeoTIFF'){
+        fileExportOptionsConfig.fileFormat="GEO_TIFF";
+        fileExportOptionsConfig.geoTiffOptions=
+        {
+            cloudOptimized: false,
+            skipEmptyFiles: false,
+            tileSize: 256
+        }
+      }
+    }
+    if(inputDictionary.cloudOptimized)fileExportOptionsConfig.geoTiffOptions.cloudOptimized=inputDictionary.cloudOptimized;
+    if(inputDictionary.skipEmptyFiles)fileExportOptionsConfig.geoTiffOptions.skipEmptyFiles=inputDictionary.skipEmptyFiles;
+    if(inputDictionary.fileDimensions){
+      fileExportOptionsConfig.geoTiffOptions.tileDimensions={width:inputDictionary.fileDimensions, height:inputDictionary.fileDimensions};
+    }
+    if(inputDictionary.shardSize)fileExportOptionsConfig.geoTiffOptions.tileSize=inputDictionary.shardSize;
+
+
+
+    var config={
+      description: "myExportImageTask",
+      expression:JSON.parse(inputDictionary.image.serialize()),
+      fileExportOptions:fileExportOptionsConfig
+    }
+    
+    if( inputDictionary.description){
+      config.description=inputDictionary.description;
+    }
+    
+    if(inputDictionary.maxPixels){
+      config.maxPixels=inputDictionary.maxPixels;
+    }
+    if(inputDictionary.description){
+      config.description=inputDictionary.description;
+    }
+    
+    internal.oeeex.export.image(config);
+  }
+}

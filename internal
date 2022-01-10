@@ -1,15 +1,16 @@
-//exports.addRef=;
-
-function convert2Terminals(dict,internal,relativePath){
+function convert2Terminals(dict,internal,relativePath,mainlib){
   var temp={};
+  if(!mainlib){
+    mainlib=temp;
+  }
   for(var key in dict){
     if(key=='internal')
       continue;
     var path=relativePath+"."+key;
     if(typeof(dict[key]['createFunction'])=='function'){
-      temp[key]=dict[key].createFunction(internal,path);
+      temp[key]=dict[key].createFunction(internal,path,mainlib);
     }else{
-      temp[key]=convert2Terminals(dict[key],internal,path);
+      temp[key]=convert2Terminals(dict[key],internal,path,mainlib);
     }
   }
   return temp;
@@ -123,4 +124,18 @@ exports.typeObject=function(a){
   else
     return typeof(a);
 }
+
+exports.oeeex={sendMessage:function(val){
+  print('OEEex_AddonManager:'+val,'if you can see this message, you should download OEEex the Open Earth Engine extension to unravel its full potential!')
+}}
+
+exports.oeeex.confirm={retain:function(theKeyText){exports.oeeex.sendMessage('emoveConfirmRetain:'+theKeyText);},
+                    release:function(theKeyText){exports.oeeex.sendMessage('removeConfirmRelease:'+theKeyText);}
+}
+
+exports.oeeex.export={image:function(config){exports.oeeex.sendMessage('exportImage:'+JSON.stringify(config));},
+                      video:function(config){exports.oeeex.sendMessage('exportVideo:'+JSON.stringify(config));},
+                      table:function(config){exports.oeeex.sendMessage('exportTable:'+JSON.stringify(config));}
+}
+
 

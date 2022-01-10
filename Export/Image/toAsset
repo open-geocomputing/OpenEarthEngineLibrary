@@ -1,0 +1,110 @@
+var inputs=[
+  {name:"image", description:"The image to export.", type:'ee.Image', optional:false},
+  {name:"description", description:'A human-readable prefix name for the tasks.', type:'string', defaultValue:" ", optional:false},
+  {name:"assetId", description:"The destination asset ID.", type:'string', optional:true},
+  {name:"pyramidingPolicy", description:'The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to "mean". A special key, ".default" may be used to change the default for all bands.', type:'object', optional:true},
+  {name:"dimensions", description:'The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or "WIDTHxHEIGHT" where WIDTH and HEIGHT are each positive integers.', type:'number|string', optional:true},
+  {name:"region", description:"A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.", type:'ee.Geometry', optional:true},
+  {name:"scale", description:"Resolution in meters per pixel. Defaults to 1000.", type:'number', optional:true},
+  {name:"crs", description:"CRS to use for the exported image.", type:'string|ee.String|ee.Projection', optional:true},
+  {name:"crsTransform", description:'Affine transform to use for the exported image. Requires "crs" to be defined.', type:'ee.List|string|ee.String', optional:true},
+  {name:"maxPixels", description:"Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.", type:'number', optional:true},
+  {name:"shardSize", description:"Size in pixels of the tiles in which this image will be computed. Defaults to 256.", type:'number', optional:true},
+  {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true}
+  //{name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true},
+ ]
+            
+var reference={name:'toAsset',license:'MIT', description:'Allow automatic asset image export', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+
+    if(!inputDictionary.autoExport){
+      delete inputDictionary.autoExport;
+      Export.image.toAsset(inputDictionary);
+      return;
+    }
+
+    if(inputDictionary.crs){
+      if(inputDictionary.crsTransform){
+        inputDictionary.image=inputDictionary.image.setDefaultProjection(inputDictionary.crs, inputDictionary.crsTransform);
+      }else{
+        inputDictionary.image=inputDictionary.image.setDefaultProjection(inputDictionary.crs);
+      }
+    }
+
+    if(inputDictionary.region){
+      var scaleParam={geometry:inputDictionary.region};
+      if(inputDictionary.dimensions){
+        if(typeof(inputDictionary.dimensions)==string){
+          var index=inputDictionary.dimensions.indexOf('x');
+          scaleParam.width=parseInt(inputDictionary.dimensions.slice(0,index));
+          scaleParam.height=parseInt(inputDictionary.dimensions.slice(index+1));
+        }else{
+          scaleParam.width=inputDictionary.dimensions[0];
+          scaleParam.height=inputDictionary.dimensions[1];
+        }
+      }
+      if(inputDictionary.scale){
+        scaleParam.scale=inputDictionary.scale;
+      }
+      inputDictionary.image=inputDictionary.image.clipToBoundsAndScale(scaleParam);
+    }
+
+
+
+    var assetExportOptionsConfig=
+    {
+        earthEngineDestination:
+        {
+            name:"myExportTask"
+        },
+        pyramidingPolicy:"MEAN",
+        pyramidingPolicyOverrides:
+        {
+            B2: "MODE"
+        },
+        tileSize: 256
+    }
+    if(inputDictionary.pyramidingPolicy){
+      if(inputDictionary.pyramidingPolicy[".default"]){
+        assetExportOptionsConfig.pyramidingPolicy=inputDictionary.pyramidingPolicy[".default"]
+      }
+      delete inputDictionary.pyramidingPolicy[".default"];
+      assetExportOptionsConfig.pyramidingPolicyOverrides=inputDictionary.pyramidingPolicy;
+    }
+
+    if(inputDictionary.shardSize)assetExportOptionsConfig.tileSize=inputDictionary.shardSize;
+    if(inputDictionary.assetId){
+      assetExportOptionsConfig.earthEngineDestination.name=inputDictionary.assetId;
+    }
+    if(assetExportOptionsConfig.earthEngineDestination.name.match(/(users|projects)(\/|[a-zA-Z0-9]|\-|\_)+/g)==null){
+      assetExportOptionsConfig.earthEngineDestination.name=ee.data.getAssetRoots()[0].id+'/'+assetExportOptionsConfig.earthEngineDestination.name;
+    }
+    if(assetExportOptionsConfig.earthEngineDestination.name.match(/^projects\/(.+)\/assets\/(.*$)/)==null){
+      assetExportOptionsConfig.earthEngineDestination.name='projects/earthengine-legacy/assets/'+assetExportOptionsConfig.earthEngineDestination.name;
+    }
+
+    var config={
+      description: "myExportImageTask",
+      expression:JSON.parse(inputDictionary.image.serialize()),
+      assetExportOptions:assetExportOptionsConfig
+    }
+    if( inputDictionary.description){
+      config.description=inputDictionary.description;
+    }
+    
+    if(inputDictionary.maxPixels){
+      config.maxPixels=inputDictionary.maxPixels;
+    }
+    if(inputDictionary.description){
+      config.description=inputDictionary.description;
+    }
+    
+    internal.oeeex.export.image(config);
+  }
+}
