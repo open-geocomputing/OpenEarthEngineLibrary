@@ -49,6 +49,7 @@ jobs:
         run: |
           git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories || bash -c "git checkout --ours . ; git add -u ; git commit -m 'autoMerge'"
           git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
+          git push
 
   doc:
     needs: buildAndMirrror
