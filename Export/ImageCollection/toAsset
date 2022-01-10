@@ -58,7 +58,7 @@ return function(){
           
           exportDic.image=im;
           exportDic.assetId=assetId+'/'+name;
-          exportDic.description=name;
+          exportDic.description=prefix+'_'+name;
           
           root.Export.Image.toAsset(exportDic);
         }
