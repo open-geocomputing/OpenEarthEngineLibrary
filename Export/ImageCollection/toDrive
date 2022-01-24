@@ -1,5 +1,5 @@
 var inputs=[
-  {name:"image", description:"The image to export.", type:'ee.Image', optional:false},
+  {name:"images", description:"The image collection to export.", type:'ee.ImageCollection', optional:false},
   {name:"description", description:'A human-readable prefix name for the tasks.', type:'string', defaultValue:" ", optional:false},
   {name:"folder", description:"The Google Drive Folder that the export will reside in. Note: (a) if the folder name exists at any level, the output is written to it, (b) if duplicate folder names exist, output is written to the most recently modified folder, (c) if the folder name does not exist, a new folder will be created at the root, and (d) folder names with separators (e.g. 'path/to/file') are interpreted as literal strings, not system paths. Defaults to Drive root.", type:'string', optional:true},
   {name:"fileNamePrefix", description:"The filename prefix. May contain letters, numbers, -, _ (no spaces). Defaults to the description.", type:'string', optional:true},
