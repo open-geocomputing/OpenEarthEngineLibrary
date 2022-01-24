@@ -3,7 +3,6 @@ var inputs=[
   {name:"nameProperty", description:'The property to use as the image name at export', type:'string|ee.String', defaultValue:'system:index', optional:false},
   {name:"description", description:'A human-readable prefix name for the tasks.', type:'string', defaultValue:" ", optional:false},
   {name:"folder", description:"The Google Drive Folder that the export will reside in. Note: (a) if the folder name exists at any level, the output is written to it, (b) if duplicate folder names exist, output is written to the most recently modified folder, (c) if the folder name does not exist, a new folder will be created at the root, and (d) folder names with separators (e.g. 'path/to/file') are interpreted as literal strings, not system paths. Defaults to Drive root.", type:'string', optional:true},
-  {name:"fileNamePrefix", description:"The filename prefix. May contain letters, numbers, -, _ (no spaces). Defaults to the description.", type:'string', optional:true},
   {name:"dimensions", description:'The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or "WIDTHxHEIGHT" where WIDTH and HEIGHT are each positive integers.', type:'number|string', optional:true},
   {name:"region", description:"A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.", type:'ee.Geometry', optional:true},
   {name:"scale", description:"Resolution in meters per pixel. Defaults to 1000.", type:'number', optional:true},
@@ -53,10 +52,10 @@ return function(){
            // need to be improuved
           
           exportDic.image=im;
-          exportDic.assetId=assetId+'/'+name;
+          exportDic.fileNamePrefix=name;
           exportDic.description=name;
           
-          root.Export.Image.toAsset(exportDic);
+          root.Export.Image.toDrive(exportDic);
         }
       });
   }
