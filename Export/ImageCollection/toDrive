@@ -53,7 +53,7 @@ return function(){
           
           exportDic.image=im;
           exportDic.fileNamePrefix=name;
-          exportDic.description=name;
+          exportDic.description=""+name;
           
           root.Export.Image.toDrive(exportDic);
         }
