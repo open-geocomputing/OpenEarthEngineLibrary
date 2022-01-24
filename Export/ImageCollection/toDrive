@@ -15,7 +15,8 @@ var inputs=[
   {name:"skipEmptyTiles", description:"If true, skip writing empty (i.e. fully-masked) image tiles. Defaults to false.", type:'boolean', optional:true},
   {name:"fileFormat", description:"The string file format to which the image is exported. Currently only 'GeoTIFF' and 'TFRecord' are supported, defaults to 'GeoTIFF'.", type:'string', optional:true, default:"GeoTIFF"},
   {name:"formatOptions", description:"A dictionary of string keys to format specific options.", type:'object', optional:true},
-  {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true}
+  {name:"autoExport", description:"Use autoExport", type:'boolean', optional:true},
+  {name:"usePrefix", description:"To NOT use an nameProperty but the following prefixwith the export index", type:'string', optional:true}
   //{name:"overwrite", description:"In the case of use of autoExports, it removes first the file if it already exists.", type:'boolean', optional:true},
 
  ]
