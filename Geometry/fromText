@@ -35,15 +35,17 @@ return function(){
     var rotation=ee.Number(inputDictionary.rotation);
 
     
-    function scaleAndShiftGeom(geom,scale, shiftX, shiftY){
+     function scaleAndShiftGeom(geom,scale, shiftX, shiftY){
       scale=ee.Number(scale);
       shiftX=ee.Number(shiftX);
       shiftY=ee.Number(shiftY);
-        return ee.List(geom).map(function(l2){
+      return ee.List(geom).map(function(l1){
+        return ee.List(l1).map(function(l2){
           return ee.List(l2).map(function(l3){
             l3=ee.List(l3);
             return ee.List([l3.getNumber(0).multiply(scale).add(shiftX),l3.getNumber(1).multiply(scale).add(shiftY)]) ;
           });
+        });
       });
     }
     
@@ -55,8 +57,8 @@ return function(){
       var cos=ee.Number(rot).cos();
       shiftY2=ee.Number(shiftY2);
       shiftX2=ee.Number(shiftX2);
-        return ee.List(geom).map(function(l1){
-          return ee.List(l1).map(function(l2){
+      return ee.List(geom).map(function(l1){
+        return ee.List(l1).map(function(l2){
           return ee.List(l2).map(function(l3){
             l3=ee.List(l3);
             var X=l3.getNumber(0).multiply(scale).add(shiftX1)
@@ -84,8 +86,15 @@ return function(){
         var char =charInfo.getString(0);
         var absolutShift =charInfo.getNumber(1);
         var charFt=font.filter(ee.Filter.equals('char',char)).first();
-      return ee.Algorithms.If(charFt.get("toDisplay"), scaleAndShiftGeom(charFt.geometry().transform('EPSG:3857',1).coordinates(),1,absolutShift.add(alignShift),verticalShift), null);
-      },true));
+      return ee.Algorithms.If(charFt.get("toDisplay"), scaleAndShiftGeom(
+        ee.Algorithms.If({
+            condition:charFt.geometry().type().equals('Polygon'),
+            trueCase:ee.List([charFt.geometry().transform('EPSG:3857',1).coordinates()]),
+            falseCase:charFt.geometry().transform('EPSG:3857',1).coordinates(),
+        })
+          
+        ,1,absolutShift.add(alignShift),verticalShift), null);
+      },true).iterate(function(val,prev){return ee.List(prev).cat(val);},ee.List([])));
     } 
     function displayText(string,config){
       var strings=ee.String(string).split('\n');
