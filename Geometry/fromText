@@ -89,7 +89,7 @@ return function(){
     } 
     function displayText(string,config){
       var strings=ee.String(string).split('\n');
-      print(startY)
+      
       var coordenates=strings.zip(ee.List.sequence(startY.multiply(strings.size()),null,-1,strings.size())).iterate(displayLine,ee.List([]));
       coordenates=globalScaleRotateAndShiftGeom(coordenates,fontSize, ee.Number(shiftB.get(0)), ee.Number(shiftB.get(1)), rotation, ee.Number(shiftA.get(0)),ee.Number(shiftA.get(1)) )
       return ee.Geometry.MultiPolygon({
