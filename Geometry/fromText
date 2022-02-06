@@ -1,0 +1,106 @@
+var inputs=[{name:'text',description:'The text of the geometry', type:'string|ee.String',defaultValue:null,optional:false},
+            {name:'font',description:'The font to use', type:'string|ee.String|ee.FeatureCollection',defaultValue:"users/mgravey/Helvetica_v2",optional:false},
+            {name:'fontSize',description:'The font size', type:'integer|ee.Number',defaultValue:1,optional:false},
+            {name:'position',description:"Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)", type:'string|ee.String',defaultValue:'centter-center',optional:false},
+            {name:'rotation',description:'Text angle', type:'integer|ee.Number',defaultValue:0,optional:false},
+            {name:'shiftB',description:'Text shift before rotation', type:'ee.List|object',defaultValue:[0,0],optional:false},
+            {name:'shiftA',description:'Text shift after rotation', type:'ee.List|object',defaultValue:[0,0],optional:false},
+            {name:'Return',description:'Return', type:'ee.Geometry.MultiPolygon',defaultValue:null,optional:true}
+            ]
+            
+var reference={name:'fromText',license:'MIT', description:'This function create a polygon with some specific text.', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var font=ee.FeatureCollection(inputDictionary.font);
+    
+    var charCompactness=-100;
+    var betweenCharDist=0;
+    
+    var position=ee.String(inputDictionary.position).split('-');
+
+    var startY=ee.Number(0.5).add(position.getString(0).compareTo('center').signum().multiply(-0.5))
+    var x=position.getString(1).compareTo('left').signum();
+    var startX=x.add(3).divide(4).multiply(x.abs()).multiply(-1)
+
+    var shiftB=ee.List(inputDictionary.shiftB);
+    var shiftA=ee.List(inputDictionary.shiftA);
+
+    var fontSize=ee.Number(inputDictionary.fontSize);
+    var rotation=ee.Number(inputDictionary.rotation);
+
+    
+    function scaleAndShiftGeom(geom,scale, shiftX, shiftY){
+      scale=ee.Number(scale);
+      shiftX=ee.Number(shiftX);
+      shiftY=ee.Number(shiftY);
+        return ee.List(geom).map(function(l2){
+          return ee.List(l2).map(function(l3){
+            l3=ee.List(l3);
+            return ee.List([l3.getNumber(0).multiply(scale).add(shiftX),l3.getNumber(1).multiply(scale).add(shiftY)]) ;
+          });
+      });
+    }
+    
+    function globalScaleRotateAndShiftGeom(geom,scale, shiftX1, shiftY1, rot, shiftX2, shiftY2){
+      scale=ee.Number(scale);
+      shiftX1=ee.Number(shiftX1);
+      shiftY1=ee.Number(shiftY1);
+      var sin=ee.Number(rot).sin();
+      var cos=ee.Number(rot).cos();
+      shiftY2=ee.Number(shiftY2);
+      shiftX2=ee.Number(shiftX2);
+        return ee.List(geom).map(function(l1){
+          return ee.List(l1).map(function(l2){
+          return ee.List(l2).map(function(l3){
+            l3=ee.List(l3);
+            var X=l3.getNumber(0).multiply(scale).add(shiftX1)
+            var Y=l3.getNumber(1).multiply(scale).add(shiftY1)
+            return ee.List([X.multiply(cos).add(Y.multiply(sin.multiply(-1))).add(shiftX2),
+                            X.multiply(sin).add(Y.multiply(cos)             ).add(shiftY2)]) ;
+          });
+        });
+      });
+    }
+    
+    function displayLine(strinAndShift, previous){
+      previous=ee.List(previous);
+      strinAndShift=ee.List(strinAndShift);
+            var verticalShift=strinAndShift.getNumber(1).multiply(font.first().getNumber('height'));
+      var string=ee.String(strinAndShift.get(0)).split('').filter(ee.Filter.neq('item', ""));
+      var shifts=string.iterate(function(char,tab){
+        tab=ee.List(tab);
+        return tab.add(ee.Number(tab.get(-1)).add(font.filter(ee.Filter.equals('char',char)).first().getNumber('width').add(betweenCharDist)));
+      },[0]);
+
+      var alignShift=ee.List(shifts).getNumber(-1).multiply(startX);
+      return previous.cat(string.zip(shifts).map(function(charInfo){
+        charInfo=ee.List(charInfo);
+        var char =charInfo.getString(0);
+        var absolutShift =charInfo.getNumber(1);
+        var charFt=font.filter(ee.Filter.equals('char',char)).first();
+      return ee.Algorithms.If(charFt.get("toDisplay"), scaleAndShiftGeom(charFt.geometry().transform('EPSG:3857',1).coordinates(),1,absolutShift.add(alignShift),verticalShift), null);
+      },true));
+    } 
+    function displayText(string,config){
+      var strings=ee.String(string).split('\n');
+      print(startY)
+      var coordenates=strings.zip(ee.List.sequence(startY.multiply(strings.size()),null,-1,strings.size())).iterate(displayLine,ee.List([]));
+      coordenates=globalScaleRotateAndShiftGeom(coordenates,fontSize, ee.Number(shiftB.get(0)), ee.Number(shiftB.get(1)), rotation, ee.Number(shiftA.get(0)),ee.Number(shiftA.get(1)) )
+      return ee.Geometry.MultiPolygon({
+          coords:coordenates,
+          proj:'EPSG:3857',
+          geodesic:false,
+      //	maxError:,
+          evenOdd:true,
+      });
+    }
+    
+    return displayText(inputDictionary.text);
+  }
+}
