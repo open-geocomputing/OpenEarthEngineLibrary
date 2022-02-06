@@ -16,7 +16,7 @@ function displayDocFunction(data) {
 	doc.append($("<div>", {"class": "codeBlockWithCB"})
 		.append($("<pre>")
 		.append($("<code>", {id: "reference-code", "class": "language-javascript"})
-			.html('oeel' + data.fullPath + '(' + data.inputs.map(i => i.name).join(', ') +')')))
+			.html('oeel' + data.fullPath + '(' + data.inputs.filter( input => input.name != 'Return').map(i => i.name).join(', ') +')')))
 		.append(clipboardElement));
 	doc.append($("<article>", {"class": "message is-primary"})
 		.append($("<div>", {id: "reference-description", "class": "message-body"})
@@ -91,11 +91,11 @@ function displayDocFunction(data) {
 	text2copy = 'oeel' + data.fullPath + '({\n'
 	text2copy += inputs.map( function(i){
 		var t=''
-		if (i.optional | (i.defaultValue && !i.optional) ){
+		if (i.optional || (i.defaultValue!=null && !i.optional) ){
 			t += '// '
 		}
 		t += i.name + ':'
-		if (i.defaultValue){
+		if (i.defaultValue!=null){
 			t += i.defaultValue
 		}
 		return t
