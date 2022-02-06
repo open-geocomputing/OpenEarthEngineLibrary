@@ -1,122 +1,102 @@
 {
+    "Geometry": {
+        "fromText": {
+            "inputs": [
+                {
+                    "name": "text",
+                    "description": "The text of the geometry",
+                    "type": "string|ee.String",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "font",
+                    "description": "The font to use",
+                    "type": "string|ee.String|ee.FeatureCollection",
+                    "defaultValue": "users/mgravey/Helvetica_v2",
+                    "optional": false
+                },
+                {
+                    "name": "fontSize",
+                    "description": "The font size",
+                    "type": "integer|ee.Number",
+                    "defaultValue": 1,
+                    "optional": false
+                },
+                {
+                    "name": "position",
+                    "description": "Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)",
+                    "type": "string|ee.String",
+                    "defaultValue": "centter-center",
+                    "optional": false
+                },
+                {
+                    "name": "rotation",
+                    "description": "Text angle",
+                    "type": "integer|ee.Number",
+                    "defaultValue": 0,
+                    "optional": false
+                },
+                {
+                    "name": "shiftB",
+                    "description": "Text shift before rotation",
+                    "type": "ee.List|object",
+                    "defaultValue": [
+                        0,
+                        0
+                    ],
+                    "optional": false
+                },
+                {
+                    "name": "shiftA",
+                    "description": "Text shift after rotation",
+                    "type": "ee.List|object",
+                    "defaultValue": [
+                        0,
+                        0
+                    ],
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Geometry.MultiPolygon",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "fromText",
+                "license": "MIT",
+                "description": "This function create a polygon with some specific text.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Geometry.fromText"
+        }
+    },
     "Export": {
+        "loadIfExistElseExport": {
+            "inputs": [
+                {
+                    "name": "param",
+                    "description": "Parameters of Export.*.toAsset()",
+                    "type": "object",
+                    "optional": false
+                }
+            ],
+            "reference": {
+                "name": "loadIfExistElseExport",
+                "license": "MIT",
+                "description": "Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...).",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Export.loadIfExistElseExport"
+        },
         "ImageCollection": {
-            "create": {
-                "inputs": [
-                    {
-                        "name": "path",
-                        "description": "Path to teh collection to create",
-                        "type": "string",
-                        "optional": false
-                    },
-                    {
-                        "name": "noError",
-                        "description": "Try to create the collection but if the colelction exist it dosen't fail.",
-                        "type": "boolean",
-                        "defaultValue": true,
-                        "optional": false
-                    }
-                ],
-                "reference": {
-                    "name": "create",
-                    "license": "MIT",
-                    "description": "Create an ImageCollection."
-                },
-                "fullPath": ".Export.ImageCollection.create"
-            },
-            "toAsset": {
-                "inputs": [
-                    {
-                        "name": "imageCollection",
-                        "description": "The imageCollection to export.",
-                        "type": "ee.ImageCollection",
-                        "optional": false
-                    },
-                    {
-                        "name": "nameProperty",
-                        "description": "The property to use as the image name at export",
-                        "type": "string|ee.String",
-                        "defaultValue": "system:index",
-                        "optional": false
-                    },
-                    {
-                        "name": "description",
-                        "description": "A human-readable prefix name for the tasks.",
-                        "type": "string",
-                        "defaultValue": " ",
-                        "optional": false
-                    },
-                    {
-                        "name": "assetId",
-                        "description": "The destination asset ID of teh collection.",
-                        "type": "string",
-                        "optional": false
-                    },
-                    {
-                        "name": "pyramidingPolicy",
-                        "description": "The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to \"mean\". A special key, \".default\" may be used to change the default for all bands.",
-                        "type": "Object",
-                        "optional": true
-                    },
-                    {
-                        "name": "dimensions",
-                        "description": "The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or \"WIDTHxHEIGHT\" where WIDTH and HEIGHT are each positive integers.",
-                        "type": "number|string",
-                        "optional": true
-                    },
-                    {
-                        "name": "region",
-                        "description": "A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.",
-                        "type": "ee.Geometry",
-                        "optional": true
-                    },
-                    {
-                        "name": "scale",
-                        "description": "Resolution in meters per pixel. Defaults to 1000.",
-                        "type": "number",
-                        "optional": true
-                    },
-                    {
-                        "name": "crs",
-                        "description": "CRS to use for the exported image.",
-                        "type": "string|ee.String|ee.Projection",
-                        "optional": true
-                    },
-                    {
-                        "name": "crsTransform",
-                        "description": "Affine transform to use for the exported image. Requires \"crs\" to be defined.",
-                        "type": "ee.List|string|ee.String",
-                        "optional": true
-                    },
-                    {
-                        "name": "maxPixels",
-                        "description": "Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.",
-                        "type": "number",
-                        "optional": true
-                    },
-                    {
-                        "name": "autoExport",
-                        "description": "Use autoExport",
-                        "type": "boolean",
-                        "optional": true
-                    },
-                    {
-                        "name": "usePrefix",
-                        "description": "To NOT use an nameProperty but the following prefixwith the export index",
-                        "type": "string",
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "toAsset",
-                    "license": "MIT",
-                    "description": "Creates a set of tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset.",
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
-                },
-                "fullPath": ".Export.ImageCollection.toAsset"
-            },
             "toDrive": {
                 "inputs": [
                     {
@@ -235,6 +215,122 @@
                 },
                 "fullPath": ".Export.ImageCollection.toDrive"
             },
+            "create": {
+                "inputs": [
+                    {
+                        "name": "path",
+                        "description": "Path to teh collection to create",
+                        "type": "string",
+                        "optional": false
+                    },
+                    {
+                        "name": "noError",
+                        "description": "Try to create the collection but if the colelction exist it dosen't fail.",
+                        "type": "boolean",
+                        "defaultValue": true,
+                        "optional": false
+                    }
+                ],
+                "reference": {
+                    "name": "create",
+                    "license": "MIT",
+                    "description": "Create an ImageCollection."
+                },
+                "fullPath": ".Export.ImageCollection.create"
+            },
+            "toAsset": {
+                "inputs": [
+                    {
+                        "name": "imageCollection",
+                        "description": "The imageCollection to export.",
+                        "type": "ee.ImageCollection",
+                        "optional": false
+                    },
+                    {
+                        "name": "nameProperty",
+                        "description": "The property to use as the image name at export",
+                        "type": "string|ee.String",
+                        "defaultValue": "system:index",
+                        "optional": false
+                    },
+                    {
+                        "name": "description",
+                        "description": "A human-readable prefix name for the tasks.",
+                        "type": "string",
+                        "defaultValue": " ",
+                        "optional": false
+                    },
+                    {
+                        "name": "assetId",
+                        "description": "The destination asset ID of teh collection.",
+                        "type": "string",
+                        "optional": false
+                    },
+                    {
+                        "name": "pyramidingPolicy",
+                        "description": "The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to \"mean\". A special key, \".default\" may be used to change the default for all bands.",
+                        "type": "Object",
+                        "optional": true
+                    },
+                    {
+                        "name": "dimensions",
+                        "description": "The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or \"WIDTHxHEIGHT\" where WIDTH and HEIGHT are each positive integers.",
+                        "type": "number|string",
+                        "optional": true
+                    },
+                    {
+                        "name": "region",
+                        "description": "A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.",
+                        "type": "ee.Geometry",
+                        "optional": true
+                    },
+                    {
+                        "name": "scale",
+                        "description": "Resolution in meters per pixel. Defaults to 1000.",
+                        "type": "number",
+                        "optional": true
+                    },
+                    {
+                        "name": "crs",
+                        "description": "CRS to use for the exported image.",
+                        "type": "string|ee.String|ee.Projection",
+                        "optional": true
+                    },
+                    {
+                        "name": "crsTransform",
+                        "description": "Affine transform to use for the exported image. Requires \"crs\" to be defined.",
+                        "type": "ee.List|string|ee.String",
+                        "optional": true
+                    },
+                    {
+                        "name": "maxPixels",
+                        "description": "Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.",
+                        "type": "number",
+                        "optional": true
+                    },
+                    {
+                        "name": "autoExport",
+                        "description": "Use autoExport",
+                        "type": "boolean",
+                        "optional": true
+                    },
+                    {
+                        "name": "usePrefix",
+                        "description": "To NOT use an nameProperty but the following prefixwith the export index",
+                        "type": "string",
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "toAsset",
+                    "license": "MIT",
+                    "description": "Creates a set of tasks (one per image) to export an ImageCollection as multiple ee.Image raster to an Earth Engine ImageCollection asset.",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
+                },
+                "fullPath": ".Export.ImageCollection.toAsset"
+            },
             "asImageToAsset": {
                 "inputs": [
                     {
@@ -311,92 +407,6 @@
             }
         },
         "Image": {
-            "toAsset": {
-                "inputs": [
-                    {
-                        "name": "image",
-                        "description": "The image to export.",
-                        "type": "ee.Image",
-                        "optional": false
-                    },
-                    {
-                        "name": "description",
-                        "description": "A human-readable prefix name for the tasks.",
-                        "type": "string",
-                        "defaultValue": " ",
-                        "optional": false
-                    },
-                    {
-                        "name": "assetId",
-                        "description": "The destination asset ID.",
-                        "type": "string",
-                        "optional": true
-                    },
-                    {
-                        "name": "pyramidingPolicy",
-                        "description": "The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to \"mean\". A special key, \".default\" may be used to change the default for all bands.",
-                        "type": "object",
-                        "optional": true
-                    },
-                    {
-                        "name": "dimensions",
-                        "description": "The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or \"WIDTHxHEIGHT\" where WIDTH and HEIGHT are each positive integers.",
-                        "type": "number|string",
-                        "optional": true
-                    },
-                    {
-                        "name": "region",
-                        "description": "A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.",
-                        "type": "ee.Geometry",
-                        "optional": true
-                    },
-                    {
-                        "name": "scale",
-                        "description": "Resolution in meters per pixel. Defaults to 1000.",
-                        "type": "number",
-                        "optional": true
-                    },
-                    {
-                        "name": "crs",
-                        "description": "CRS to use for the exported image.",
-                        "type": "string|ee.String|ee.Projection",
-                        "optional": true
-                    },
-                    {
-                        "name": "crsTransform",
-                        "description": "Affine transform to use for the exported image. Requires \"crs\" to be defined.",
-                        "type": "ee.List|string|ee.String",
-                        "optional": true
-                    },
-                    {
-                        "name": "maxPixels",
-                        "description": "Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.",
-                        "type": "number",
-                        "optional": true
-                    },
-                    {
-                        "name": "shardSize",
-                        "description": "Size in pixels of the tiles in which this image will be computed. Defaults to 256.",
-                        "type": "number",
-                        "optional": true
-                    },
-                    {
-                        "name": "autoExport",
-                        "description": "Use autoExport",
-                        "type": "boolean",
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "toAsset",
-                    "license": "MIT",
-                    "description": "Allow automatic asset image export",
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
-                },
-                "fullPath": ".Export.Image.toAsset"
-            },
             "toDrive": {
                 "inputs": [
                     {
@@ -507,26 +517,93 @@
                     ]
                 },
                 "fullPath": ".Export.Image.toDrive"
-            }
-        },
-        "loadIfExistElseExport": {
-            "inputs": [
-                {
-                    "name": "param",
-                    "description": "Parameters of Export.*.toAsset()",
-                    "type": "object",
-                    "optional": false
-                }
-            ],
-            "reference": {
-                "name": "loadIfExistElseExport",
-                "license": "MIT",
-                "description": "Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...).",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
             },
-            "fullPath": ".Export.loadIfExistElseExport"
+            "toAsset": {
+                "inputs": [
+                    {
+                        "name": "image",
+                        "description": "The image to export.",
+                        "type": "ee.Image",
+                        "optional": false
+                    },
+                    {
+                        "name": "description",
+                        "description": "A human-readable prefix name for the tasks.",
+                        "type": "string",
+                        "defaultValue": " ",
+                        "optional": false
+                    },
+                    {
+                        "name": "assetId",
+                        "description": "The destination asset ID.",
+                        "type": "string",
+                        "optional": true
+                    },
+                    {
+                        "name": "pyramidingPolicy",
+                        "description": "The pyramiding policy to apply to each band in the image, keyed by band name. Values must be one of: mean, sample, min, max, or mode. Defaults to \"mean\". A special key, \".default\" may be used to change the default for all bands.",
+                        "type": "object",
+                        "optional": true
+                    },
+                    {
+                        "name": "dimensions",
+                        "description": "The dimensions to use for the exported image. Takes either a single positive integer as the maximum dimension or \"WIDTHxHEIGHT\" where WIDTH and HEIGHT are each positive integers.",
+                        "type": "number|string",
+                        "optional": true
+                    },
+                    {
+                        "name": "region",
+                        "description": "A LinearRing, Polygon, or coordinates representing region to export. These may be specified as the Geometry objects or coordinates serialized as a string. If not specified, the region defaults to the viewport at the time of invocation.",
+                        "type": "ee.Geometry",
+                        "optional": true
+                    },
+                    {
+                        "name": "scale",
+                        "description": "Resolution in meters per pixel. Defaults to 1000.",
+                        "type": "number",
+                        "optional": true
+                    },
+                    {
+                        "name": "crs",
+                        "description": "CRS to use for the exported image.",
+                        "type": "string|ee.String|ee.Projection",
+                        "optional": true
+                    },
+                    {
+                        "name": "crsTransform",
+                        "description": "Affine transform to use for the exported image. Requires \"crs\" to be defined.",
+                        "type": "ee.List|string|ee.String",
+                        "optional": true
+                    },
+                    {
+                        "name": "maxPixels",
+                        "description": "Restrict the number of pixels in the export. By default, you will see an error if the export exceeds 1e8 pixels. Setting this value explicitly allows one to raise or lower this limit.",
+                        "type": "number",
+                        "optional": true
+                    },
+                    {
+                        "name": "shardSize",
+                        "description": "Size in pixels of the tiles in which this image will be computed. Defaults to 256.",
+                        "type": "number",
+                        "optional": true
+                    },
+                    {
+                        "name": "autoExport",
+                        "description": "Use autoExport",
+                        "type": "boolean",
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "toAsset",
+                    "license": "MIT",
+                    "description": "Allow automatic asset image export",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
+                },
+                "fullPath": ".Export.Image.toAsset"
+            }
         }
     },
     "ImageCollection": {
@@ -589,87 +666,6 @@
                 ]
             },
             "fullPath": ".ImageCollection.OtsuThreshold"
-        },
-        "movingWindow": {
-            "inputs": [
-                {
-                    "name": "collection",
-                    "description": "The image collection on which to perform the moving windows",
-                    "type": "ee.ImageCollection",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "filter",
-                    "description": "The moving windows filter",
-                    "type": "ee.Filter",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "reducer",
-                    "description": "The reducer",
-                    "type": "ee.Reducer|function",
-                    "defaultValue": "ee.Reducer.mean()",
-                    "optional": false
-                },
-                {
-                    "name": "copyProperties",
-                    "description": "Should the properties be added",
-                    "type": "boolean",
-                    "defaultValue": true,
-                    "optional": false
-                },
-                {
-                    "name": "estimationCollection",
-                    "description": "Specify the collection where to do the estimations (by default use the main collection)",
-                    "type": "ee.Collection",
-                    "defaultValue": null,
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.ImageCollection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "movingWindows",
-                "license": "MIT",
-                "description": "MovingWindows",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".ImageCollection.movingWindow"
-        },
-        "fromSingleImage": {
-            "inputs": [
-                {
-                    "name": "args",
-                    "description": "The assetID",
-                    "type": "ee.Image|string|ee.String",
-                    "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.ImageCollection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "example",
-                "license": "MIT",
-                "description": "Load an image as collection.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".ImageCollection.fromSingleImage"
         },
         "SavatskyGolayFilter": {
             "inputs": [
@@ -776,6 +772,87 @@
                 "description": "An algorithm that enhances a collection using another one. Merging image one to one."
             },
             "fullPath": ".ImageCollection.enhancingCollection"
+        },
+        "movingWindow": {
+            "inputs": [
+                {
+                    "name": "collection",
+                    "description": "The image collection on which to perform the moving windows",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "filter",
+                    "description": "The moving windows filter",
+                    "type": "ee.Filter",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "reducer",
+                    "description": "The reducer",
+                    "type": "ee.Reducer|function",
+                    "defaultValue": "ee.Reducer.mean()",
+                    "optional": false
+                },
+                {
+                    "name": "copyProperties",
+                    "description": "Should the properties be added",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "estimationCollection",
+                    "description": "Specify the collection where to do the estimations (by default use the main collection)",
+                    "type": "ee.Collection",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "movingWindows",
+                "license": "MIT",
+                "description": "MovingWindows",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".ImageCollection.movingWindow"
+        },
+        "fromSingleImage": {
+            "inputs": [
+                {
+                    "name": "args",
+                    "description": "The assetID",
+                    "type": "ee.Image|string|ee.String",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "example",
+                "license": "MIT",
+                "description": "Load an image as collection.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".ImageCollection.fromSingleImage"
         }
     },
     "data": {
@@ -813,158 +890,6 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "Image": {
-        "inverseDistanceInterpolation": {
-            "inputs": [
-                {
-                    "name": "radius",
-                    "description": "The radius of the windows used to get neighbors.",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                },
-                {
-                    "name": "power",
-                    "description": "The power of the inverse distance",
-                    "type": "number",
-                    "defaultValue": 2,
-                    "optional": false
-                },
-                {
-                    "name": "useConvolution",
-                    "description": "Use traditional neighborhood reduction or convolution",
-                    "type": "boolean",
-                    "defaultValue": true,
-                    "optional": false
-                },
-                {
-                    "name": "image",
-                    "description": "The image on which to run the computation",
-                    "type": "ee.Image",
-                    "optional": true
-                },
-                {
-                    "name": "imageCollection",
-                    "description": "The image collection on which to run the computation",
-                    "type": "ee.ImageCollection",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "function|ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "InverseDistanceInterpolation",
-                "license": "MIT",
-                "description": "Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Image.inverseDistanceInterpolation"
-        },
-        "kriging": {
-            "inputs": [
-                {
-                    "name": "covFun",
-                    "description": "The covariance function,fun(ee.Array)",
-                    "type": "function",
-                    "optional": false
-                },
-                {
-                    "name": "radius",
-                    "description": "The radius of the windows used to get neighbors.",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                },
-                {
-                    "name": "skipInfomed",
-                    "description": "Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center",
-                    "type": "boolean",
-                    "defaultValue": true,
-                    "optional": false
-                },
-                {
-                    "name": "kernel",
-                    "description": "Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.",
-                    "type": "ee.Kernel|ee.Array",
-                    "optional": true
-                },
-                {
-                    "name": "image",
-                    "description": "The image on which to run the computation.",
-                    "type": "ee.Image",
-                    "optional": true
-                },
-                {
-                    "name": "imageCollection",
-                    "description": "The image collection on which to run the computation",
-                    "type": "ee.ImageCollection",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "function|ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "kriging",
-                "license": "GPLv3",
-                "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Image.kriging"
-        },
-        "semivariogram": {
-            "inputs": [
-                {
-                    "name": "input",
-                    "description": "Single band image or imageCollection on which to run the computation.",
-                    "type": "ee.Image|ee.ImageCollection",
-                    "optional": false
-                },
-                {
-                    "name": "region",
-                    "description": "The region on which to compute the variogram ",
-                    "type": "ee.Geometry",
-                    "optional": false
-                },
-                {
-                    "name": "radius",
-                    "description": "The radius of the windows used to get neighbors.",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.FeatureCollection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "semivariogram",
-                "license": "GPLv3",
-                "description": "Compute the semivariogram",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Image.semivariogram"
-        }
-    },
     "FeatureCollection": {
         "fromList": {
             "inputs": [
@@ -994,67 +919,6 @@
                 "description": "Convert a List into a FeatureCollection"
             },
             "fullPath": ".FeatureCollection.fromList"
-        }
-    },
-    "Element": {
-        "addTimeProperties": {
-            "inputs": [
-                {
-                    "name": "sinceEpoch",
-                    "description": "define each proprty localy or the basolut cumulated sinece epoch (01.01.1970)",
-                    "type": "boolean",
-                    "defaultValue": false,
-                    "optional": false
-                },
-                {
-                    "name": "timeVaiable",
-                    "description": "The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.",
-                    "type": "string|object",
-                    "defaultValue": "start",
-                    "optional": false
-                },
-                {
-                    "name": "timeZone",
-                    "description": "The time zone.",
-                    "type": "string",
-                    "defaultValue": "UTC",
-                    "optional": false
-                },
-                {
-                    "name": "image",
-                    "description": "The image on which to to add the time properties.",
-                    "type": "ee.Image",
-                    "optional": true
-                },
-                {
-                    "name": "feature",
-                    "description": "The feature on which to to add the time properties.",
-                    "type": "ee.Feature",
-                    "optional": true
-                },
-                {
-                    "name": "collection",
-                    "description": "The collection on which to add the time properties",
-                    "type": "ee.Collection",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "function|ee.Image|ee.Feature|ee.Collection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "addTimeProperties",
-                "license": "MIT",
-                "description": "Simply add some time metric (day, month, year ...) derivated from system:time_start",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Element.addTimeProperties"
         }
     },
     "Filter": {
@@ -1118,6 +982,53 @@
         }
     },
     "Algorithms": {
+        "MODIS": {
+            "terrainShadow": {
+                "inputs": [
+                    {
+                        "name": "dem",
+                        "description": "the DEM to use",
+                        "type": "ee.Image",
+                        "optional": false
+                    },
+                    {
+                        "name": "kernelHalfSize",
+                        "description": "The radius of the kernel",
+                        "type": "number",
+                        "defaultValue": 10,
+                        "optional": false
+                    },
+                    {
+                        "name": "image",
+                        "description": "A MODIS image",
+                        "type": "ee.Image",
+                        "optional": true
+                    },
+                    {
+                        "name": "imageCollection",
+                        "description": "The MODIS collection on which to run the computation",
+                        "type": "ee.ImageCollection",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "function",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "terrainShadow",
+                    "license": "MIT",
+                    "description": "Compute the terrain shadow of MODIS images",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
+                },
+                "fullPath": ".Algorithms.MODIS.terrainShadow"
+            }
+        },
         "Sentinel2": {
             "cloudfree": {
                 "inputs": [
@@ -1188,54 +1099,220 @@
                 },
                 "fullPath": ".Algorithms.Sentinel1.removeS1BlackBorders"
             }
-        },
-        "MODIS": {
-            "terrainShadow": {
-                "inputs": [
-                    {
-                        "name": "dem",
-                        "description": "the DEM to use",
-                        "type": "ee.Image",
-                        "optional": false
-                    },
-                    {
-                        "name": "kernelHalfSize",
-                        "description": "The radius of the kernel",
-                        "type": "number",
-                        "defaultValue": 10,
-                        "optional": false
-                    },
-                    {
-                        "name": "image",
-                        "description": "A MODIS image",
-                        "type": "ee.Image",
-                        "optional": true
-                    },
-                    {
-                        "name": "imageCollection",
-                        "description": "The MODIS collection on which to run the computation",
-                        "type": "ee.ImageCollection",
-                        "optional": true
-                    },
-                    {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "function",
-                        "defaultValue": null,
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "terrainShadow",
-                    "license": "MIT",
-                    "description": "Compute the terrain shadow of MODIS images",
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
-                },
-                "fullPath": ".Algorithms.MODIS.terrainShadow"
-            }
         }
     },
-    "timeSinceEpoch": 1643063629938
+    "Element": {
+        "addTimeProperties": {
+            "inputs": [
+                {
+                    "name": "sinceEpoch",
+                    "description": "define each proprty localy or the basolut cumulated sinece epoch (01.01.1970)",
+                    "type": "boolean",
+                    "defaultValue": false,
+                    "optional": false
+                },
+                {
+                    "name": "timeVaiable",
+                    "description": "The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.",
+                    "type": "string|object",
+                    "defaultValue": "start",
+                    "optional": false
+                },
+                {
+                    "name": "timeZone",
+                    "description": "The time zone.",
+                    "type": "string",
+                    "defaultValue": "UTC",
+                    "optional": false
+                },
+                {
+                    "name": "image",
+                    "description": "The image on which to to add the time properties.",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "feature",
+                    "description": "The feature on which to to add the time properties.",
+                    "type": "ee.Feature",
+                    "optional": true
+                },
+                {
+                    "name": "collection",
+                    "description": "The collection on which to add the time properties",
+                    "type": "ee.Collection",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function|ee.Image|ee.Feature|ee.Collection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "addTimeProperties",
+                "license": "MIT",
+                "description": "Simply add some time metric (day, month, year ...) derivated from system:time_start",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Element.addTimeProperties"
+        }
+    },
+    "Image": {
+        "kriging": {
+            "inputs": [
+                {
+                    "name": "covFun",
+                    "description": "The covariance function,fun(ee.Array)",
+                    "type": "function",
+                    "optional": false
+                },
+                {
+                    "name": "radius",
+                    "description": "The radius of the windows used to get neighbors.",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "skipInfomed",
+                    "description": "Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "kernel",
+                    "description": "Neighbors with weight equal to 0 are ignored, the size needs to be compatible with the radius.",
+                    "type": "ee.Kernel|ee.Array",
+                    "optional": true
+                },
+                {
+                    "name": "image",
+                    "description": "The image on which to run the computation.",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "imageCollection",
+                    "description": "The image collection on which to run the computation",
+                    "type": "ee.ImageCollection",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function|ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "kriging",
+                "license": "GPLv3",
+                "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Image.kriging"
+        },
+        "inverseDistanceInterpolation": {
+            "inputs": [
+                {
+                    "name": "radius",
+                    "description": "The radius of the windows used to get neighbors.",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "power",
+                    "description": "The power of the inverse distance",
+                    "type": "number",
+                    "defaultValue": 2,
+                    "optional": false
+                },
+                {
+                    "name": "useConvolution",
+                    "description": "Use traditional neighborhood reduction or convolution",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": false
+                },
+                {
+                    "name": "image",
+                    "description": "The image on which to run the computation",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "imageCollection",
+                    "description": "The image collection on which to run the computation",
+                    "type": "ee.ImageCollection",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function|ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "InverseDistanceInterpolation",
+                "license": "MIT",
+                "description": "Compute a gap filling interpolation using inverse distance weighting. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Image.inverseDistanceInterpolation"
+        },
+        "semivariogram": {
+            "inputs": [
+                {
+                    "name": "input",
+                    "description": "Single band image or imageCollection on which to run the computation.",
+                    "type": "ee.Image|ee.ImageCollection",
+                    "optional": false
+                },
+                {
+                    "name": "region",
+                    "description": "The region on which to compute the variogram ",
+                    "type": "ee.Geometry",
+                    "optional": false
+                },
+                {
+                    "name": "radius",
+                    "description": "The radius of the windows used to get neighbors.",
+                    "type": "integer",
+                    "defaultValue": 10,
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.FeatureCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "semivariogram",
+                "license": "GPLv3",
+                "description": "Compute the semivariogram",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Image.semivariogram"
+        }
+    },
+    "timeSinceEpoch": 1644175573767
 }
