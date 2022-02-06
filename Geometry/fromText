@@ -2,7 +2,7 @@ var inputs=[{name:'text',description:'The text of the geometry', type:'string|ee
             {name:'font',description:'The font to use', type:'string|ee.String|ee.FeatureCollection',defaultValue:"users/mgravey/Helvetica_v2",optional:false},
             {name:'fontSize',description:'The font size', type:'integer|ee.Number',defaultValue:1,optional:false},
             {name:'position',description:"Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)", type:'string|ee.String',defaultValue:'centter-center',optional:false},
-            {name:'rotation',description:'Text angle', type:'integer|ee.Number',defaultValue:0,optional:false},
+            {name:'rotation',description:'Text angle', type:'integer|ee.Number',defaultValue:0.0,optional:false},
             {name:'shiftB',description:'Text shift before rotation', type:'ee.List|object',defaultValue:[0,0],optional:false},
             {name:'shiftA',description:'Text shift after rotation', type:'ee.List|object',defaultValue:[0,0],optional:false},
             {name:'Return',description:'Return', type:'ee.Geometry.MultiPolygon',defaultValue:null,optional:true}
