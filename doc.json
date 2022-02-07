@@ -1101,6 +1101,99 @@
             }
         }
     },
+    "Feature": {
+        "asLabel": {
+            "inputs": [
+                {
+                    "name": "textProperty",
+                    "description": "The text of the geometry",
+                    "type": "string|ee.String",
+                    "optional": false
+                },
+                {
+                    "name": "font",
+                    "description": "The font to use",
+                    "type": "string|ee.String|ee.FeatureCollection",
+                    "defaultValue": "users/OEEL/Fonts/Helvetica",
+                    "optional": false
+                },
+                {
+                    "name": "fontSize",
+                    "description": "The font size",
+                    "type": "integer|ee.Number",
+                    "defaultValue": 1,
+                    "optional": false
+                },
+                {
+                    "name": "position",
+                    "description": "Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)",
+                    "type": "string|ee.String",
+                    "defaultValue": "centter-center",
+                    "optional": false
+                },
+                {
+                    "name": "rotation",
+                    "description": "Text angle",
+                    "type": "integer|ee.Number",
+                    "defaultValue": 0,
+                    "optional": false
+                },
+                {
+                    "name": "shiftB",
+                    "description": "Text shift before rotation",
+                    "type": "ee.List|object",
+                    "defaultValue": [
+                        0,
+                        0
+                    ],
+                    "optional": false
+                },
+                {
+                    "name": "fontProperty",
+                    "description": "Property containing the font to use",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "fontSizeProperty",
+                    "description": "Property containing  the font size",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "positionProperty",
+                    "description": "Property containing the text alignement. ('top-right', 'top-center', 'top-left', 'bottom-right', ...)",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "rotationProperty",
+                    "description": "Property containing the text angle",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "shiftBProperty",
+                    "description": "Property containing the shift before rotation",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "asLabel",
+                "license": "MIT",
+                "description": "Generate a function that transforms a feature in an annotation /label Feature"
+            },
+            "fullPath": ".Feature.asLabel"
+        }
+    },
     "Element": {
         "addTimeProperties": {
             "inputs": [
@@ -1314,5 +1407,5 @@
             "fullPath": ".Image.semivariogram"
         }
     },
-    "timeSinceEpoch": 1644245949858
+    "timeSinceEpoch": 1644247475095
 }
