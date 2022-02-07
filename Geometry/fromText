@@ -2,7 +2,7 @@ var inputs=[{name:'text',description:'The text of the geometry', type:'string|ee
             {name:'font',description:'The font to use', type:'string|ee.String|ee.FeatureCollection',defaultValue:"users/mgravey/Helvetica_v2",optional:false},
             {name:'fontSize',description:'The font size', type:'integer|ee.Number',defaultValue:1,optional:false},
             {name:'position',description:"Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)", type:'string|ee.String',defaultValue:'centter-center',optional:false},
-            {name:'rotation',description:'Text angle', type:'integer|ee.Number',defaultValue:0.0,optional:false},
+            {name:'rotation',description:'Text angle', type:'integer|ee.Number',defaultValue:0,optional:false},
             {name:'shiftB',description:'Text shift before rotation', type:'ee.List|object',defaultValue:[0,0],optional:false},
             {name:'shiftA',description:'Text shift after rotation', type:'ee.List|object',defaultValue:[0,0],optional:false},
             {name:'Return',description:'Return', type:'ee.Geometry.MultiPolygon',defaultValue:null,optional:true}
@@ -35,17 +35,13 @@ return function(){
     var rotation=ee.Number(inputDictionary.rotation);
 
     
-     function scaleAndShiftGeom(geom,scale, shiftX, shiftY){
+    function scaleAndShiftGeom(geom,scale, shiftX, shiftY){
       scale=ee.Number(scale);
       shiftX=ee.Number(shiftX);
       shiftY=ee.Number(shiftY);
       return ee.List(geom).map(function(l1){
-        return ee.List(l1).map(function(l2){
-          return ee.List(l2).map(function(l3){
-            l3=ee.List(l3);
-            return ee.List([l3.getNumber(0).multiply(scale).add(shiftX),l3.getNumber(1).multiply(scale).add(shiftY)]) ;
-          });
-        });
+        l1=ee.Array(l1);
+        return ee.Array(l1).multiply(scale).add(ee.Array([[shiftX,shiftY]]).repeat(0,l1.length().get([0])))
       });
     }
     
@@ -58,20 +54,14 @@ return function(){
       shiftY2=ee.Number(shiftY2);
       shiftX2=ee.Number(shiftX2);
       return ee.List(geom).map(function(l1){
-        return ee.List(l1).map(function(l2){
-          return ee.List(l2).map(function(l3){
-            l3=ee.List(l3);
-            var X=l3.getNumber(0).multiply(scale).add(shiftX1)
-            var Y=l3.getNumber(1).multiply(scale).add(shiftY1)
-            return ee.List([X.multiply(cos).add(Y.multiply(sin.multiply(-1))).add(shiftX2),
-                            X.multiply(sin).add(Y.multiply(cos)             ).add(shiftY2)]) ;
-          });
-        });
+        l1=ee.Array(l1);
+        return ee.Array(l1).multiply(scale).add(ee.Array([[shiftX1,shiftY1]]).repeat(0,l1.length().get([0])))
+        .matrixMultiply(ee.Array([[cos, sin],[sin.multiply(-1), cos]]))
+        .add(ee.Array([[shiftX2,shiftY2]]).repeat(0,l1.length().get([0])))
       });
     }
     
-    function displayLine(strinAndShift, previous){
-      previous=ee.List(previous);
+    function displayLine(strinAndShift){
       strinAndShift=ee.List(strinAndShift);
             var verticalShift=strinAndShift.getNumber(1).multiply(font.first().getNumber('height'));
       var string=ee.String(strinAndShift.get(0)).split('').filter(ee.Filter.neq('item', ""));
@@ -81,31 +71,30 @@ return function(){
       },[0]);
 
       var alignShift=ee.List(shifts).getNumber(-1).multiply(startX);
-      return previous.cat(string.zip(shifts).map(function(charInfo){
+      return string.zip(shifts).map(function(charInfo){
         charInfo=ee.List(charInfo);
         var char =charInfo.getString(0);
         var absolutShift =charInfo.getNumber(1);
         var charFt=font.filter(ee.Filter.equals('char',char)).first();
       return ee.Algorithms.If(charFt.get("toDisplay"), scaleAndShiftGeom(
-        ee.Algorithms.If({
+        ee.List(ee.Algorithms.If({
             condition:charFt.geometry().type().equals('Polygon'),
             trueCase:ee.List([charFt.geometry().transform('EPSG:3857',1).coordinates()]),
             falseCase:charFt.geometry().transform('EPSG:3857',1).coordinates(),
-        })
+        })).map(function(l1){ return ee.List(l1).map(function(l2){return ee.Array(l2)})}).flatten()
           
         ,1,absolutShift.add(alignShift),verticalShift), null);
-      },true).iterate(function(val,prev){return ee.List(prev).cat(val);},ee.List([])));
+      },true).flatten();
     } 
     function displayText(string,config){
       var strings=ee.String(string).split('\n');
-      
-      var coordenates=strings.zip(ee.List.sequence(startY.multiply(strings.size()).add(-1),null,-1,strings.size())).iterate(displayLine,ee.List([]));
+      var coordenates=strings.zip(ee.List.sequence(startY.multiply(strings.size()),null,-1,strings.size())).map(displayLine).flatten();
       coordenates=globalScaleRotateAndShiftGeom(coordenates,fontSize, ee.Number(shiftB.get(0)), ee.Number(shiftB.get(1)), rotation, ee.Number(shiftA.get(0)),ee.Number(shiftA.get(1)) )
-      return ee.Geometry.MultiPolygon({
-          coords:coordenates,
+      return ee.Geometry.Polygon({
+          coords:ee.List(coordenates).map(function(l1){return ee.Array(l1).toList()}),
           proj:'EPSG:3857',
           geodesic:false,
-      //	maxError:,
+      //  maxError:,
           evenOdd:true,
       });
     }
