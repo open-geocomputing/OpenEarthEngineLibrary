@@ -13,7 +13,7 @@
                     "name": "font",
                     "description": "The font to use",
                     "type": "string|ee.String|ee.FeatureCollection",
-                    "defaultValue": "users/mgravey/Helvetica_v2",
+                    "defaultValue": "users/OEEL/Fonts/Helvetica",
                     "optional": false
                 },
                 {
@@ -1314,5 +1314,5 @@
             "fullPath": ".Image.semivariogram"
         }
     },
-    "timeSinceEpoch": 1644229948135
+    "timeSinceEpoch": 1644245949858
 }
