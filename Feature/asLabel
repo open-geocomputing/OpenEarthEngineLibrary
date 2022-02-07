@@ -1,0 +1,40 @@
+var inputs=[{name:'textProperty',description:'The text of the geometry', type:'string|ee.String',optional:false},
+            {name:'font',description:'The font to use', type:'string|ee.String|ee.FeatureCollection',defaultValue:"users/OEEL/Fonts/Helvetica",optional:false},
+            {name:'fontSize',description:'The font size', type:'integer|ee.Number',defaultValue:1,optional:false},
+            {name:'position',description:"Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)", type:'string|ee.String',defaultValue:'centter-center',optional:false},
+            {name:'rotation',description:'Text angle', type:'integer|ee.Number',defaultValue:0,optional:false},
+            {name:'shiftB',description:'Text shift before rotation', type:'ee.List|object',defaultValue:[0,0],optional:false},
+            {name:'fontProperty',description:'Property containing the font to use', type:'string|ee.String', optional:true},
+            {name:'fontSizeProperty',description:'Property containing  the font size', type:'string|ee.String',optional:true},
+            {name:'positionProperty',description:"Property containing the text alignement. ('top-right', 'top-center', 'top-left', 'bottom-right', ...)", type:'string|ee.String',optional:true},
+            {name:'rotationProperty',description:'Property containing the text angle', type:'string|ee.String',optional:true},
+            {name:'shiftBProperty',description:'Property containing the shift before rotation', type:'string|ee.String',optional:true},
+            {name:'Return',description:'Return', type:'function',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'asLabel',license:'MIT', description:'Generate a function that transforms a feature in an annotation /label Feature'};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,root){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+
+    return function(ft){
+      return ee.Feature(root.Geometry.fromText({
+      text:ft.getString(inputDictionary.textProperty),
+      font:(inputDictionary.fontProperty? ft.getString(inputDictionary.fontProperty): inputDictionary.font),
+      fontSize:(inputDictionary.fontSizeProperty? ft.getNumber(inputDictionary.fontSizeProperty): inputDictionary.fontSize),
+      position:(inputDictionary.positionProperty? ft.getString(inputDictionary.positionProperty): inputDictionary.position),
+      rotation:(inputDictionary.rotationProperty? ft.getNumber(inputDictionary.rotationProperty): inputDictionary.rotation),
+      shiftB:(inputDictionary.shiftBProperty? ee.List(ft.get(inputDictionary.shiftBProperty)): inputDictionary.shiftB),
+      shiftA:ft.geometry().centroid().transform('EPSG:3857',1).coordinates().flatten()
+      })).copyProperties(ft);
+    };
+  }
+}
