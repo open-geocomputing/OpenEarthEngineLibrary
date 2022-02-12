@@ -26,6 +26,7 @@ return function(){
     internal.addRef(reference,relPath);
 
     return function(ft){
+      ft=ee.Feature(ft);
       return ee.Feature(root.Geometry.fromText({
       text:ft.getString(inputDictionary.textProperty),
       font:(inputDictionary.fontProperty? ft.getString(inputDictionary.fontProperty): inputDictionary.font),
