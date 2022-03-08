@@ -1,12 +1,12 @@
-var inputs=[{name:'sinceEpoch',description:'define each proprty localy or the basolut cumulated sinece epoch (01.01.1970)', type:'boolean', defaultValue:false, optional:false},
-            {name:'timeVaiable',description:'The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.', type:'string|object', defaultValue:'start', optional:false},
+var inputs=[{name:'sinceEpoch',description:'define each property locally or the absolute cumulated since epoch (01.01.1970)', type:'boolean', defaultValue:false, optional:false},
+            {name:'timeVariable',description:'The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.', type:'string|object', defaultValue:'start', optional:false},
             {name:'timeZone',description:'The time zone.', type:'string', defaultValue:'UTC', optional:false},
-            {name:'image',description:'The image on which to to add the time properties.', type:'ee.Image',optional:true},
-            {name:'feature',description:'The feature on which to to add the time properties.', type:'ee.Feature',optional:true},
+            {name:'image',description:'The image on which to add the time properties.', type:'ee.Image',optional:true},
+            {name:'feature',description:'The feature on which to add the time properties.', type:'ee.Feature',optional:true},
             {name:'collection',description:'The collection on which to add the time properties', type:'ee.Collection',optional:true},
             {name:'Return',description:'Return', type:'function|ee.Image|ee.Feature|ee.Collection',defaultValue:null,optional:true}]
             
-var reference={name:'addTimeProperties',license:'MIT', description:'Simply add some time metric (day, month, year ...) derivated from system:time_start', contributors:['Mathieu Gravey']};
+var reference={name:'addTimeProperties',license:'MIT', description:'Simply add some time metric (day, month, year ...) derived from system:time_start', contributors:['Mathieu Gravey']};
 
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
@@ -20,13 +20,13 @@ return function(){
     var sinceEpoch=inputDictionary.sinceEpoch;
     var timeZone=inputDictionary.timeZone;
    
-    if(internal.typeObject(inputDictionary.timeVaiable)=='string')
-      if(inputDictionary.timeVaiable=='both')
+    if(internal.typeObject(inputDictionary.timeVariable)=='string')
+      if(inputDictionary.timeVariable=='both')
         var timeVar=['start','end'];
       else
-        var timeVar=[inputDictionary.timeVaiable];
+        var timeVar=[inputDictionary.timeVariable];
     else
-      var timeVar=inputDictionary.timeVaiable;
+      var timeVar=inputDictionary.timeVariable;
    
    var epoch=ee.Date.fromYMD(1970, 1, 1, timeZone);
    
