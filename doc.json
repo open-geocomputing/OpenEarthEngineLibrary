@@ -746,7 +746,7 @@
                     "optional": false
                 },
                 {
-                    "name": "matchingPropety",
+                    "name": "matchingProperty",
                     "description": "The property to use to do the matching",
                     "type": "string",
                     "defaultValue": "system:index",
@@ -1199,13 +1199,13 @@
             "inputs": [
                 {
                     "name": "sinceEpoch",
-                    "description": "define each proprty localy or the basolut cumulated sinece epoch (01.01.1970)",
+                    "description": "define each property locally or the absolute cumulated since epoch (01.01.1970)",
                     "type": "boolean",
                     "defaultValue": false,
                     "optional": false
                 },
                 {
-                    "name": "timeVaiable",
+                    "name": "timeVariable",
                     "description": "The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.",
                     "type": "string|object",
                     "defaultValue": "start",
@@ -1220,13 +1220,13 @@
                 },
                 {
                     "name": "image",
-                    "description": "The image on which to to add the time properties.",
+                    "description": "The image on which to add the time properties.",
                     "type": "ee.Image",
                     "optional": true
                 },
                 {
                     "name": "feature",
-                    "description": "The feature on which to to add the time properties.",
+                    "description": "The feature on which to add the time properties.",
                     "type": "ee.Feature",
                     "optional": true
                 },
@@ -1247,7 +1247,7 @@
             "reference": {
                 "name": "addTimeProperties",
                 "license": "MIT",
-                "description": "Simply add some time metric (day, month, year ...) derivated from system:time_start",
+                "description": "Simply add some time metric (day, month, year ...) derived from system:time_start",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
@@ -1407,5 +1407,5 @@
             "fullPath": ".Image.semivariogram"
         }
     },
-    "timeSinceEpoch": 1644674462307
+    "timeSinceEpoch": 1646775425526
 }
