@@ -43,12 +43,18 @@ return function(){
         }
         
         if(sinceEpoch){
+          obj["oeel:"+localName+"_hour_epoch"]=time.difference(epoch,'hour').floor();
+          obj["oeel:"+localName+"_minute_epoch"]=time.difference(epoch,'minute').floor();
+          obj["oeel:"+localName+"_second_epoch"]=time.difference(epoch,'second').floor();
           obj["oeel:"+localName+"_day_epoch"]=time.difference(epoch,'day').floor();
           obj["oeel:"+localName+"_week_epoch"]=time.difference(epoch,'week').floor();
           obj["oeel:"+localName+"_month_epoch"]=time.difference(epoch,'month').floor();
           obj["oeel:"+localName+"_year_epoch"]=time.difference(epoch,'year').floor();
         }
         else{
+          obj["oeel:"+localName+"_hour"]=time.get('hour', timeZone);
+          obj["oeel:"+localName+"_minute"]=time.get('minute', timeZone);
+          obj["oeel:"+localName+"_second"]=time.get('second', timeZone);
           obj["oeel:"+localName+"_day"]=time.get('day', timeZone);
           obj["oeel:"+localName+"_week"]=time.get('week', timeZone);
           obj["oeel:"+localName+"_month"]=time.get('month', timeZone);
