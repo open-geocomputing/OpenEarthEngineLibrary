@@ -25,3 +25,14 @@ libString='var libs='+json.dumps(val).replace('"','')+\
 text_file = open("loadAll", "w")
 text_file.write(libString)
 text_file.close()
+
+val=generateDictionary('./','.',
+	[ name for name in os.listdir('.') if os.path.isdir(os.path.join('.', name)) and name[0]!='.' ]+['internal']);
+
+libString='var libs='+json.dumps(val).replace('"','')+\
+				'\n\n//generated automatically the '+str(datetime.utcnow())+\
+				'UTC \n\n'+'exports.all=libs.internal.setupLibrary(libs);';
+
+text_file = open("loadAll4py", "w")
+text_file.write(libString)
+text_file.close()
