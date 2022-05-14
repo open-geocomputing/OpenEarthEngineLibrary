@@ -2,9 +2,11 @@ name: Upload Python Package on test server
 
 on:
   workflow_dispatch:
-
+  push:
+    paths:
+    - '.github/workflows/pythonPublishTest.yml'
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2

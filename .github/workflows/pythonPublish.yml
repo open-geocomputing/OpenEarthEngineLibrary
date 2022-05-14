@@ -2,9 +2,12 @@ name: Upload Python Package on PyPI server
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+    - '.github/workflows/pythonPublish.yml'
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
