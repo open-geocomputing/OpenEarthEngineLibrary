@@ -1,0 +1,22 @@
+name: Upload Python Package on test server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    - uses: actions/checkout@v1
+    - name: Set up Python
+      uses: actions/setup-python@v1
+    - name: Install dependencies
+      run: |
+        pip install setuptools wheel twine
+    - name: Build
+      run: |
+        python setup.py sdist
+    - name: Publish
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_TEST_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_TEST_PASSWORD }}
+      run: |
+        twine upload dist/* --repository-url https://test.pypi.org/legacy/ --verbose
