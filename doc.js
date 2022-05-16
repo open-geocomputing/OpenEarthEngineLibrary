@@ -147,7 +147,7 @@ function displayStartingPage(){
 			.append(clipboardElement));
 	}
 
-	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('<img src="https://www.mgravey.com/assets/logo/Python.svg" style="max-height:2rem;"> How to use it from Python?'));
+	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('<img src="https://www.mgravey.com/assets/logo/Python.svg" style="max-height:2rem;"> How to use it from Python? <a href="https://gist.github.com/mgravey/4842fe18b38bd6be6635902f36844908"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>'));
 	doc.append($('<p>').html('<i class="fas fa-flask" aria-hidden="true"></i> An experimental feature allow to install and use the library from Python'))
 
 	doc.append($('<p>').html('To install:'))
