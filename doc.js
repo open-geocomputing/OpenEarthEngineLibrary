@@ -147,6 +147,65 @@ function displayStartingPage(){
 			.append(clipboardElement));
 	}
 
+	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('<img src="https://www.mgravey.com/assets/logo/Python.svg" style="max-height:2rem;"> How to use it from Python?'));
+	doc.append($('<p>').html('<i class="fas fa-flask" aria-hidden="true"></i> An experimental feature allow to install and use the library from Python'))
+
+	doc.append($('<p>').html('To install:'))
+	{
+		var theCodeRef="pip install oeel";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+	doc.append($('<p>').html('To use it, first import the package:'))
+	{
+		var theCodeRef="from oeel import oeel";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+	doc.append($('<p>').html('then use it as in JavaScript.'))
+
+	doc.append($('<p>').html('To use an external JavaScript lib (external to oeel):'))
+	let c1=$('<div>',{"class": "column is-three-fifths"});
+	let c2=$('<div>',{"class": "column is-two-fifths"});
+	doc.append($('<div>',{"class": "columns"}).append(c1).append(c2))
+
+	{
+		var theCodeRef="externalLib=oeel.requireJS('./localPathToTheJSFile')\n\nexternalLib.simplePrint('Hello Earth!')\n # Hello Earth!";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		c1.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+	{
+		var theCodeRef="// ./localPathToTheJSFile\nexports.simplePrint=function(val){\n\tprint(val)\n}";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		c2.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>",{"style":"overflow: hidden;"})
+			.append($("<code>", {id: "reference-code", "class": "language-javascript"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+	doc.append($('<p>').html('It exists no guarantee that the external js lib can be loaded, and used in the interface. In particular, if the function interacts with the code editor Map.* or Export.*. But some Map feature are supported with'))
+	{
+		var theCodeRef="import geemap\nMap = geemap.Map(center=(0, 0), zoom=4)\noeel.setMap(Map)\nMap";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+
 	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('License?'));
 	doc.append($('<p>').html("Each function has its own license so please refer to it directly.<br>The license of the library is GPLv3, but this is only including the library architecture (synchronization with GEE, documentation code…) it’s unrelated to the license of each function."))
 
