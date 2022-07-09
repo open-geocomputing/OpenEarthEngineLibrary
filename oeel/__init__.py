@@ -40,9 +40,9 @@ def initialize():
 				subprocess.check_output("git clone https://github.com/open-geocomputing/OpenEarthEngineLibrary.git OEEL".split())
 		if nodePath:
 			if(which('npm')):
-				subprocess.check_output("npm install @google/earthengine".split())
-				subprocess.check_output("npm install zeromq@6.0.0-beta.6".split())
-				subprocess.check_output("npm install request".split())
+				subprocess.check_output("npm install @google/earthengine",shell=True)
+				subprocess.check_output("npm install zeromq@6.0.0-beta.6",shell=True)
+				subprocess.check_output("npm install request",shell=True)
 			else:
 				raise oeelMissingExternalCommand('You have node, but not npm in the path you will need to fix this.')
 			pass
