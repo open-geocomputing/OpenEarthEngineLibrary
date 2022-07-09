@@ -5,6 +5,7 @@ on:
   push:
     paths:
     - '.github/workflows/pythonPublishTest.yml'
+    - 'setup.py'
 jobs:
   publish:
     runs-on: ubuntu-latest
