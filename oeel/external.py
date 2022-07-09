@@ -55,3 +55,11 @@ class externalEEjs():
 		self.libInterface=self.callArgument(answer,soket);
 		self.initialized=True;
 
+	def __del__(self):
+		self.libInterface=None;
+		self.initialized=False;
+		soket.send_string(json.dumps({'type':'unload','lib':self.nodeID}))
+		self.nodeID=None;
+		answer=json.loads(soket.recv())
+		
+		

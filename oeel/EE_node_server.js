@@ -198,6 +198,10 @@ function onPythonMessage (envelope, blank, data)
         }
         
     }
+    if(message.type=='unload'){
+        delete libs[message.lib];
+        answer={sucess:true, id:message.lib, availability:null}
+    }
     if(message.type=='call'){
         if(message.args)
             for(element in message.args){
