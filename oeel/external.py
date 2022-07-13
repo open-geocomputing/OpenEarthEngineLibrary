@@ -47,6 +47,9 @@ class externalEEjs():
 
 		__getattr__ = get
 
+		def __dir__(self):
+			return self.availability.keys();
+
 	def __init__(self,soket,libPath):
 		soket.send_string(json.dumps({'type':'load','lib':libPath}))
 		answer=json.loads(soket.recv())

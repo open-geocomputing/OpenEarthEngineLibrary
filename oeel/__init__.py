@@ -59,6 +59,7 @@ class dotdict(dict):
     __getattr__ = dict.get
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
+    __dir__		= dict.keys
 
 class oeelClass():
 	nodeSocket=None;
