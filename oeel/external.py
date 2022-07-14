@@ -50,6 +50,13 @@ class externalEEjs():
 		def __dir__(self):
 			return self.availability.keys();
 
+		def __del__(self):
+			self.libInterface=None;
+			self.initialized=False;
+			self.nodeSocket.send_string(json.dumps({'type':'unload','lib':self.nodeID}))
+			self.nodeID=None;
+			answer=json.loads(self.nodeSocket.recv())
+
 	def __init__(self,soket,libPath):
 		soket.send_string(json.dumps({'type':'load','lib':libPath}))
 		answer=json.loads(soket.recv())
@@ -58,11 +65,6 @@ class externalEEjs():
 		self.libInterface=self.callArgument(answer,soket);
 		self.initialized=True;
 
-	def __del__(self):
-		self.libInterface=None;
-		self.initialized=False;
-		soket.send_string(json.dumps({'type':'unload','lib':self.nodeID}))
-		self.nodeID=None;
-		answer=json.loads(soket.recv())
+
 		
 		
