@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='oeel',
-    version='0.9.7.2',
+    version='0.9.7.3',
     author='Mathieu Gravey',
     author_email='research@mgravey.com',
     url='https://www.open-geocomputing.org/OpenEarthEngineLibrary/',
@@ -11,6 +11,7 @@ setup(
     classifiers=['Development Status :: 3 - Alpha','License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)','Programming Language :: Python :: 3','Programming Language :: JavaScript','Topic :: Scientific/Engineering :: GIS'],
     packages=['oeel'],
     license='GPLv3',
+    license_files = ('LICENSE',),
     include_package_data=False,
     package_data={'oeel': ['EE_node_server.js']},
     install_requires=[
