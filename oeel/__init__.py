@@ -8,6 +8,7 @@ import ee
 import os
 import threading
 import time
+import inspect
 from shutil import which
 
 from . import external
@@ -54,12 +55,16 @@ initialize()
 
 subprocess.Popen(['git', 'pull'], cwd=oeelLibPath+'/OEEL',stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
-class dotdict(dict):
-    """dot.notation access to dictionary attributes"""
-    __getattr__ = dict.get
-    __setattr__ = dict.__setitem__
-    __delattr__ = dict.__delitem__
-    __dir__		= dict.keys
+class oeelParentDirectory(dict):
+
+	__getattr__ = dict.get
+	__setattr__ = dict.__setitem__
+	__delattr__ = dict.__delitem__
+	__dir__		= dict.keys	
+
+	def __call__(self):
+		print("This is a directory, it cannot be called")
+
 
 class oeelClass():
 	nodeSocket=None;
@@ -204,6 +209,20 @@ class oeelClass():
 				return ee.deserializer.fromJSON(answer['payload']);
 			else:
 				return
+
+		localFunc.__name__=leaf["fullPath"];
+		allParam=[];
+		returnParam=None;
+		for param in leaf["inputs"]:
+			if(param["name"]=="Return" or param["name"]=="return"):
+				returnParam=param;
+				continue;
+			allParam.append(inspect.Parameter(param["name"], inspect.Parameter.POSITIONAL_OR_KEYWORD, annotation=param["type"] + ":  "+ param["description"]))
+		if(returnParam):
+			localFunc.__signature__=inspect.signature(localFunc).replace(parameters=allParam, return_annotation=returnParam["type"])
+		else:
+			localFunc.__signature__=inspect.signature(localFunc).replace(parameters=allParam)
+		localFunc.__doc__=leaf["reference"]["description"];
 		return localFunc
 
 	def applyCallInTree(self,substruct,parent):
@@ -212,7 +231,7 @@ class oeelClass():
 		for key in substruct.keys():
 			if(type(substruct[key]) is dict):
 				substruct[key]=self.applyCallInTree(substruct[key],substruct);
-		return dotdict(substruct);
+		return oeelParentDirectory(substruct);
 
 	def loadOEELFunctions(self):
 		
