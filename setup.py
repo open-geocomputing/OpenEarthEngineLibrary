@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='oeel',
-    version='0.9.7.4',
+    version='0.9.7.5',
     author='Mathieu Gravey',
     author_email='research@mgravey.com',
     url='https://www.open-geocomputing.org/OpenEarthEngineLibrary/',
