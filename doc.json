@@ -1448,5 +1448,19 @@
             "fullPath": ".Feature.asLabel"
         }
     },
-    "timeSinceEpoch": 1659444555373
+    "util": {
+        "addTimePrototype": {
+            "inputs": [],
+            "reference": {
+                "name": "addTimePrototype",
+                "license": "MIT",
+                "description": "Provide a client (don't use getInfo()) date prototype for yyyymmdd and yyyymmdd_hhmm. To use as: new Date().yyyymmdd_hhmm() OR new Date().yyyymmdd()",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".util.addTimePrototype"
+        }
+    },
+    "timeSinceEpoch": 1659447284370
 }
