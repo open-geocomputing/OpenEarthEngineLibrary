@@ -1,0 +1,41 @@
+var inputs=[{name:'imageCollection',description:'The collection which to apply the reduction', type:'ee.ImageCollection',defaultValue:null,optional:false},
+            {name:'bandSelector',description:'A band selector to select which band to use in the metric', type:'string|ee.String|ee.List|object',defaultValue:'.*',optional:false},
+            {name:'method',description:'One of the distance metric: absolute (L1, much slower), euclidean (L2, default), median (something used in https://www.doi.org/10.3390/rs10050691 🤷) ', type:'string',defaultValue:'euclidean',optional:false},
+            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'medoid',license:'GPLv3', description:'This compute the medoid value of a collection', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var imCol=ee.ImageCollection(inputDictionary.imageCollection);
+    
+    var meanCol=imCol.mean();
+    var medCol=imCol.mean();
+
+    var medoid=imCol.map(function(im){
+      var dist=false;
+      if(inputDictionary.method=='euclidean')
+        dist=inputDictionary.imageCollection.map(function(im2){return im2.subtract(im).abs()}).sum().multiply(-1); // abs
+      if(inputDictionary.method=='euclidean')
+        dist=meanCol.multiply(2).subtract(im).multiply(im) //square
+      if(inputDictionary.method=='median')
+        {
+          var dif=medCol.subtract(im);
+          dist=dif.multiply(dif).multiply(-1);
+        }
+      if(!dist)
+      {
+        throw '\''+inputDictionary.method+'\' is not a valide methode for medoid!'
+      }
+      return im.addBands(ee.Image(dist).select(inputDictionary.bandSelector).reduce(ee.Reducer.sum()).rename('oeel_medoid'));
+    })
+    
+    return medoid.qualityMosaic('oeel_medoid').select(modis.first().bandNames());
+  }
+}
