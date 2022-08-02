@@ -1,0 +1,32 @@
+var inputs=[]
+            
+var reference={name:'addTimePrototype',license:'MIT', description:'Provide a client (don\'t use getInfo()) date prototype for yyyymmdd and yyyymmdd_hhmm. To use as: new Date().yyyymmdd_hhmm() OR new Date().yyyymmdd()', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    internal.addRef(reference,relPath);
+    
+    Date.prototype.yyyymmdd=function() {        
+
+        var yyyy = this.getFullYear().toString();                                  
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based        
+        var dd  = this.getDate().toString();            
+
+        return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]);
+   }
+   
+   Date.prototype.yyyymmdd_hhmm=function() {        
+
+        var yyyy = this.getFullYear().toString();                                  
+        var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based        
+        var dd  = this.getDate().toString();     
+        
+        var hh  = this.getHours().toString();
+        var MM  = this.getMinutes().toString();     
+
+        return yyyy + (mm[1]?mm:"0"+mm[0]) + (dd[1]?dd:"0"+dd[0]) +"_"+ (hh[1]?hh:"0"+hh[0])+ (MM[1]?MM:"0"+MM[0]);
+   }
+  }
+}
