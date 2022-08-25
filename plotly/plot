@@ -1,0 +1,57 @@
+var inputs=[
+            {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'plot',license:'GPLv3', description:'Create a empty plot object to get Plotly plots', contributors:["Mathieu Gravey"]};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};};
+
+exports.createFunction=function(internal,relPath,root){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var plotObject={
+      data:[],
+      layout:{
+      
+      },
+      annotations:[],
+      draw:function(){
+        var obj={};
+        var toSend=['data','layout','transparent','exportFormat','exportName','exportScale','onClick','annotations'];
+        for( var idx=0; idx< toSend.length; idx++){
+          var key=toSend[idx];
+          if(key in this) obj[key]=this[key];
+        }
+        return root.plotly.directDraw(obj);
+      },
+      display:function(){print(this.draw());},
+      print:function(){print(this.draw());},
+      setLayout:function(l){this.layout=l},
+      addPlot:function(plot){this.data=this.data.concat(plot.data)},
+      addCustom:function(d){
+        this.data.push(d);
+      },
+      onClick:function(str){
+        this.onClick=str;
+      },
+      addAnnotations:function(ann){
+        if(!Array.isArray()){
+         ann=[ann]; 
+        }
+        this.annotations=this.annotations.concat(ann);
+      }
+    };
+    return plotObject;
+  };
+};
+
+// remove everything after this for submission 
+/*
+// load your function
+var yourFunction=exports.createFunction(require('users/OEEL/lib:loadAll').internal.internal,'');
+
+// test your function 
+print(yourFunction(10))
+*/

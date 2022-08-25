@@ -32,13 +32,13 @@ function expandTypes(a){
 
 exports.readInputs=function(args,inputs,algoInfo,relPath){
   var output={};
-  var arrayInput=false;
-  if(args.length==1 && typeof(args[0])==typeof({}) 
+  var arrayInput=true;
+  if(args.length==1 && typeof(args[0])==typeof({})
     && (inputs.map(function(x){return x.name}).filter(function(value){return Object.keys(args[0]).indexOf(value)==-1}).length>0 || (Object.keys(args[0]).length===0))){
     output=args[0];
-    arrayInput=true;
+    arrayInput=false;
   }
-  
+
   var listKeys=Object.keys(output);
   for (var i=0; i<inputs.length; i++){
     if(listKeys.indexOf(inputs[i].name)>=0){
@@ -51,7 +51,7 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
     }
     else{
       // if list param
-      if(args.length<=i || arrayInput){
+      if((args.length<=i) || !arrayInput){
         
         //put default value
         if(!inputs[i].optional)
@@ -62,10 +62,11 @@ exports.readInputs=function(args,inputs,algoInfo,relPath){
       }
       else{
         //if(!inputs[i].optional)
+        if(args[i]!==undefined)
           {
             output[inputs[i].name]=args[i];
             var localType=exports.typeObject(output[inputs[i].name]);
-            if(expandTypes(inputs[i].type).indexOf(localType)==-1)
+            if(expandTypes(inputs[i].type).indexOf(localType)==-1 && !inputs[i].optional)
             {
               throw (i+1)+'-th input should be of type for '+ inputs[i].type+', but was '+localType;
             }

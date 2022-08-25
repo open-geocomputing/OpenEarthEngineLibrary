@@ -1,0 +1,22 @@
+var inputs=[{name:'data',description:'The data to be ploted.', type:'object',defaultValue:null,optional:false},
+            {name:'layout',description:'A plotly layout. Mroe info here: https://plotly.com/javascript/reference/layout/', type:'object',defaultValue:{},optional:false},
+            {name:'transparent',description:'Set the background to transparent.', type:'boolean',defaultValue:true,optional:true},
+            {name:'exportFormat',description:'Export type: png, svg, jpeg or webp', type:'string',defaultValue:'png',optional:true},
+            {name:'exportName',description:'Export filename', type:'string',optional:true},
+            {name:'exportScale',description:'Export scale', type:'number',defaultValue:4,optional:true},
+            {name:'Return',description:'Return', type:'oeel.PlotlyDisplay',defaultValue:null,optional:true}
+            ]
+            
+var reference={name:'directDraw',license:'GPLv3', description:'This function allows to directly communicate with OEEex. I should normally not be directly used.', contributors:["Mathieu Gravey"]};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+     
+    return "OEEex_AddonPlotly:"+ee.Serializer.toJSON(inputDictionary);
+  }
+}
+

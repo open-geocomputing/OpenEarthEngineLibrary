@@ -1,0 +1,61 @@
+var inputs=[{name:'features',description:'The feature collection that contains the data to plot.', type:'ee.Collection',defaultValue:null,optional:false},
+            {name:'legendName',description:'The data name for the legend.', type:'string|ee.String',optional:false},
+            {name:'xProperty',description:'The X-axis property', type:'string|ee.String',optional:false},
+            {name:'yProperty',description:'The Y-axis property', type:'string|ee.String',optional:false},
+            {name:'cProperty',description:'The color property', type:'string|ee.String',optional:true},
+            {name:'sProperty',description:'The size property', type:'string|ee.String|number|ee.Number',optional:true},
+            {name:'tProperty',description:'The text property', type:'string|ee.String',optional:true},
+            {name:'textFont',description:'The font property', type:'string|ee.String',optional:true},
+            {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true}
+            ]
+            
+var reference={name:'scatter',license:'GPLv3', description:'Generate a scatter plot from a feature collection', contributors:["Mathieu Gravey"]};
+ 
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};};
+
+exports.createFunction=function(internal,relPath,root){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var plotObject=root.plotly.plot();
+    
+    var data = {
+      x: inputDictionary.features.aggregate_array(inputDictionary.xProperty),
+      y: inputDictionary.features.aggregate_array(inputDictionary.yProperty),
+      mode: 'markers',
+      type: 'scatter',
+      name:inputDictionary.legendName,
+      marker: {}
+    };
+    
+    if(inputDictionary.cProperty){
+      data.marker.color=ee.Algorithms.If(inputDictionary.features.first().get(inputDictionary.cProperty), inputDictionary.features.aggregate_array(inputDictionary.cProperty), inputDictionary.cProperty)
+    }
+    
+    if(inputDictionary.sProperty){
+      var type=internal.typeObject(inputDictionary.sProperty);
+      if(type=='string'||type=='ee.String'){
+        data.marker.size=inputDictionary.features.aggregate_array(inputDictionary.sProperty);
+      }
+      if(type=='number'||type=='ee.Number'){
+        data.marker.size=inputDictionary.sProperty;
+      }
+    }
+    
+    if(inputDictionary.tProperty){
+      data.text=ee.Algorithms.If(inputDictionary.features.first().get(inputDictionary.tProperty), inputDictionary.features.aggregate_array(inputDictionary.tProperty), inputDictionary.tProperty)
+      data.textfont= {};
+      if(inputDictionary.textFont){
+         data.textfont=inputDictionary.textFont;
+         for( var key in Object.keys(inputDictionary.textFont)){
+           ee.Algorithms.If(inputDictionary.features.first().get(key), inputDictionary.features.aggregate_array(key), key)
+         }
+      }
+    }
+    
+    plotObject.addCustom(data)
+    return plotObject;
+  };
+};
+
