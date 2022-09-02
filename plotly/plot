@@ -28,6 +28,7 @@ return function(){
       },
       display:function(){print(this.draw());},
       print:function(){print(this.draw());},
+      widget:function(style){return ui.Label(this.draw(), style)},
       setLayout:function(l){this.layout=l},
       addPlot:function(plot){this.data=this.data.concat(plot.data)},
       addCustom:function(d){
@@ -46,12 +47,3 @@ return function(){
     return plotObject;
   };
 };
-
-// remove everything after this for submission 
-/*
-// load your function
-var yourFunction=exports.createFunction(require('users/OEEL/lib:loadAll').internal.internal,'');
-
-// test your function 
-print(yourFunction(10))
-*/
