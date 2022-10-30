@@ -16,7 +16,7 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
      
-    return "OEEex_AddonPlotly:"+ee.Serializer.toJSON(inputDictionary);
+    return ee.Serializer.toJSON(inputDictionary);
   }
 }
 
