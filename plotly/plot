@@ -12,31 +12,65 @@ return function(){
     internal.addRef(reference,relPath);
     
     var plotObject={
+      toEE:false,
       data:[],
       layout:{
       
       },
       annotations:[],
-      draw:function(){
+      widgetsList:[],
+      eventListener:{test:true},
+      draw:function(withoutHeader){
+        withoutHeader=withoutHeader||false;
         var obj={};
-        var toSend=['data','layout','transparent','exportFormat','exportName','exportScale','onClick','annotations'];
+        var toSend=['data','toEE','layout','transparent','exportFormat','exportName','exportScale','onClick','annotations'];
         for( var idx=0; idx< toSend.length; idx++){
           var key=toSend[idx];
           if(key in this) obj[key]=this[key];
         }
-        return root.plotly.directDraw(obj);
+        return (withoutHeader?"":"OEEex_AddonPlotly:")+root.plotly.directDraw(obj);
       },
       display:function(){print(this.draw());},
       print:function(){print(this.draw());},
-      widget:function(style){return ui.Label(this.draw(), style)},
+      widget:function(style){
+        var widg=ui.Textbox('OEEex_Active_AddonPlotly',this.draw(true),this.receivedEvent,false,style)
+        this.widgetsList.push(widg)
+        return widg
+      },
       setLayout:function(l){this.layout=l},
       addPlot:function(plot){this.data=this.data.concat(plot.data)},
       addCustom:function(d){
         this.data.push(d);
       },
-      onClick:function(str){
-        this.onClick=str;
+      receivedEvent:function(str){plotObject.onEvent(JSON.parse(str))},
+      onEvent:function(json){
+        if(json.toEE===true){
+          var type=json.type;
+          if(this.eventListener[type]!==undefined){
+            for (var i=0; i<this.eventListener[type].length; i++){
+              this.eventListener[type][i](json.plotlyData, plotObject)
+            }
+          }
+          if(type.indexOf('plotly_')===0)
+          {
+            json.type=json.type.slice("plotly_".length);
+            this.onEvent(json);
+          }
+        }
       },
+      on:function(type,f){
+        if(! this.eventListener[type])
+          this.eventListener[type]=[];
+        this.eventListener[type].push(f);
+      },
+      update:function(){
+        var value=this.draw(true);
+        for(var i=0; i<this.widgetsList.length; i++)
+        {
+          this.widgetsList[i].setValue(value,true);
+        }
+      },
+      addEventListener:function(type,f){this.on(type,f)},
       addAnnotations:function(ann){
         if(!Array.isArray()){
          ann=[ann]; 
@@ -47,3 +81,4 @@ return function(){
     return plotObject;
   };
 };
+
