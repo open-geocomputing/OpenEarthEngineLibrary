@@ -15,7 +15,7 @@ return function(){
   
     if(!inputDictionary.S2Collection){
       var S2Coll=ee.ImageCollection('COPERNICUS/S2_SR');
-      inputDictionary.S2Collection=S2Coll.select(S2Coll.first().bandNames());
+      inputDictionary.S2Collection=S2Coll.select(S2Coll.first().bandNames().filter(ee.Filter.stringContains('item', 'MSK').not()));
     }
     var s2Clouds = ee.ImageCollection('COPERNICUS/S2_CLOUD_PROBABILITY');
 
