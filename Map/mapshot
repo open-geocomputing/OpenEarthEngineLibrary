@@ -1,0 +1,94 @@
+var inputs=[{name:'Map',description:'The Map to mapshot', type:'object',optional:true},
+            {name:'scalingFactor',description:'A factor to scale resolution compared to the displayed', type:'number',optional:true},
+            {name:'mode',description:'Select the output mode (widget, URL, ExportDrive, ee.Image )', type:'string',optional:true},
+            {name:'geometry',description:'Geometry of export, default same as Map', type:'ee.Geometry',optional:true},
+            {name:'name',description:'Name used in ExportDrive mode', type:'string',optional:true},
+            {name:'Return',description:'Return', type:'object|ee.Image|string',defaultValue:null,optional:true}
+            ]
+            
+var reference={name:'mapshot',license:'MIT', description:'To take a mapshot of a given ui.Map', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var localMap=inputDictionary.Map;
+    if(!localMap){
+      localMap=Map;
+    }
+
+    var scalingFactor=inputDictionary.scalingFactor;
+    if(!scalingFactor){
+      scalingFactor=1;
+    }
+    
+    var exportName=inputDictionary.name
+    if(!exportName){
+      exportName="Mapshot"
+    }
+
+    var layers=localMap.layers()
+    var imCol=ee.ImageCollection(layers.map(function(layer){
+      return layer.getEeObject().visualize(layer.getVisParams()).set("shown",layer.getShown(),"name",layer.getName(),"opacity",layer.getOpacity())
+    })).filter(ee.Filter.equals("shown",true));
+    imCol=imCol.map(function(layerImage){
+      var im=ee.Image(ee.Algorithms.If({
+        condition:layerImage.bandNames().size().eq(1),
+        trueCase:ee.Image.rgb(layerImage,layerImage,layerImage),
+        falseCase:layerImage,
+      }))
+      return im.updateMask(im.mask().multiply(layerImage.getNumber("opacity")));
+    })
+    var im=imCol.mosaic();
+    var geometry=localMap.getBounds();
+    var geometryJSON=localMap.getBounds(true)
+    if(inputDictionary.geometry){
+      geometryJSON=inputDictionary.geometry
+      var geo=inputDictionary.geometry.coordinates().get(0).getInfo();
+      geometry=[geo[0][0],geo[0][1],geo[1][0],geo[2][1]];
+    }
+    
+    var factor=Math.pow(2,localMap.getZoom()-0.5)*scalingFactor;
+    var distor0=function(x){x=x/180*Math.PI; return (Math.log(Math.tan(x/2+Math.PI/4)))};
+    var dim=Math.round((geometry[2]-geometry[0])*factor)+'x'+Math.round((distor0(geometry[3])-distor0(geometry[1]))*factor/Math.PI*180);
+
+    //var url=
+    
+    switch (inputDictionary.mode) {
+      case 'ee.Image':
+      case 'ee.image':
+      case 'image':
+      case 'Image':
+        return im;
+      case 'link':
+      case 'Link':
+      case 'url':
+      case 'Url':
+      case 'URL':
+        return im.reproject('EPSG:3857',null,localMap.getScale()/scalingFactor).getDownloadURL({region:geometryJSON,format:'png',dimensions:dim});;
+      
+      case 'export':
+      case 'Export':
+      case 'Exportdrive':
+      case 'exportDrive':
+      case 'Exportdrive':
+      case 'ExportDrive':
+      case 'Export.Drive':
+        Export.image.toDrive({
+          image:im,
+          description:exportName,
+          fileNamePrefix:exportName,
+          dimensions:dim,
+          region:geometryJSON
+        });
+        break;
+      case 'Widget':
+      case 'widget':
+      default:
+        return ui.Thumbnail(im.reproject('EPSG:3857',null,localMap.getScale()/scalingFactor),{region:geometryJSON,format:'png',dimensions:dim});
+    }
+  }
+}
