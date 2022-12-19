@@ -12,6 +12,7 @@ import inspect
 from shutil import which
 
 from . import external
+from . import convertToJS
 oeelLibPath=os.path.dirname(__file__)
 
 class oeelMissingExternalCommand(Exception):
@@ -260,11 +261,15 @@ class oeelClass():
 			return external.externalEEjs(self.nodeSocket,os.getcwd()+'/'+libPath).libInterface;
 		else:
 			raise self.oeelMissingRequireFile('No file at :'+os.getcwd()+'/'+libPath);
+
+	def exportsJS(self,functions,exportPath="./pythonExported.js"):
+		return convertToJS.exportEEjs(functions).exportTo(exportPath)
 	__getattr__ = dotCall
 
 
 oeelManadger=oeelClass();
 oeelManadger.oeelLibInterface.init=oeelManadger.init;
 oeelManadger.oeelLibInterface.requireJS=oeelManadger.requireJS;
+oeelManadger.oeelLibInterface.exportsJS=oeelManadger.exportsJS;
 oeelManadger.oeelLibInterface.setMap=oeelManadger.setMap;
 oeel=oeelManadger.oeelLibInterface
