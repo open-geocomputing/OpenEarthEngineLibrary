@@ -3,7 +3,7 @@ var inputs=[{name:'Map',description:'The Map to mapshot', type:'object',optional
             {name:'mode',description:'Select the output mode (widget, URL, ExportDrive, ee.Image )', type:'string',optional:true},
             {name:'geometry',description:'Geometry of export, default same as Map', type:'ee.Geometry',optional:true},
             {name:'name',description:'Name used in ExportDrive mode', type:'string',optional:true},
-            {name:'northSymbol',description:'Add a North symbol (e.g., "arrow-top-right"', type:'string',optional:true},
+            {name:'northSymbol',description:'Add a North symbol (e.g., "arrow-top-right")', type:'string',optional:true},
             {name:'Return',description:'Return', type:'object|ee.Image|string',defaultValue:null,optional:true}
             ]
             
