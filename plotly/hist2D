@@ -8,12 +8,12 @@ var reference={name:'hist2D',license:'GPLv3', description:'Generate 2D histogram
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};};
 
-exports.createFunction=function(internal,relPath,root){
+exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
     
-    var plotObject=root.plotly.plot();
+    var plotObject=oeel.plotly.plot();
     
     var data =
     {

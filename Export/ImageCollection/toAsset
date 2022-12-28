@@ -19,7 +19,7 @@ var reference={name:'toAsset',license:'MIT', description:'Creates a set of tasks
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
-exports.createFunction=function(internal,relPath, root){
+exports.createFunction=function(internal,relPath, oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
@@ -38,7 +38,7 @@ return function(){
         assetId=ee.data.getAssetRoots()[0].id+'/'+assetId;
       }
       if(inputDictionary.autoExport){
-        root.Export.ImageCollection.create(assetId)
+        oeel.Export.ImageCollection.create(assetId)
       }
       /*if(assetId.match(/^projects\/(.+)\/assets\/(.*$)/)===null){
         assetId='projects/earthengine-legacy/assets/'+assetId;
@@ -60,7 +60,7 @@ return function(){
           exportDic.assetId=assetId+'/'+name;
           exportDic.description=prefix+'_'+name;
           
-          root.Export.Image.toAsset(exportDic);
+          oeel.Export.Image.toAsset(exportDic);
         }
       });
   }

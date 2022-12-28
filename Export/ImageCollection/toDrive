@@ -24,7 +24,7 @@ var reference={name:'toDrive',license:'MIT', description:'Creates a set of tasks
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
-exports.createFunction=function(internal,relPath, root){
+exports.createFunction=function(internal,relPath, oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
@@ -55,7 +55,7 @@ return function(){
           exportDic.fileNamePrefix=""+name;
           exportDic.description=""+name;
           
-          root.Export.Image.toDrive(exportDic);
+          oeel.Export.Image.toDrive(exportDic);
         }
       });
   }

@@ -11,7 +11,7 @@ var reference={name:'DarftNewFunction',license:'MIT', description:'the descripti
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
-exports.createFunction=function(internal,relPath){
+exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
@@ -24,7 +24,7 @@ return function(){
 // remove everything after this for submission 
 
 // load your function
-var yourFunction=exports.createFunction(require('users/OEEL/lib:loadAll').internal.internal,'');
+var yourFunction=exports.createFunction(require('users/OEEL/lib:loadAll').internal.internal,'',require('users/OEEL/lib:loadAll'));
 
 // test your function 
 print(yourFunction(10))

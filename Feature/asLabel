@@ -20,14 +20,14 @@ var reference={name:'asLabel',license:'MIT', description:'Generate a function th
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
-exports.createFunction=function(internal,relPath,root){
+exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
 
     return function(ft){
       ft=ee.Feature(ft);
-      return ee.Feature(root.Geometry.fromText({
+      return ee.Feature(oeel.Geometry.fromText({
       text:ft.getString(inputDictionary.textProperty),
       font:(inputDictionary.fontProperty? ft.getString(inputDictionary.fontProperty): inputDictionary.font),
       fontSize:(inputDictionary.fontSizeProperty? ft.getNumber(inputDictionary.fontSizeProperty): inputDictionary.fontSize),

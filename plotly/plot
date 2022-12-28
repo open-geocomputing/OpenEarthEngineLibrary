@@ -6,7 +6,7 @@ var reference={name:'plot',license:'GPLv3', description:'Create a empty plot obj
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};};
 
-exports.createFunction=function(internal,relPath,root){
+exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
@@ -28,7 +28,7 @@ return function(){
           var key=toSend[idx];
           if(key in this) obj[key]=this[key];
         }
-        return (withoutHeader?"":"OEEex_AddonPlotly:")+root.plotly.directDraw(obj);
+        return (withoutHeader?"":"OEEex_AddonPlotly:")+oeel.plotly.directDraw(obj);
       },
       display:function(){print(this.draw());},
       print:function(){print(this.draw());},
