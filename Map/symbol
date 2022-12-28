@@ -34,6 +34,7 @@ return function(){
       var arrow=col.map(oeel.Feature.asLabel({font:"users/OEEL/Fonts/Symbol",textProperty:'char', position:'bottom-left', fontSize:100*inputDictionary.scale}))
       var names=names.map(oeel.Feature.asLabel({textProperty:'char', position:'center-center', fontSize:30*inputDictionary.scale, shiftBProperty:'shift'}))
       var widgetSize=(inputDictionary.widgetScale*100)+"x"+(inputDictionary.widgetScale*100);
+      var region=ee.Geometry.Rectangle([-1.4*inputDictionary.scale,-1.4*inputDictionary.scale,1.2*inputDictionary.scale,1.2*inputDictionary.scale]);
     }
     
     if(inputDictionary.symbol.toLowerCase()=='arrow'){
@@ -44,6 +45,7 @@ return function(){
       var arrow=col.map(oeel.Feature.asLabel({font:"users/OEEL/Fonts/Symbol",textProperty:'char', position:'bottom-left', fontSize:150*inputDictionary.scale}))
       var names=names.map(oeel.Feature.asLabel({textProperty:'char', position:'center-center', fontSize:50*inputDictionary.scale, shiftBProperty:'shift'}))
       var widgetSize=(inputDictionary.widgetScale*40)+"x"+(inputDictionary.widgetScale*100);
+      var region=ee.Geometry.Rectangle([-0.5*inputDictionary.scale,-1.4*inputDictionary.scale,0.5*inputDictionary.scale,1.2*inputDictionary.scale]);
     }
     
     var image=arrow.merge(names).style({styleProperty:'style'});
@@ -51,7 +53,7 @@ return function(){
     
     if (inputDictionary.mode.toLowerCase()=='widget'){
       return ui.Thumbnail({image:image,params:{dimensions:widgetSize,
-                           region:ee.Geometry.Rectangle([-0.5*inputDictionary.scale,-1.4*inputDictionary.scale,0.5*inputDictionary.scale,1.2*inputDictionary.scale])},
+                           region:region},
                            style:{backgroundColor:'#0000',whiteSpace:"nowrap"}})
     }
     
