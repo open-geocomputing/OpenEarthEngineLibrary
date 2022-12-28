@@ -1482,6 +1482,12 @@
                     "optional": true
                 },
                 {
+                    "name": "northSymbol",
+                    "description": "Add a North symbol (e.g., \"arrow-top-right\"",
+                    "type": "string",
+                    "optional": true
+                },
+                {
                     "name": "Return",
                     "description": "Return",
                     "type": "object|ee.Image|string",
@@ -1509,7 +1515,7 @@
                 },
                 {
                     "name": "mode",
-                    "description": "As a \"widget\" or \"layer\"",
+                    "description": "As a \"widget\" or \"image\"",
                     "type": "string",
                     "defaultValue": "widget",
                     "optional": false
@@ -1779,5 +1785,5 @@
             "fullPath": ".util.addTimePrototype"
         }
     },
-    "timeSinceEpoch": 1672227642162
+    "timeSinceEpoch": 1672239135297
 }
