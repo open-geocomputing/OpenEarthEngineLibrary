@@ -1,5 +1,5 @@
 var inputs=[{name:'symbol',description:'Symbol type: arrow | compass', type:'string',optional:false},
-            {name:'mode',description:'As a "widget" or "layer"', type:'string',defaultValue:'widget',optional:false},
+            {name:'mode',description:'As a "widget" or "image"', type:'string',defaultValue:'widget',optional:false},
             {name:'scale',description:'Size factor', type:'number',defaultValue:1,optional:false},
             {name:'colorFont',description:'Color of the font', type:'string',defaultValue:'black',optional:false},
             {name:'colorSymbol1',description:'Color of the symbol', type:'string',defaultValue:'black',optional:false},

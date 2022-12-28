@@ -3,6 +3,7 @@ var inputs=[{name:'Map',description:'The Map to mapshot', type:'object',optional
             {name:'mode',description:'Select the output mode (widget, URL, ExportDrive, ee.Image )', type:'string',optional:true},
             {name:'geometry',description:'Geometry of export, default same as Map', type:'ee.Geometry',optional:true},
             {name:'name',description:'Name used in ExportDrive mode', type:'string',optional:true},
+            {name:'northSymbol',description:'Add a North symbol (e.g., "arrow-top-right"', type:'string',optional:true},
             {name:'Return',description:'Return', type:'object|ee.Image|string',defaultValue:null,optional:true}
             ]
             
@@ -10,7 +11,7 @@ var reference={name:'mapshot',license:'MIT', description:'To take a mapshot of a
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
-exports.createFunction=function(internal,relPath){
+exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
@@ -18,6 +19,11 @@ return function(){
     var localMap=inputDictionary.Map;
     if(!localMap){
       localMap=Map;
+    }
+    
+    var mode=inputDictionary.mode
+    if(!mode){
+      mode='widget';
     }
 
     var scalingFactor=inputDictionary.scalingFactor;
@@ -30,10 +36,38 @@ return function(){
       exportName="Mapshot"
     }
 
+    var geometryJSON=ee.Geometry(localMap.getBounds(true))
+    if(inputDictionary.geometry){
+      geometryJSON=inputDictionary.geometry
+    }
+    var geo=geometryJSON.transform('EPSG:3857',10).coordinates().get(0).getInfo();;
+    var geometry=[geo[0][0],geo[0][1],geo[1][0],geo[2][1]];
+    
+    var factor=Map.getScale()/scalingFactor;
+    var dim=Math.round((geometry[2]-geometry[0])/factor)+'x'+Math.round((geometry[3]-geometry[1])/factor);
+
     var layers=localMap.layers()
     var imCol=ee.ImageCollection(layers.map(function(layer){
       return layer.getEeObject().visualize(layer.getVisParams()).set("shown",layer.getShown(),"name",layer.getName(),"opacity",layer.getOpacity())
     })).filter(ee.Filter.equals("shown",true));
+    
+    if(inputDictionary.northSymbol){
+      var symboleKey=inputDictionary.northSymbol.toLowerCase().split('-');
+      var height=geometry[3]-geometry[1];
+      var width=geometry[2]-geometry[0];
+      
+      var symboleWidthScale=(symboleKey[0]=='arrow'?40:100)
+      
+      imCol=imCol.merge(ee.ImageCollection([
+        oeel.Map.symbol({symbol:symboleKey[0],mode:'image',
+        scale:Map.getScale()/2000,
+        point:
+        // no idea why getInfo is needed maybe something in the symbol
+      ee.Geometry(ee.Geometry.Point([(symboleKey[2]=='left'?geometry[0]+Map.getScale()*symboleWidthScale:geometry[2]-Map.getScale()*symboleWidthScale),(symboleKey[1]=='bottom'?geometry[1]+Map.getScale()*100:geometry[3]-Map.getScale()*100)],'EPSG:3857').getInfo())})
+      .set('shown',true,'opacity',1)
+      ]))
+    }
+    
     imCol=imCol.map(function(layerImage){
       var im=ee.Image(ee.Algorithms.If({
         condition:layerImage.bandNames().size().eq(1),
@@ -42,41 +76,22 @@ return function(){
       }))
       return im.updateMask(im.mask().multiply(layerImage.getNumber("opacity")));
     })
-    var im=imCol.mosaic();
-    var geometry=localMap.getBounds();
-    var geometryJSON=localMap.getBounds(true)
-    if(inputDictionary.geometry){
-      geometryJSON=inputDictionary.geometry
-      var geo=inputDictionary.geometry.coordinates().get(0).getInfo();
-      geometry=[geo[0][0],geo[0][1],geo[1][0],geo[2][1]];
-    }
     
-    var factor=Math.pow(2,localMap.getZoom()-0.5)*scalingFactor;
-    var distor0=function(x){x=x/180*Math.PI; return (Math.log(Math.tan(x/2+Math.PI/4)))};
-    var dim=Math.round((geometry[2]-geometry[0])*factor)+'x'+Math.round((distor0(geometry[3])-distor0(geometry[1]))*factor/Math.PI*180);
+    var im=imCol.mosaic();
+    
 
     //var url=
     
-    switch (inputDictionary.mode) {
-      case 'ee.Image':
+    switch (mode.toLowerCase()) {
       case 'ee.image':
       case 'image':
-      case 'Image':
         return im;
       case 'link':
-      case 'Link':
       case 'url':
-      case 'Url':
-      case 'URL':
         return im.reproject('EPSG:3857',null,localMap.getScale()/scalingFactor).getDownloadURL({region:geometryJSON,format:'png',dimensions:dim});;
       
       case 'export':
-      case 'Export':
-      case 'Exportdrive':
-      case 'exportDrive':
-      case 'Exportdrive':
-      case 'ExportDrive':
-      case 'Export.Drive':
+      case 'exportdrive':
         Export.image.toDrive({
           image:im,
           description:exportName,
@@ -85,7 +100,6 @@ return function(){
           region:geometryJSON
         });
         break;
-      case 'Widget':
       case 'widget':
       default:
         return ui.Thumbnail(im.reproject('EPSG:3857',null,localMap.getScale()/scalingFactor),{region:geometryJSON,format:'png',dimensions:dim});
