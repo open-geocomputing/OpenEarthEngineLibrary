@@ -20,17 +20,21 @@ return function(){
     if(!localMap){
       localMap=Map;
     }
-
+    var unitLabel=ui.Label('m',{backgroundColor:"0000",color:inputDictionary.color1,position:'middle-right', padding:'0px',margin:'0px 5px 0px 5px',textAlign:'right',fontSize:inputDictionary.scale+'px'});
     var listBox=[];
     var listLabel=[];
     
-    for(var i=inputDictionary.size-1; i>=0;i--){
-      var localList=[ui.Label(((i+1)*100)+" m",{backgroundColor:"0000",color:(i%2?inputDictionary.color1:inputDictionary.color2),position:'middle-left' , padding:'0px',width:"100px",margin:'0px 0px 0px -60px',textAlign:'center',fontSize:inputDictionary.scale+'px'}),
-                     ui.Label(((i)  *100)+" m",{backgroundColor:"0000",color:(i%2?inputDictionary.color1:inputDictionary.color2),position:'middle-right', padding:'0px',width:"100px",margin:'0px -60px 0px 0px',textAlign:'center',fontSize:inputDictionary.scale+'px'})]
+    for(var i=0; i<inputDictionary.size; i++ ){
+      var localList=[
+                     ui.Label("",{backgroundColor:"0000",color:(i%2?inputDictionary.color1:inputDictionary.color2),position:'middle-right', padding:'0px',width:"100px",margin:'0px -60px 0px 0px',textAlign:'center',fontSize:inputDictionary.scale+'px'}),
+                     ui.Label("",{backgroundColor:"0000",color:(i%2?inputDictionary.color1:inputDictionary.color2),position:'middle-left' , padding:'0px',width:"100px",margin:'0px 0px 0px -60px',textAlign:'center',fontSize:inputDictionary.scale+'px'})]
       if(i==inputDictionary.size-1){
-        localList[0].style().set({color:(i%2?inputDictionary.color2:inputDictionary.color1)})
+        localList[0].style().set({textAlign:'right',margin:'0px -8px 0px 0px'})
       }
-      listLabel.unshift(localList);
+      if(i==0){
+        localList[1].style().set({textAlign:'left',margin:'0px 0px 0px -8px'})
+      }
+      listLabel.push(localList);
       listBox.push(ui.Panel(localList,ui.Panel.Layout.absolute(),{backgroundColor:(i%2?inputDictionary.color2:inputDictionary.color1), width:'100px', height:(inputDictionary.scale+2)+'px',padding:'0px',margin:'0px'}))
     }
     
@@ -47,16 +51,17 @@ return function(){
       var sizeBox=possibleSize[index];
       var boxSize=Math.round(sizeBox/latScale/localMap.getScale())+'px';
       var unit='m';
-      if(sizeBox>=1000){
+      if(sizeBox>1000){
         sizeBox/=1000;
-        unit=' km';
+        unit='km';
       }
-      for( var i in listBox){
+      unitLabel.setValue(unit)
+      for( var i=0; i<listBox.length; i++){
         listBox[i].style().set({width:boxSize});
-        listLabel[i][0].setValue((i+1)*sizeBox+unit);
-        listLabel[i][1].setValue((i)*sizeBox+unit);
+        listLabel[i][0].setValue((i+1)*sizeBox);
+        listLabel[i][1].setValue((i)*sizeBox);
       }
-      listLabel[0][1].setValue('0 m');
+      
     }
     
     addjustSclale();
@@ -64,7 +69,7 @@ return function(){
     localMap.onChangeZoom(addjustSclale)
     localMap.onChangeBounds(addjustSclale)
     
-    return ui.Panel(listBox,ui.Panel.Layout.flow('horizontal'),{backgroundColor:(i%2?inputDictionary.color2:inputDictionary.color1), padding:'0px',margin:'0px',position:inputDictionary.position});
+    return ui.Panel([unitLabel].concat(listBox),ui.Panel.Layout.flow('horizontal'),{backgroundColor:"0000", padding:'0px',margin:'0px',position:inputDictionary.position});
     
     //do whatever
     return inputDictionary.val;
