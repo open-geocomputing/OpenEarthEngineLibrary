@@ -1483,7 +1483,7 @@
                 },
                 {
                     "name": "northSymbol",
-                    "description": "Add a North symbol (e.g., \"arrow-top-right\"",
+                    "description": "Add a North symbol (e.g., \"arrow-top-right\")",
                     "type": "string",
                     "optional": true
                 },
@@ -1785,5 +1785,5 @@
             "fullPath": ".util.addTimePrototype"
         }
     },
-    "timeSinceEpoch": 1672239135297
+    "timeSinceEpoch": 1672239279881
 }
