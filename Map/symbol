@@ -1,0 +1,60 @@
+var inputs=[{name:'symbol',description:'Symbol type: arrow | compass', type:'string',optional:false},
+            {name:'mode',description:'As a "widget" or "layer"', type:'string',defaultValue:'widget',optional:false},
+            {name:'scale',description:'Size factor', type:'number',defaultValue:1,optional:false},
+            {name:'colorFont',description:'Color of the font', type:'string',defaultValue:'black',optional:false},
+            {name:'colorSymbol1',description:'Color of the symbol', type:'string',defaultValue:'black',optional:false},
+            {name:'colorSymbol2',description:'Second color of the symbol', type:'string',defaultValue:'white',optional:false},
+            {name:'widgetScale',description:'Size if the widget (1.00= 100 pixels height)', type:'number', defaultValue:1, optional:false},
+            {name:'point',description:'Center of the symbole, ignored in widget mode', type:'ee.Geometry',optional:true},
+            {name:'Return',description:'Return', type:'ee.Image|object',optional:false} 
+            ]
+            
+var reference={name:'symbol',license:'MIT', description:'Generate symbol to put on a map, like compass and arrows', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var geom=inputDictionary.point;
+    if (inputDictionary.mode.toLowerCase()=='widget'){
+      geom=ee.Geometry.Point([0,0]);
+    }
+    
+    if(inputDictionary.symbol.toLowerCase()=='compass'){
+      var col=ee.FeatureCollection([ee.Feature(geom,{char:'C',style:{color:'00000000',fillColor:inputDictionary.colorSymbol1}}),
+                                    ee.Feature(geom,{char:'c',style:{color:'00000000',fillColor:inputDictionary.colorSymbol2}})]);
+      var names=ee.FeatureCollection([ee.Feature(geom,{char:'N',style:{color:'00000000',fillColor:inputDictionary.colorFont},shift:[0,120000*inputDictionary.scale]}),
+                                      ee.Feature(geom,{char:'E',style:{color:'00000000',fillColor:inputDictionary.colorFont},shift:[120000*inputDictionary.scale,0]}),
+                                      ee.Feature(geom,{char:'S',style:{color:'00000000',fillColor:inputDictionary.colorFont},shift:[0,-120000*inputDictionary.scale]}),
+                                      ee.Feature(geom,{char:'W',style:{color:'00000000',fillColor:inputDictionary.colorFont},shift:[-120000*inputDictionary.scale,0]})]);
+
+      var arrow=col.map(oeel.Feature.asLabel({font:"users/OEEL/Fonts/Symbol",textProperty:'char', position:'bottom-left', fontSize:100*inputDictionary.scale}))
+      var names=names.map(oeel.Feature.asLabel({textProperty:'char', position:'center-center', fontSize:30*inputDictionary.scale, shiftBProperty:'shift'}))
+      var widgetSize=(inputDictionary.widgetScale*100)+"x"+(inputDictionary.widgetScale*100);
+    }
+    
+    if(inputDictionary.symbol.toLowerCase()=='arrow'){
+      var col=ee.FeatureCollection([ee.Feature(geom,{char:'A',style:{color:'00000000',fillColor:inputDictionary.colorSymbol1}}),
+                                    ee.Feature(geom,{char:'a',style:{color:'00000000',fillColor:inputDictionary.colorSymbol2}})]);
+      var names=ee.FeatureCollection([ee.Feature(geom,{char:'N',style:{color:'00000000',fillColor:inputDictionary.colorFont},shift:[0,-90000*inputDictionary.scale]})]);
+
+      var arrow=col.map(oeel.Feature.asLabel({font:"users/OEEL/Fonts/Symbol",textProperty:'char', position:'bottom-left', fontSize:150*inputDictionary.scale}))
+      var names=names.map(oeel.Feature.asLabel({textProperty:'char', position:'center-center', fontSize:50*inputDictionary.scale, shiftBProperty:'shift'}))
+      var widgetSize=(inputDictionary.widgetScale*40)+"x"+(inputDictionary.widgetScale*100);
+    }
+    
+    var image=arrow.merge(names).style({styleProperty:'style'});
+    
+    
+    if (inputDictionary.mode.toLowerCase()=='widget'){
+      return ui.Thumbnail({image:image,params:{dimensions:widgetSize,
+                           region:ee.Geometry.Rectangle([-0.5*inputDictionary.scale,-1.4*inputDictionary.scale,0.5*inputDictionary.scale,1.2*inputDictionary.scale])},
+                           style:{backgroundColor:'#0000',whiteSpace:"nowrap"}})
+    }
+    
+    return image;
+  }
+}
