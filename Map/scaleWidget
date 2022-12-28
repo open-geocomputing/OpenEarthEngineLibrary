@@ -1,0 +1,72 @@
+var inputs=[{name:'Map',description:'The reference Map', type:'object',optional:true},
+            {name:'size',description:'The length of the map scale', type:'integer',defaultValue:3,optional:false},
+            {name:'color1',description:'The first color', type:'string',defaultValue:'black',optional:false},
+            {name:'color2',description:'The second color', type:'string',defaultValue:'white',optional:false},
+            {name:'scale',description:'The height of the map scale', type:'integer',defaultValue:11,optional:false},
+            {name:'position',description:'The widget position', type:'string',defaultValue:'bottom-right',optional:false},
+            {name:'Return',description:'Return', type:'object',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'scaleWidget',license:'MIT', description:'Genrate a widget with the scale of the Map', contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+
+    var localMap=inputDictionary.Map;
+    if(!localMap){
+      localMap=Map;
+    }
+
+    var listBox=[];
+    var listLabel=[];
+    
+    for(var i=inputDictionary.size-1; i>=0;i--){
+      var localList=[ui.Label(((i+1)*100)+" m",{backgroundColor:"0000",color:(i%2?inputDictionary.color1:inputDictionary.color2),position:'middle-left' , padding:'0px',width:"100px",margin:'0px 0px 0px -60px',textAlign:'center',fontSize:inputDictionary.scale+'px'}),
+                     ui.Label(((i)  *100)+" m",{backgroundColor:"0000",color:(i%2?inputDictionary.color1:inputDictionary.color2),position:'middle-right', padding:'0px',width:"100px",margin:'0px -60px 0px 0px',textAlign:'center',fontSize:inputDictionary.scale+'px'})]
+      if(i==inputDictionary.size-1){
+        localList[0].style().set({color:(i%2?inputDictionary.color2:inputDictionary.color1)})
+      }
+      listLabel.unshift(localList);
+      listBox.push(ui.Panel(localList,ui.Panel.Layout.absolute(),{backgroundColor:(i%2?inputDictionary.color2:inputDictionary.color1), width:'100px', height:(inputDictionary.scale+2)+'px',padding:'0px',margin:'0px'}))
+    }
+    
+    function addjustSclale(){
+      var possibleSize=[.1,.2,.5,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000,1000000,2000000,5000000]
+      var index=0;
+      var latScale=Math.cos(localMap.getBounds()[(inputDictionary.position.split('-')[0]=='top'?3:1)]*Math.PI/180);
+      for (index=0; index<possibleSize.length; index++){
+        if(possibleSize[index]/latScale/localMap.getScale()>(65-inputDictionary.scale*2)){
+          break;
+        }
+      }
+    
+      var sizeBox=possibleSize[index];
+      var boxSize=Math.round(sizeBox/latScale/localMap.getScale())+'px';
+      var unit='m';
+      if(sizeBox>=1000){
+        sizeBox/=1000;
+        unit=' km';
+      }
+      for( var i in listBox){
+        listBox[i].style().set({width:boxSize});
+        listLabel[i][0].setValue((i+1)*sizeBox+unit);
+        listLabel[i][1].setValue((i)*sizeBox+unit);
+      }
+      listLabel[0][1].setValue('0 m');
+    }
+    
+    addjustSclale();
+    
+    localMap.onChangeZoom(addjustSclale)
+    localMap.onChangeBounds(addjustSclale)
+    
+    return ui.Panel(listBox,ui.Panel.Layout.flow('horizontal'),{backgroundColor:(i%2?inputDictionary.color2:inputDictionary.color1), padding:'0px',margin:'0px',position:inputDictionary.position});
+    
+    //do whatever
+    return inputDictionary.val;
+  }
+}
