@@ -1566,6 +1566,75 @@
             },
             "fullPath": ".Map.scaleWidget"
         },
+        "scaleLayer": {
+            "inputs": [
+                {
+                    "name": "Map",
+                    "description": "The reference Map",
+                    "type": "object",
+                    "optional": true
+                },
+                {
+                    "name": "point",
+                    "description": "The position where to add scale",
+                    "type": "ee.Geometry",
+                    "defaultValue": 3,
+                    "optional": false
+                },
+                {
+                    "name": "size",
+                    "description": "The length of the map scale",
+                    "type": "integer",
+                    "defaultValue": 3,
+                    "optional": false
+                },
+                {
+                    "name": "color1",
+                    "description": "The first color",
+                    "type": "string",
+                    "defaultValue": "black",
+                    "optional": false
+                },
+                {
+                    "name": "color2",
+                    "description": "The second color",
+                    "type": "string",
+                    "defaultValue": "white",
+                    "optional": false
+                },
+                {
+                    "name": "scale",
+                    "description": "The height of the map scale",
+                    "type": "integer",
+                    "defaultValue": 15,
+                    "optional": false
+                },
+                {
+                    "name": "position",
+                    "description": "The position regarding the point (left, center, right)",
+                    "type": "string",
+                    "defaultValue": "left",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "object",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "scaleLayer",
+                "license": "MIT",
+                "description": "Genrate a layer with the scale of the Map",
+                "experimental": true,
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Map.scaleLayer"
+        },
         "symbol": {
             "inputs": [
                 {
@@ -1846,5 +1915,5 @@
             "fullPath": ".util.addTimePrototype"
         }
     },
-    "timeSinceEpoch": 1672265250729
+    "timeSinceEpoch": 1672318530348
 }
