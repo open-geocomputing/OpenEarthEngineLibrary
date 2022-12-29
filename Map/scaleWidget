@@ -43,7 +43,7 @@ return function(){
       var index=0;
       var latScale=Math.cos(localMap.getBounds()[(inputDictionary.position.split('-')[0]=='top'?3:1)]*Math.PI/180);
       for (index=0; index<possibleSize.length; index++){
-        if(possibleSize[index]/latScale/localMap.getScale()>(65-inputDictionary.scale*2)){
+        if(possibleSize[index]/latScale/localMap.getScale()>(inputDictionary.scale*4)){
           break;
         }
       }
@@ -71,7 +71,5 @@ return function(){
     
     return ui.Panel([unitLabel].concat(listBox),ui.Panel.Layout.flow('horizontal'),{backgroundColor:"0000", padding:'0px',margin:'0px',position:inputDictionary.position});
     
-    //do whatever
-    return inputDictionary.val;
   }
 }

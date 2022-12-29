@@ -1,0 +1,72 @@
+var inputs=[{name:'Map',description:'The reference Map', type:'object',optional:true},
+            {name:'point',description:'The position where to add scale', type:'ee.Geometry',defaultValue:3,optional:false},
+            {name:'size',description:'The length of the map scale', type:'integer',defaultValue:3,optional:false},
+            {name:'color1',description:'The first color', type:'string',defaultValue:'black',optional:false},
+            {name:'color2',description:'The second color', type:'string',defaultValue:'white',optional:false},
+            {name:'scale',description:'The height of the map scale', type:'integer',defaultValue:15,optional:false},
+            {name:'position',description:'The position regarding the point (left, center, right)', type:'string',defaultValue:'left',optional:false},
+            {name:'Return',description:'Return', type:'object',defaultValue:null,optional:true}
+            ]
+            
+var reference={name:'scaleLayer',license:'MIT', description:'Genrate a layer with the scale of the Map', experimental:true, contributors:['Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+  
+  var localMap=inputDictionary.Map;
+  if(!localMap){
+    localMap=Map;
+  }
+  
+  var position=ee.String(inputDictionary.position).toLowerCase();
+  var possibleSize=[.1,.2,.5,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000,1000000,2000000,5000000,0];
+  var index=0;
+  var latScale=inputDictionary.point.coordinates().getNumber(1).multiply(Math.PI/180).cos();
+  
+  
+  possibleSize=ee.List(possibleSize).reverse()
+  var sizeBox=possibleSize.getNumber(possibleSize.map(function(val){val=ee.Number(val);
+    return val.divide(latScale).divide(localMap.getScale()).gt(ee.Number(inputDictionary.scale).multiply(2.5));
+  }).reduce(ee.Reducer.sum()))  
+  
+  var height=sizeBox;
+  var toText=oeel.Feature.asLabel({textProperty:'string', positionProperty:'textPosition', fontSize:height.divide(2500)});
+  
+  var units=ee.Algorithms.If({condition:sizeBox.gt(1000),trueCase:ee.String('km '),falseCase:ee.String('m ')})
+  var sizeBoxText=ee.Number(ee.Algorithms.If({condition:sizeBox.gte(1000),trueCase:sizeBox.divide(1000),falseCase:sizeBox}));
+  
+  
+  sizeBox=sizeBox.divide(latScale);
+  var listBox=[];
+  var listLabel=[];
+  
+  var y=inputDictionary.point.transform('EPSG:3857', 1).coordinates().getNumber(1);
+  var x=inputDictionary.point.transform('EPSG:3857', 1).coordinates().getNumber(0);
+
+  var startx=x.add(ee.Number(inputDictionary.size).multiply(sizeBox).add(height.multiply(1.3)).multiply(ee.Algorithms.If(position.equals('left'), -1, ee.Algorithms.If(position.equals('center'), -0.5, 0))))
+  startx=startx.add(height.multiply(1.3));
+  var unitLabel=ee.FeatureCollection([toText(ee.Feature(ee.Geometry.Point([startx,y],'EPSG:3857'),{string:units, textPosition:'center-right',style:{color:'00000000',fillColor:inputDictionary.color1}}))]).style({styleProperty:'style'});
+  
+  listBox=ee.FeatureCollection(ee.List.sequence({start:0,end:ee.Number(inputDictionary.size).subtract(1),step:1}).map(function(i){
+    i=ee.Number(i);
+    return ee.Feature(ee.Geometry.Rectangle([startx.add(sizeBox.multiply(i)), y.subtract(height.divide(2)), startx.add(sizeBox.multiply(i.add(1))), y.add(height.divide(2))],'EPSG:3857',false),
+    {position:i,style:{color:'00000000',fillColor:ee.Algorithms.If({condition:i.mod(2),trueCase:inputDictionary.color2,falseCase:inputDictionary.color1})}});
+  }))
+  
+  var labels=ee.ImageCollection(ee.List.sequence({start:0,end:ee.Number(inputDictionary.size).subtract(1),step:1}).map(function(i){
+    i=ee.Number(i);
+    
+    return ee.FeatureCollection([toText(ee.Feature(ee.Geometry.Point([startx.add(sizeBox.multiply(i)),   y],'EPSG:3857'),{string:sizeBoxText.multiply(i).format("%.0f"), textPosition:ee.Algorithms.If({condition:i.eq(0),trueCase:'center-left',falseCase:'center-center'}), position:i,style:{color:'00000000',fillColor:ee.Algorithms.If({condition:i.mod(2),trueCase:inputDictionary.color1,falseCase:inputDictionary.color2})}})),
+            toText(ee.Feature(ee.Geometry.Point([startx.add(sizeBox.multiply(i.add(1))), y],'EPSG:3857'),{string:sizeBoxText.multiply(i.add(1)).format("%.0f"),textPosition:ee.Algorithms.If({condition:i.eq(ee.Number(inputDictionary.size).subtract(1)),trueCase:'center-right',falseCase:'center-center'}), position:i,style:{color:'00000000',fillColor:ee.Algorithms.If({condition:i.mod(2),trueCase:inputDictionary.color1,falseCase:inputDictionary.color2})}}))
+            ]).style({styleProperty:'style'}).set({position:i})
+  }))
+  
+  labels=labels.map(function(im){return im.clip(listBox.filter(ee.Filter.eq('position',im.get('position'))).first())});
+
+  return ee.ImageCollection([unitLabel,listBox.style({styleProperty:'style'})]).merge(labels).mosaic();
+  }
+}
