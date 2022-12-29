@@ -30,10 +30,10 @@ return function(){
   
   possibleSize=ee.List(possibleSize).reverse()
   var sizeBox=possibleSize.getNumber(possibleSize.map(function(val){val=ee.Number(val);
-    return val.divide(latScale).divide(localMap.getScale()).gt(ee.Number(inputDictionary.scale).multiply(2.5));
+    return val.divide(latScale).divide(localMap.getScale()).gt(ee.Number(inputDictionary.scale).multiply(4));
   }).reduce(ee.Reducer.sum()))  
   
-  var height=sizeBox;
+  var height=sizeBox.divide(latScale).divide(4);
   var toText=oeel.Feature.asLabel({textProperty:'string', positionProperty:'textPosition', fontSize:height.divide(2500)});
   
   var units=ee.Algorithms.If({condition:sizeBox.gt(1000),trueCase:ee.String('km '),falseCase:ee.String('m ')})
