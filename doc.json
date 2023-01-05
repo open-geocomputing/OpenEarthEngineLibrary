@@ -1488,6 +1488,12 @@
                     "optional": true
                 },
                 {
+                    "name": "displayScale",
+                    "description": "Add a scale in metric system (e.g., \"top-left\", \"bottom-center-reverseColor\", don't use the same as the arrow",
+                    "type": "string",
+                    "optional": true
+                },
+                {
                     "name": "Return",
                     "description": "Return",
                     "type": "object|ee.Image|string",
@@ -1572,13 +1578,12 @@
                     "name": "mapScale",
                     "description": "The scale of the Map, e.g.,Map.getScale()",
                     "type": "number|ee.Number",
-                    "optional": true
+                    "optional": false
                 },
                 {
                     "name": "point",
                     "description": "The position where to add scale",
                     "type": "ee.Geometry",
-                    "defaultValue": 3,
                     "optional": false
                 },
                 {
@@ -1610,7 +1615,7 @@
                     "optional": false
                 },
                 {
-                    "name": "position",
+                    "name": "direction",
                     "description": "The position regarding the point (left, center, right)",
                     "type": "string",
                     "defaultValue": "left",
@@ -1915,5 +1920,5 @@
             "fullPath": ".util.addTimePrototype"
         }
     },
-    "timeSinceEpoch": 1672919913242
+    "timeSinceEpoch": 1672939265563
 }
