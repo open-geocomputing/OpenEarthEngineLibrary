@@ -8,8 +8,6 @@ var inputs=[{name:'Map',description:'The Map to mapshot', type:'object',optional
             {name:'Return',description:'Return', type:'object|ee.Image|string',defaultValue:null,optional:true}
             ]
             
-print(geometry.distance(geometry2))
-            
 var reference={name:'mapshot',license:'MIT', description:'To take a mapshot of a given ui.Map', contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
