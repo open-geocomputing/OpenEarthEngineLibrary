@@ -1569,9 +1569,9 @@
         "scaleLayer": {
             "inputs": [
                 {
-                    "name": "Map",
-                    "description": "The reference Map",
-                    "type": "object",
+                    "name": "mapScale",
+                    "description": "The scale of the Map, e.g.,Map.getScale()",
+                    "type": "number|ee.Number",
                     "optional": true
                 },
                 {
@@ -1915,5 +1915,5 @@
             "fullPath": ".util.addTimePrototype"
         }
     },
-    "timeSinceEpoch": 1672318530348
+    "timeSinceEpoch": 1672919913242
 }
