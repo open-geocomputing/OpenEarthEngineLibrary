@@ -1,4 +1,4 @@
-var inputs=[{name:'Map',description:'The reference Map', type:'object',optional:true},
+var inputs=[{name:'mapScale',description:'The scale of the Map, e.g.,Map.getScale()', type:'number|ee.Number',optional:true},
             {name:'point',description:'The position where to add scale', type:'ee.Geometry',defaultValue:3,optional:false},
             {name:'size',description:'The length of the map scale', type:'integer',defaultValue:3,optional:false},
             {name:'color1',description:'The first color', type:'string',defaultValue:'black',optional:false},
@@ -17,11 +17,6 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
   
-  var localMap=inputDictionary.Map;
-  if(!localMap){
-    localMap=Map;
-  }
-  
   var position=ee.String(inputDictionary.position).toLowerCase();
   var possibleSize=[.1,.2,.5,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000,1000000,2000000,5000000,0];
   var index=0;
@@ -30,7 +25,7 @@ return function(){
   
   possibleSize=ee.List(possibleSize).reverse()
   var sizeBox=possibleSize.getNumber(possibleSize.map(function(val){val=ee.Number(val);
-    return val.divide(latScale).divide(localMap.getScale()).gt(ee.Number(inputDictionary.scale).multiply(4));
+    return val.divide(latScale).divide(inputDictionary.mapScale).gt(ee.Number(inputDictionary.scale).multiply(4));
   }).reduce(ee.Reducer.sum()))  
   
   var height=sizeBox.divide(latScale).divide(4);
