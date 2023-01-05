@@ -1,10 +1,10 @@
-var inputs=[{name:'mapScale',description:'The scale of the Map, e.g.,Map.getScale()', type:'number|ee.Number',optional:true},
-            {name:'point',description:'The position where to add scale', type:'ee.Geometry',defaultValue:3,optional:false},
+var inputs=[{name:'mapScale',description:'The scale of the Map, e.g.,Map.getScale()', type:'number|ee.Number',optional:false},
+            {name:'point',description:'The position where to add scale', type:'ee.Geometry',optional:false},
             {name:'size',description:'The length of the map scale', type:'integer',defaultValue:3,optional:false},
             {name:'color1',description:'The first color', type:'string',defaultValue:'black',optional:false},
             {name:'color2',description:'The second color', type:'string',defaultValue:'white',optional:false},
             {name:'scale',description:'The height of the map scale', type:'integer',defaultValue:15,optional:false},
-            {name:'position',description:'The position regarding the point (left, center, right)', type:'string',defaultValue:'left',optional:false},
+            {name:'direction',description:'The position regarding the point (left, center, right)', type:'string',defaultValue:'left',optional:false},
             {name:'Return',description:'Return', type:'object',defaultValue:null,optional:true}
             ]
             
@@ -17,7 +17,7 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
   
-  var position=ee.String(inputDictionary.position).toLowerCase();
+  var direction=ee.String(inputDictionary.direction).toLowerCase();
   var possibleSize=[.1,.2,.5,1,2,5,10,20,50,100,200,500,1000,2000,5000,10000,20000,50000,100000,200000,500000,1000000,2000000,5000000,0];
   var index=0;
   var latScale=inputDictionary.point.coordinates().getNumber(1).multiply(Math.PI/180).cos();
@@ -42,7 +42,7 @@ return function(){
   var y=inputDictionary.point.transform('EPSG:3857', 1).coordinates().getNumber(1);
   var x=inputDictionary.point.transform('EPSG:3857', 1).coordinates().getNumber(0);
 
-  var startx=x.add(ee.Number(inputDictionary.size).multiply(sizeBox).add(height.multiply(1.3)).multiply(ee.Algorithms.If(position.equals('left'), -1, ee.Algorithms.If(position.equals('center'), -0.5, 0))))
+  var startx=x.add(ee.Number(inputDictionary.size).multiply(sizeBox).add(height.multiply(1.3)).multiply(ee.Algorithms.If(direction.equals('left'), -1, ee.Algorithms.If(direction.equals('center'), -0.5, 0))))
   startx=startx.add(height.multiply(1.3));
   var unitLabel=ee.FeatureCollection([toText(ee.Feature(ee.Geometry.Point([startx,y],'EPSG:3857'),{string:units, textPosition:'center-right',style:{color:'00000000',fillColor:inputDictionary.color1}}))]).style({styleProperty:'style'});
   

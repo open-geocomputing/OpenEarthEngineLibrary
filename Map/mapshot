@@ -4,8 +4,11 @@ var inputs=[{name:'Map',description:'The Map to mapshot', type:'object',optional
             {name:'geometry',description:'Geometry of export, default same as Map', type:'ee.Geometry',optional:true},
             {name:'name',description:'Name used in ExportDrive mode', type:'string',optional:true},
             {name:'northSymbol',description:'Add a North symbol (e.g., "arrow-top-right")', type:'string',optional:true},
+            {name:'displayScale',description:'Add a scale in metric system (e.g., "top-left", "bottom-center-reverseColor", don\'t use the same as the arrow', type:'string',optional:true},
             {name:'Return',description:'Return', type:'object|ee.Image|string',defaultValue:null,optional:true}
             ]
+            
+print(geometry.distance(geometry2))
             
 var reference={name:'mapshot',license:'MIT', description:'To take a mapshot of a given ui.Map', contributors:['Mathieu Gravey']};
 
@@ -65,6 +68,40 @@ return function(){
         // no idea why getInfo is needed maybe something in the symbol
       ee.Geometry(ee.Geometry.Point([(symboleKey[2]=='left'?geometry[0]+Map.getScale()*symboleWidthScale:geometry[2]-Map.getScale()*symboleWidthScale),(symboleKey[1]=='bottom'?geometry[1]+Map.getScale()*100:geometry[3]-Map.getScale()*100)],'EPSG:3857').getInfo())})
       .set('shown',true,'opacity',1)
+      ]))
+    }
+
+    if(inputDictionary.displayScale){
+      var symboleKey=inputDictionary.displayScale.toLowerCase().split('-');
+      var height=geometry[3]-geometry[1];
+      var width=geometry[2]-geometry[0];
+      
+      switch(symboleKey[1]){
+        case 'left':
+          var x=geometry[0]+Map.getScale()*10;
+          var scaleDir='right';
+          break;
+        case 'center':
+        case 'centered':
+          var x=(geometry[2]+geometry[0])/2;
+          var scaleDir='center';
+          break;
+        default:
+          var x=geometry[2]-Map.getScale()*10;
+          var scaleDir='left';
+      }
+      var PointScale=ee.Geometry(ee.Geometry.Point([x,(symboleKey[0]=='bottom'?geometry[1]+Map.getScale()*20:geometry[3]-Map.getScale()*20)],'EPSG:3857').transform('EPSG:4326', 1).getInfo())
+     
+      imCol=imCol.merge(ee.ImageCollection([
+        oeel.Map.scaleLayer({
+          mapScale:Map.getScale(),
+          point: PointScale,
+          size:3,
+          color1:(symboleKey[2]=='reversecolor'?"white":"black"),
+          color2:(symboleKey[2]=='reversecolor'?"black":"white"),
+          scale:15,
+          direction:scaleDir
+        }).set('shown',true,'opacity',1)
       ]))
     }
     
