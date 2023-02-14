@@ -7,7 +7,7 @@ exports.createDocumentation=function(){ return {inputs:inputs, reference:referen
 exports.createFunction=function(internal,relPath,oeel){
   return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
-    function parseAndPrefix(str){
+    function oee_parseAndPrefix(str){
       var lines=str.split(/([;\n{}\(\)])/);
       var regexVariableName=/^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
       var localVariable=[[],[]];
