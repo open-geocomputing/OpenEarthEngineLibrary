@@ -1,64 +1,87 @@
 var inputs=[]
-            
+
 var reference={name:'Terminal',license:'GPLv3', description:'This feature adds an interactive terminal, which is ideal for debugging code.', contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
 exports.createFunction=function(internal,relPath,oeel){
   return function(){
-      var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
-      function oee_parseAndPrefix(str){
-        var lines=str.split(/([;\n{}])/);
-        var regexVariableName=/^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
-        var localVariable=[];
-        localVariable[0]=Object.keys(oee_variable);
-        var level=0;
-        for (var idx in lines){
-          var line=lines[idx];
-          var regex = /([(\s\(\)+\-*/=)]+)/;
-          var elements = line.split(regex).filter(Boolean);
-          for ( var i=elements.length-1; i>=0;i--){
-            var word=elements[i].split('.')[0];
-            var l;
-            
-            if(i>1 && elements[i-2]=="var"){
-              localVariable[level].push(word);
-              if(level===0){
-                elements[i]="oee_variable."+elements[i];
-                elements[i-2]="";
-              }
-              continue;
-            }
-            if(i>1 && elements[i-2]=="function" && (elements[i-1]!="(" || elements[i]!="(")){
-              localVariable[level].push(word);
-              if(level===0){
-                elements[i]="oee_variable."+elements[i];
-              }
-              continue;
-            }
-            if(regexVariableName.test(word)){
-              for(l=level; l>=0; l--){
-                if(localVariable[l].indexOf(word)!=-1){
-                  break;
-                }
-              }
-              if(l===0){
-                elements[i]="oee_variable."+elements[i];
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    function parseAndPrefix(str){
+      var lines=str.split(/([;\n{}])/);
+      var regexVariableName=/^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
+      var localVariable=[[],[]];
+      localVariable[0]=Object.keys(oee_variable);
+      var level=0;
+      var inFunctionHeader=false;
+      for (var idx in lines){
+        var line=lines[idx];
+        
+        var regex = /([(\s\(\)+\-*/=)]+)/;
+        var elements = line.split(regex).filter(Boolean);
+        
+        var startScan=elements.length-1;
+        
+        if(elements.indexOf('function')){
+          inFunctionHeader=true;
+          var posFunction=elements.indexOf('function');
+          if(posFunction>=0){
+            var locArray=elements.slice(Math.max(posFunction,0))
+            var posParenthesis=locArray.indexOf('(')
+            locArray=locArray.slice(Math.max(posParenthesis,0));
+            startScan=posFunction+posParenthesis;
+            for (var j=0; j<locArray.length;j++){
+              if(regexVariableName.test(locArray[j])){
+                localVariable[level+1].push(locArray[j]);
               }
             }
           }
-          line=elements.join("");
-          if(line.slice(-1)=="{"){
-            level++;
-            localVariable[level]=[];
-          }
-          if(line.slice(-1)=="}"){
-            level--;
-          }
-          lines[idx]=line;
         }
-        return lines.join("");
+        if(elements[0]=="{"){
+          level++
+          localVariable[level+1]=[];
+          inFunctionHeader=false;
+        }
+        
+        for ( var i=startScan; i>=0;i--){
+          var word=elements[i].split('.')[0];
+          var l;
+          
+          if(i>1 && elements[i-2]=="var"){
+            localVariable[level].push(word);
+            if(level===0){
+              elements[i]="oee_variable."+elements[i];
+              elements[i-2]="";
+            }
+            continue;
+          }
+          if(i>1 && elements[i-2]=="function" && (elements[i-1]!="(" || elements[i]!="(")){
+            localVariable[level].push(word);
+            if(level===0){
+              elements[i]="oee_variable."+elements[i];
+            }
+            continue;
+          }
+          if(regexVariableName.test(word)){
+            for(l=level; l>=0; l--){
+              if(localVariable[l].indexOf(word)!=-1){
+                break;
+              }
+            }
+            if(l===0){
+              elements[i]="oee_variable."+elements[i];
+            }
+          }
+        }
+        line=elements.join("");
+        if(elements[0]=="}"){
+          localVariable[level]=[]
+          level--;
+        }
+        lines[idx]=line;
       }
+      return lines.join("");
+    }
     var oee_variable={};
     var oee_input=ui.Textbox(">>","",function(oeel_string){
       oeel_string=oeel_string.split("\\n").join("\n  ")
