@@ -8,7 +8,7 @@ exports.createFunction=function(internal,relPath,oeel){
   return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     function parseAndPrefix(str){
-      var lines=str.split(/([;\n{}])/);
+      var lines=str.split(/([;\n{}\(\)])/);
       var regexVariableName=/^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
       var localVariable=[[],[]];
       localVariable[0]=Object.keys(oee_variable);
@@ -22,20 +22,29 @@ exports.createFunction=function(internal,relPath,oeel){
         
         var startScan=elements.length-1;
         
-        if(elements.indexOf('function')){
+        if(inFunctionHeader|| elements.indexOf('function')>=0){
           inFunctionHeader=true;
           var posFunction=elements.indexOf('function');
+          if((elements.length>posFunction+2)&&(elements[posFunction+1][0]==" ")){
+            elements[posFunction]=elements[posFunction+2];
+            elements[posFunction+1]="=";
+            elements[posFunction+2]="function";
+            elements.splice(posFunction, 0, " ");
+            elements.splice(posFunction, 0, "var");
+          }
+          posFunction=elements.indexOf('function');
           if(posFunction>=0){
             var locArray=elements.slice(Math.max(posFunction,0))
             var posParenthesis=locArray.indexOf('(')
             locArray=locArray.slice(Math.max(posParenthesis,0));
-            startScan=posFunction+posParenthesis;
+            startScan=posFunction;
             for (var j=0; j<locArray.length;j++){
               if(regexVariableName.test(locArray[j])){
                 localVariable[level+1].push(locArray[j]);
               }
             }
           }
+          
         }
         if(elements[0]=="{"){
           level++
@@ -73,6 +82,7 @@ exports.createFunction=function(internal,relPath,oeel){
             }
           }
         }
+        
         line=elements.join("");
         if(elements[0]=="}"){
           localVariable[level]=[]
