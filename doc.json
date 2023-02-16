@@ -983,7 +983,7 @@
             "reference": {
                 "name": "Terminal",
                 "license": "GPLv3",
-                "description": "This feature adds an interactive terminal, which is ideal for debugging code.",
+                "description": "This feature adds an interactive terminal, which is ideal for debugging code. To use it, simply add <code>eval(oeel.debug.Terminal);</code> to your script. Please note that the dynamic loading of requires is not supported.",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
@@ -1934,5 +1934,5 @@
             "fullPath": ".Map.scaleLayer"
         }
     },
-    "timeSinceEpoch": 1676554437924
+    "timeSinceEpoch": 1676561477883
 }
