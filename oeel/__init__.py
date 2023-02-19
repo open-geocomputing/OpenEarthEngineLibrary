@@ -9,6 +9,8 @@ import os
 import threading
 import time
 import inspect
+import types
+import ctypes
 from shutil import which
 
 from . import external
@@ -23,6 +25,9 @@ IN_COLAB = 'google.colab' in sys.modules
 
 def initialize():
 	if(os.path.exists(oeelLibPath+'/initialized')):
+		if(os.path.getmtime(oeelLibPath+'/initialized')<os.path.getmtime(__file__)): # updated
+			os.remove(oeelLibPath+'/initialized')
+			initialize();
 		return
 	else:
 		print('Start initilization of OEEL...')
@@ -54,6 +59,10 @@ def initialize():
 					subprocess.check_output("npm install request",shell=True)
 				except Exception as e:
 					print("Please install manually using : npm install request")
+				try:
+					subprocess.check_output("npm install unpromisefy",shell=True)
+				except Exception as e:
+					print("Please install manually using : npm install unpromisefy")
 			else:
 				raise oeelMissingExternalCommand('You have node, but not npm in the path you will need to fix this.')
 			pass
@@ -75,6 +84,19 @@ class oeelParentDirectory(dict):
 	def __call__(self):
 		print("This is a directory, it cannot be called")
 
+def encodeInput(inputVal):
+	if(isinstance(inputVal, types.FunctionType)):
+		return {'type':'function','value':id(inputVal)}
+	if(isinstance(inputVal, ee.computedobject.ComputedObject)):
+		return {'type':'ee','ee_type':inputVal.name(),'value':json.dumps(ee.serializer.encode(inputVal))};
+	return {'type':'other','value':json.dumps(ee.serializer.encode(inputVal))};
+
+def decodeInput(inputVal):
+	if(inputVal['type']=='function'):
+		raise NotImplementedError("This function has not been implemented yet due to the missing counterpart in JavaScript.");
+	if(inputVal['type']=='ee'):
+		return getattr(ee,inputVal['ee_type'])(ee.deserializer.fromJSON(inputVal["value"]));
+	return ee.deserializer.fromJSON(inputVal["value"]);
 
 class oeelClass():
 	nodeSocket=None;
@@ -101,12 +123,13 @@ class oeelClass():
 
 	def manageNodeRequest(self,message):
 		if(message['function']=='print'):
-			for x in message['payload'].keys():
-				print(message['payload'][x])
-		if(message['function'].startswith('Map.') and self.Map):
+			print(*(message['payload']))
+			return None
+				
+		if(isinstance(message['function'],str) and message['function'].startswith('Map.') and self.Map):
 			if(message['function']=='Map.addLayer'):
 				param=message['payload'];
-				param['eeObject']=ee.deserializer.fromJSON(param['eeObject']);
+				param['eeObject']=decodeInput(param['eeObject']);
 				renaming={'eeObject':'ee_object', 'visParams':'vis_params', 'name':'name', 'shown':'shown', 'opacity':'opacity'}
 				param = {renaming[k]:v for (k,v) in param.items()}
 				self.Map.addLayer(**param)
@@ -134,17 +157,17 @@ class oeelClass():
 				self.Map.zoom=param['zoom'];
 				pass
 			if(message['function']=='Map.getCenter'):
-				return {'sucess':True, 'payload':self.Map.center};
+				return {'sucess':True, 'payload':encode(ee.Geometry.Point(self.Map.center))};
 				pass
 			if(message['function']=='Map.getScale'):
-				return {'sucess':True, 'payload':self.Map.getScale()};
+				return {'sucess':True, 'payload':encode(self.Map.getScale())};
 				pass
 			if(message['function']=='Map.getZoom'):
-				return {'sucess':True, 'payload':self.Map.zoom};
+				return {'sucess':True, 'payload':encode(self.Map.zoom)};
 				pass
-		
-		return None;
-
+			return None;
+		fun=ctypes.cast(message['function'], ctypes.py_object).value;
+		return {'sucess':True, 'payload':encodeInput(fun(*[decodeInput(x) for x in message['payload']]))}
 	def nodeRequestD(self,port):
 		context = zmq.Context()
 		socket = context.socket(zmq.REP)
@@ -210,13 +233,13 @@ class oeelClass():
 				# some paranter are not supported
 				raise self.oeelExtraArguments("oeel{} do not support the following arguments: {}".format(leaf['fullPath'],','.join(extraArgument)))
 			for key in args.keys():
-				args[key]=json.dumps(ee.serializer.encode(args[key]));
+				args[key]=encodeInput(args[key]);
 			# send request
 			#print(json.dumps({'type':'call','functionName':leaf['fullPath'],'args':args}))
 			self.nodeSocket.send_string(json.dumps({'type':'call','lib':'oeel','functionName':leaf['fullPath'],'args':args}))
 			answer=json.loads(self.nodeSocket.recv())
 			if 'payload' in answer:
-				return ee.deserializer.fromJSON(answer['payload']);
+				return decodeInput(answer['payload']);
 			else:
 				return
 
@@ -244,7 +267,6 @@ class oeelClass():
 		return oeelParentDirectory(substruct);
 
 	def loadOEELFunctions(self):
-		
 		r = requests.get('https://www.open-geocomputing.org/OpenEarthEngineLibrary/doc.json')
 		oeelStruct=r.json();
 		self.oeelLibInterface=self.applyCallInTree(oeelStruct,oeelStruct);
