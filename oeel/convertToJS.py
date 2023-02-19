@@ -15,7 +15,7 @@ class exportEEjs():
 		resultCall=function(**dict(map(lambda x:(x,ee.ComputedObject(None,None,x+str(0))),param.parameters)));
 		stringJson=ee.serializer.toJSON(resultCall)
 		stringJson=stringJson.replace('argumentReference','valueReference');
-		jsCode+='\nexports.'+function.__name__+'=function(){var inputDictionary=readInputs(Array.prototype.slice.call(arguments,0),["a","b"]);'\
+		jsCode+='\nexports.'+function.__name__+'=function(){var inputDictionary=readInputs(Array.prototype.slice.call(arguments,0),'+json.dumps(list(param.parameters.keys()))+');'\
 		+"var json='"+stringJson+"'; return applyInputs(inputDictionary,json);};"
 		return jsCode;
 
@@ -35,4 +35,3 @@ class exportEEjs():
 			reponseDic["jsImport"]="var pythonLib=require(\""+reponseDic["path"]+"\")";
 
 			return reponseDic
-		
