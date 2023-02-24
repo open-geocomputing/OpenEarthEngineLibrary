@@ -281,6 +281,8 @@ class oeelClass():
 		self.init();
 		if(os.path.exists(os.getcwd()+'/'+libPath)):
 			return external.externalEEjs(self.nodeSocket,os.getcwd()+'/'+libPath).libInterface;
+		if(os.path.exists(libPath)):
+			return external.externalEEjs(self.nodeSocket,libPath).libInterface;
 		else:
 			raise self.oeelMissingRequireFile('No file at :'+os.getcwd()+'/'+libPath);
 
