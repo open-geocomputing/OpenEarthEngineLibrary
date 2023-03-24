@@ -36,7 +36,7 @@ return function(){
           var finalim=imCol.reduce(inputDictionary.reducer);
           
         if (inputDictionary.copyProperties)
-          return finalim.copyProperties(im,im.propertyNames().remove('neighbours'))
+          return finalim.copyProperties(im,im.propertyNames().remove('neighbours').remove("system:footprint"))
         else
           return finalim;
     });
