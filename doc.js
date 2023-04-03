@@ -113,7 +113,10 @@ function displayDocFunction(data) {
 		currentLocation=location[0].substring(1)
 	if (data.fullPath!=currentLocation)
 	{
-		window.history.pushState("object or string", "Title", "#" + data.fullPath);
+		let state={};
+		window.history.pushState(state, "", "#" + data.fullPath);
+		let popStateEvent = new PopStateEvent('popstate', { state: state });
+		dispatchEvent(popStateEvent);
 	}
 }
 

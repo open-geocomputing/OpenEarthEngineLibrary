@@ -12,8 +12,8 @@
 		gtag('config', 'G-LEXG2KSC8Q');
 
 		window.addEventListener('popstate', function(event) {
-			ga('set', 'page', location.pathname + location.search + location.hash);
-			ga('send', 'pageview');
+			gtag('config', 'G-LEXG2KSC8Q', {'page_path': location.pathname + location.search + location.hash});
+			gtag('event', 'page_view');
 		});
 	</script>
 	<meta charset="UTF-8">
