@@ -77,7 +77,7 @@ function displayDocFunction(data) {
 	// add examples
 	var localExample=null
 	if(exampleData && (localExample=exampleData["OpenEEL"+data.fullPath])){
-		console.log("OpenEEl"+data.fullPath,localExample)
+		//console.log("OpenEEl"+data.fullPath,localExample)
 		doc.append($("<h4>", {"class": "title is-4"}).html('Examples:'));
 		var examplesList=$("<ul>", {"id": "examplesList"});
 		doc.append(examplesList);

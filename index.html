@@ -5,11 +5,16 @@
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-LEXG2KSC8Q"></script>
 	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
 
-	  gtag('config', 'G-LEXG2KSC8Q');
+		gtag('config', 'G-LEXG2KSC8Q');
+
+		window.addEventListener('popstate', function(event) {
+			ga('set', 'page', location.pathname + location.search + location.hash);
+			ga('send', 'pageview');
+		});
 	</script>
 	<meta charset="UTF-8">
 	<title>Documentation Open Earth Engine Library</title>
