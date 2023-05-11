@@ -1,125 +1,383 @@
 {
-    "Algorithms": {
-        "MODIS": {
-            "terrainShadow": {
-                "inputs": [
-                    {
-                        "name": "dem",
-                        "description": "the DEM to use",
-                        "type": "ee.Image",
-                        "optional": false
-                    },
-                    {
-                        "name": "kernelHalfSize",
-                        "description": "The radius of the kernel",
-                        "type": "number",
-                        "defaultValue": 10,
-                        "optional": false
-                    },
-                    {
-                        "name": "image",
-                        "description": "A MODIS image",
-                        "type": "ee.Image",
-                        "optional": true
-                    },
-                    {
-                        "name": "imageCollection",
-                        "description": "The MODIS collection on which to run the computation",
-                        "type": "ee.ImageCollection",
-                        "optional": true
-                    },
-                    {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "function",
-                        "defaultValue": null,
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "terrainShadow",
-                    "license": "MIT",
-                    "description": "Compute the terrain shadow of MODIS images",
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
+    "Feature": {
+        "asLabel": {
+            "inputs": [
+                {
+                    "name": "textProperty",
+                    "description": "The text of the geometry",
+                    "type": "string|ee.String",
+                    "optional": false
                 },
-                "fullPath": ".Algorithms.MODIS.terrainShadow"
-            }
+                {
+                    "name": "font",
+                    "description": "The font to use",
+                    "type": "string|ee.String|ee.FeatureCollection",
+                    "defaultValue": "users/OEEL/Fonts/Helvetica",
+                    "optional": false
+                },
+                {
+                    "name": "fontSize",
+                    "description": "The font size",
+                    "type": "integer|ee.Number",
+                    "defaultValue": 1,
+                    "optional": false
+                },
+                {
+                    "name": "position",
+                    "description": "Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)",
+                    "type": "string|ee.String",
+                    "defaultValue": "centter-center",
+                    "optional": false
+                },
+                {
+                    "name": "rotation",
+                    "description": "Text angle",
+                    "type": "integer|ee.Number",
+                    "defaultValue": 0,
+                    "optional": false
+                },
+                {
+                    "name": "shiftB",
+                    "description": "Text shift before rotation",
+                    "type": "ee.List|object",
+                    "defaultValue": [
+                        0,
+                        0
+                    ],
+                    "optional": false
+                },
+                {
+                    "name": "fontProperty",
+                    "description": "Property containing the font to use",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "fontSizeProperty",
+                    "description": "Property containing  the font size",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "positionProperty",
+                    "description": "Property containing the text alignement. ('top-right', 'top-center', 'top-left', 'bottom-right', ...)",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "rotationProperty",
+                    "description": "Property containing the text angle",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "shiftBProperty",
+                    "description": "Property containing the shift before rotation",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "function",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "asLabel",
+                "license": "MIT",
+                "description": "Generate a function that transforms a feature in an annotation /label Feature"
+            },
+            "fullPath": ".Feature.asLabel"
+        }
+    },
+    "Filter": {
+        "asymmetricMaxDifference": {
+            "inputs": [
+                {
+                    "name": "difference",
+                    "description": "The maximum difference for which the filter will return true.",
+                    "type": "number|ee.Number",
+                    "optional": false
+                },
+                {
+                    "name": "leftField",
+                    "description": "A selector for the left operand. Should not be specified if leftValue is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "rightValue",
+                    "description": "The value of the right operand. Should not be specified if rightField is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "rightField",
+                    "description": "A selector for the right operand. Should not be specified if rightValue is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "leftValue",
+                    "description": "The value of the left operand. Should not be specified if leftField is specified.",
+                    "type": "ee.String|string|null",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "asymmetry",
+                    "description": "The type of asymmetry. ('gt','lt','gte','lte','none')",
+                    "type": "string",
+                    "defaultValue": "gt",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Filter",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "asymmetricMaxDifference",
+                "license": "MIT",
+                "description": "Create an asymetric max difference filter"
+            },
+            "fullPath": ".Filter.asymmetricMaxDifference"
+        }
+    },
+    "debug": {
+        "Terminal": {
+            "inputs": [],
+            "reference": {
+                "name": "Terminal",
+                "license": "GPLv3",
+                "description": "This feature adds an interactive terminal, which is ideal for debugging code. To use it, simply add <code>eval(oeel.debug.Terminal);</code> to your script. Please note that the dynamic loading of requires is not supported.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".debug.Terminal"
+        }
+    },
+    "plotly": {
+        "hist2D": {
+            "inputs": [
+                {
+                    "name": "histogram2D",
+                    "description": "A 2D histogram dictionary generated with ee.Reducer.fixed2DHistogram",
+                    "type": "ee.ComputedObject|ee.Dictionary",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "legendName",
+                    "description": "The name for the legend",
+                    "type": "string|ee.String",
+                    "optional": false
+                },
+                {
+                    "name": "transpose",
+                    "description": "To transpose the XY axes ",
+                    "type": "boolean",
+                    "defaultValue": false,
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "oeel.Plotly",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "hist2D",
+                "license": "GPLv3",
+                "description": "Generate 2D histogram plot from fixed2DHistogram.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".plotly.hist2D"
         },
-        "Sentinel2": {
-            "cloudfree": {
-                "inputs": [
-                    {
-                        "name": "maxCloud",
-                        "description": "The threshold to remove clouds (in percent of the probability).",
-                        "type": "number",
-                        "defaultValue": 20,
-                        "optional": false
-                    },
-                    {
-                        "name": "S2Collection",
-                        "description": "The Sentinel 2 collection (default: ee.ImageCollection(\"COPERNICUS/S2_SR\"))",
-                        "type": "ee.ImageCollection",
-                        "optional": true
-                    },
-                    {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "ee.ImageCollection",
-                        "defaultValue": null,
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "cloudfree",
-                    "license": "MIT",
-                    "description": "Apply the cloud maks described in https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_CLOUD_PROBABILITY",
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
+        "scatter": {
+            "inputs": [
+                {
+                    "name": "features",
+                    "description": "The feature collection that contains the data to plot.",
+                    "type": "ee.Collection",
+                    "defaultValue": null,
+                    "optional": false
                 },
-                "fullPath": ".Algorithms.Sentinel2.cloudfree"
-            }
+                {
+                    "name": "legendName",
+                    "description": "The data name for the legend.",
+                    "type": "string|ee.String",
+                    "optional": false
+                },
+                {
+                    "name": "xProperty",
+                    "description": "The X-axis property",
+                    "type": "string|ee.String",
+                    "optional": false
+                },
+                {
+                    "name": "yProperty",
+                    "description": "The Y-axis property",
+                    "type": "string|ee.String",
+                    "optional": false
+                },
+                {
+                    "name": "cProperty",
+                    "description": "The color property",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "sProperty",
+                    "description": "The size property",
+                    "type": "string|ee.String|number|ee.Number",
+                    "optional": true
+                },
+                {
+                    "name": "tProperty",
+                    "description": "The text property",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "textFont",
+                    "description": "The font property",
+                    "type": "string|ee.String",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "oeel.Plotly",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "scatter",
+                "license": "GPLv3",
+                "description": "Generate a scatter plot from a feature collection",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".plotly.scatter"
         },
-        "Sentinel1": {
-            "removeS1BlackBorders": {
-                "inputs": [
-                    {
-                        "name": "threshold",
-                        "description": "The threshold to remove the black border. ( A number or a parameter name) ",
-                        "type": "number|string|ee.Number",
-                        "defaultValue": -25,
-                        "optional": false
-                    },
-                    {
-                        "name": "image",
-                        "description": "The image on which to run the computation",
-                        "type": "ee.Image",
-                        "optional": true
-                    },
-                    {
-                        "name": "Return",
-                        "description": "Return",
-                        "type": "function|ee.Image",
-                        "defaultValue": null,
-                        "optional": true
-                    }
-                ],
-                "reference": {
-                    "name": "removeS1BlackBorders",
-                    "license": "MIT",
-                    "description": "Remove black borders of Sentinel 1 images.",
-                    "experimental": true,
-                    "contributors": [
-                        "Mathieu Gravey"
-                    ]
+        "directDraw": {
+            "inputs": [
+                {
+                    "name": "data",
+                    "description": "The data to be ploted.",
+                    "type": "object",
+                    "defaultValue": null,
+                    "optional": false
                 },
-                "fullPath": ".Algorithms.Sentinel1.removeS1BlackBorders"
-            }
+                {
+                    "name": "layout",
+                    "description": "A plotly layout. Mroe info here: https://plotly.com/javascript/reference/layout/",
+                    "type": "object",
+                    "defaultValue": {},
+                    "optional": false
+                },
+                {
+                    "name": "transparent",
+                    "description": "Set the background to transparent.",
+                    "type": "boolean",
+                    "defaultValue": true,
+                    "optional": true
+                },
+                {
+                    "name": "exportFormat",
+                    "description": "Export type: png, svg, jpeg or webp",
+                    "type": "string",
+                    "defaultValue": "png",
+                    "optional": true
+                },
+                {
+                    "name": "exportName",
+                    "description": "Export filename",
+                    "type": "string",
+                    "optional": true
+                },
+                {
+                    "name": "exportScale",
+                    "description": "Export scale",
+                    "type": "number",
+                    "defaultValue": 4,
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "oeel.PlotlyDisplay",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "directDraw",
+                "license": "GPLv3",
+                "description": "This function allows to directly communicate with OEEex. I should normally not be directly used.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".plotly.directDraw"
+        },
+        "plot": {
+            "inputs": [
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "oeel.Plotly",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "plot",
+                "license": "GPLv3",
+                "description": "Create a empty plot object to get Plotly plots",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".plotly.plot"
         }
     },
     "Export": {
+        "loadIfExistElseExport": {
+            "inputs": [
+                {
+                    "name": "param",
+                    "description": "Parameters of Export.*.toAsset()",
+                    "type": "object",
+                    "optional": false
+                }
+            ],
+            "reference": {
+                "name": "loadIfExistElseExport",
+                "license": "MIT",
+                "description": "Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...).",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Export.loadIfExistElseExport"
+        },
         "Image": {
             "toAsset": {
                 "inputs": [
@@ -320,29 +578,6 @@
             }
         },
         "ImageCollection": {
-            "create": {
-                "inputs": [
-                    {
-                        "name": "path",
-                        "description": "Path to teh collection to create",
-                        "type": "string",
-                        "optional": false
-                    },
-                    {
-                        "name": "noError",
-                        "description": "Try to create the collection but if the colelction exist it dosen't fail.",
-                        "type": "boolean",
-                        "defaultValue": true,
-                        "optional": false
-                    }
-                ],
-                "reference": {
-                    "name": "create",
-                    "license": "MIT",
-                    "description": "Create an ImageCollection."
-                },
-                "fullPath": ".Export.ImageCollection.create"
-            },
             "toAsset": {
                 "inputs": [
                     {
@@ -627,86 +862,126 @@
                     ]
                 },
                 "fullPath": ".Export.ImageCollection.toDrive"
+            },
+            "create": {
+                "inputs": [
+                    {
+                        "name": "path",
+                        "description": "Path to teh collection to create",
+                        "type": "string",
+                        "optional": false
+                    },
+                    {
+                        "name": "noError",
+                        "description": "Try to create the collection but if the colelction exist it dosen't fail.",
+                        "type": "boolean",
+                        "defaultValue": true,
+                        "optional": false
+                    }
+                ],
+                "reference": {
+                    "name": "create",
+                    "license": "MIT",
+                    "description": "Create an ImageCollection."
+                },
+                "fullPath": ".Export.ImageCollection.create"
             }
-        },
-        "loadIfExistElseExport": {
+        }
+    },
+    "data": {
+        "deleteImageCollection": {
             "inputs": [
                 {
-                    "name": "param",
-                    "description": "Parameters of Export.*.toAsset()",
-                    "type": "object",
+                    "name": "imageCollectionAssetID",
+                    "description": "The imageCollection to delete",
+                    "type": "string",
+                    "optional": false
+                },
+                {
+                    "name": "keepEmptyCollection",
+                    "description": "Keep the empty collection",
+                    "type": "boolean",
+                    "defaultValue": false,
+                    "optional": false
+                },
+                {
+                    "name": "pageSize",
+                    "description": "Maximum number of elements",
+                    "type": "integer",
+                    "defaultValue": 10,
                     "optional": false
                 }
             ],
             "reference": {
-                "name": "loadIfExistElseExport",
+                "name": "deleteImageCollection",
                 "license": "MIT",
-                "description": "Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...).",
+                "description": "Delete all ee.Image inside an ImageCollection and the ImageCollection.",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
             },
-            "fullPath": ".Export.loadIfExistElseExport"
+            "fullPath": ".data.deleteImageCollection"
         }
     },
-    "Filter": {
-        "asymmetricMaxDifference": {
+    "Element": {
+        "addTimeProperties": {
             "inputs": [
                 {
-                    "name": "difference",
-                    "description": "The maximum difference for which the filter will return true.",
-                    "type": "number|ee.Number",
+                    "name": "sinceEpoch",
+                    "description": "define each property locally or the absolute cumulated since epoch (01.01.1970)",
+                    "type": "boolean",
+                    "defaultValue": false,
                     "optional": false
                 },
                 {
-                    "name": "leftField",
-                    "description": "A selector for the left operand. Should not be specified if leftValue is specified.",
-                    "type": "ee.String|string|null",
-                    "defaultValue": null,
+                    "name": "timeVariable",
+                    "description": "The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.",
+                    "type": "string|object",
+                    "defaultValue": "start",
                     "optional": false
                 },
                 {
-                    "name": "rightValue",
-                    "description": "The value of the right operand. Should not be specified if rightField is specified.",
-                    "type": "ee.String|string|null",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "rightField",
-                    "description": "A selector for the right operand. Should not be specified if rightValue is specified.",
-                    "type": "ee.String|string|null",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "leftValue",
-                    "description": "The value of the left operand. Should not be specified if leftField is specified.",
-                    "type": "ee.String|string|null",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "asymmetry",
-                    "description": "The type of asymmetry. ('gt','lt','gte','lte','none')",
+                    "name": "timeZone",
+                    "description": "The time zone.",
                     "type": "string",
-                    "defaultValue": "gt",
+                    "defaultValue": "UTC",
                     "optional": false
+                },
+                {
+                    "name": "image",
+                    "description": "The image on which to add the time properties.",
+                    "type": "ee.Image",
+                    "optional": true
+                },
+                {
+                    "name": "feature",
+                    "description": "The feature on which to add the time properties.",
+                    "type": "ee.Feature",
+                    "optional": true
+                },
+                {
+                    "name": "collection",
+                    "description": "The collection on which to add the time properties",
+                    "type": "ee.Collection",
+                    "optional": true
                 },
                 {
                     "name": "Return",
                     "description": "Return",
-                    "type": "ee.Filter",
+                    "type": "function|ee.Image|ee.Feature|ee.Collection",
                     "defaultValue": null,
                     "optional": true
                 }
             ],
             "reference": {
-                "name": "asymmetricMaxDifference",
+                "name": "addTimeProperties",
                 "license": "MIT",
-                "description": "Create an asymetric max difference filter"
+                "description": "Simply add some time metric (day, month, year ...) derived from system:time_start",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
-            "fullPath": ".Filter.asymmetricMaxDifference"
+            "fullPath": ".Element.addTimeProperties"
         }
     },
     "Image": {
@@ -861,88 +1136,14 @@
             "fullPath": ".Image.semivariogram"
         }
     },
-    "util": {
-        "addTimePrototype": {
-            "inputs": [],
-            "reference": {
-                "name": "addTimePrototype",
-                "license": "MIT",
-                "description": "Provide a client (don't use getInfo()) date prototype for yyyymmdd and yyyymmdd_hhmm. To use as: new Date().yyyymmdd_hhmm() OR new Date().yyyymmdd()",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".util.addTimePrototype"
-        }
-    },
-    "Element": {
-        "addTimeProperties": {
+    "Geometry": {
+        "fromText": {
             "inputs": [
                 {
-                    "name": "sinceEpoch",
-                    "description": "define each property locally or the absolute cumulated since epoch (01.01.1970)",
-                    "type": "boolean",
-                    "defaultValue": false,
-                    "optional": false
-                },
-                {
-                    "name": "timeVariable",
-                    "description": "The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.",
-                    "type": "string|object",
-                    "defaultValue": "start",
-                    "optional": false
-                },
-                {
-                    "name": "timeZone",
-                    "description": "The time zone.",
-                    "type": "string",
-                    "defaultValue": "UTC",
-                    "optional": false
-                },
-                {
-                    "name": "image",
-                    "description": "The image on which to add the time properties.",
-                    "type": "ee.Image",
-                    "optional": true
-                },
-                {
-                    "name": "feature",
-                    "description": "The feature on which to add the time properties.",
-                    "type": "ee.Feature",
-                    "optional": true
-                },
-                {
-                    "name": "collection",
-                    "description": "The collection on which to add the time properties",
-                    "type": "ee.Collection",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "function|ee.Image|ee.Feature|ee.Collection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "addTimeProperties",
-                "license": "MIT",
-                "description": "Simply add some time metric (day, month, year ...) derived from system:time_start",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Element.addTimeProperties"
-        }
-    },
-    "Feature": {
-        "asLabel": {
-            "inputs": [
-                {
-                    "name": "textProperty",
+                    "name": "text",
                     "description": "The text of the geometry",
                     "type": "string|ee.String",
+                    "defaultValue": null,
                     "optional": false
                 },
                 {
@@ -984,52 +1185,127 @@
                     "optional": false
                 },
                 {
-                    "name": "fontProperty",
-                    "description": "Property containing the font to use",
-                    "type": "string|ee.String",
-                    "optional": true
-                },
-                {
-                    "name": "fontSizeProperty",
-                    "description": "Property containing  the font size",
-                    "type": "string|ee.String",
-                    "optional": true
-                },
-                {
-                    "name": "positionProperty",
-                    "description": "Property containing the text alignement. ('top-right', 'top-center', 'top-left', 'bottom-right', ...)",
-                    "type": "string|ee.String",
-                    "optional": true
-                },
-                {
-                    "name": "rotationProperty",
-                    "description": "Property containing the text angle",
-                    "type": "string|ee.String",
-                    "optional": true
-                },
-                {
-                    "name": "shiftBProperty",
-                    "description": "Property containing the shift before rotation",
-                    "type": "string|ee.String",
-                    "optional": true
+                    "name": "shiftA",
+                    "description": "Text shift after rotation",
+                    "type": "ee.List|object",
+                    "defaultValue": [
+                        0,
+                        0
+                    ],
+                    "optional": false
                 },
                 {
                     "name": "Return",
                     "description": "Return",
-                    "type": "function",
+                    "type": "ee.Geometry.MultiPolygon",
                     "defaultValue": null,
                     "optional": true
                 }
             ],
             "reference": {
-                "name": "asLabel",
+                "name": "fromText",
                 "license": "MIT",
-                "description": "Generate a function that transforms a feature in an annotation /label Feature"
+                "description": "This function create a polygon with some specific text.",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
-            "fullPath": ".Feature.asLabel"
+            "fullPath": ".Geometry.fromText"
+        }
+    },
+    "FeatureCollection": {
+        "fromList": {
+            "inputs": [
+                {
+                    "name": "list",
+                    "description": "The list",
+                    "type": "ee.List",
+                    "optional": false
+                },
+                {
+                    "name": "propertyName",
+                    "description": "The property name. If empty string then it assumes a list of the dictionary.",
+                    "type": "ee.String|string",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.FeatureCollection",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "fromList",
+                "license": "MIT",
+                "description": "Convert a List into a FeatureCollection"
+            },
+            "fullPath": ".FeatureCollection.fromList"
         }
     },
     "Map": {
+        "scaleWidget": {
+            "inputs": [
+                {
+                    "name": "Map",
+                    "description": "The reference Map",
+                    "type": "object",
+                    "optional": true
+                },
+                {
+                    "name": "size",
+                    "description": "The length of the map scale",
+                    "type": "integer",
+                    "defaultValue": 3,
+                    "optional": false
+                },
+                {
+                    "name": "color1",
+                    "description": "The first color",
+                    "type": "string",
+                    "defaultValue": "black",
+                    "optional": false
+                },
+                {
+                    "name": "color2",
+                    "description": "The second color",
+                    "type": "string",
+                    "defaultValue": "white",
+                    "optional": false
+                },
+                {
+                    "name": "scale",
+                    "description": "The height of the map scale",
+                    "type": "integer",
+                    "defaultValue": 11,
+                    "optional": false
+                },
+                {
+                    "name": "position",
+                    "description": "The widget position",
+                    "type": "string",
+                    "defaultValue": "bottom-right",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "object",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "scaleWidget",
+                "license": "MIT",
+                "description": "Genrate a widget with the scale of the Map",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Map.scaleWidget"
+        },
         "symbol": {
             "inputs": [
                 {
@@ -1232,195 +1508,105 @@
                 ]
             },
             "fullPath": ".Map.scaleLayer"
-        },
-        "scaleWidget": {
-            "inputs": [
-                {
-                    "name": "Map",
-                    "description": "The reference Map",
-                    "type": "object",
-                    "optional": true
-                },
-                {
-                    "name": "size",
-                    "description": "The length of the map scale",
-                    "type": "integer",
-                    "defaultValue": 3,
-                    "optional": false
-                },
-                {
-                    "name": "color1",
-                    "description": "The first color",
-                    "type": "string",
-                    "defaultValue": "black",
-                    "optional": false
-                },
-                {
-                    "name": "color2",
-                    "description": "The second color",
-                    "type": "string",
-                    "defaultValue": "white",
-                    "optional": false
-                },
-                {
-                    "name": "scale",
-                    "description": "The height of the map scale",
-                    "type": "integer",
-                    "defaultValue": 11,
-                    "optional": false
-                },
-                {
-                    "name": "position",
-                    "description": "The widget position",
-                    "type": "string",
-                    "defaultValue": "bottom-right",
-                    "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "object",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
+        }
+    },
+    "util": {
+        "addTimePrototype": {
+            "inputs": [],
             "reference": {
-                "name": "scaleWidget",
+                "name": "addTimePrototype",
                 "license": "MIT",
-                "description": "Genrate a widget with the scale of the Map",
+                "description": "Provide a client (don't use getInfo()) date prototype for yyyymmdd and yyyymmdd_hhmm. To use as: new Date().yyyymmdd_hhmm() OR new Date().yyyymmdd()",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
             },
-            "fullPath": ".Map.scaleWidget"
-        }
-    },
-    "FeatureCollection": {
-        "fromList": {
-            "inputs": [
-                {
-                    "name": "list",
-                    "description": "The list",
-                    "type": "ee.List",
-                    "optional": false
-                },
-                {
-                    "name": "propertyName",
-                    "description": "The property name. If empty string then it assumes a list of the dictionary.",
-                    "type": "ee.String|string",
-                    "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.FeatureCollection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "fromList",
-                "license": "MIT",
-                "description": "Convert a List into a FeatureCollection"
-            },
-            "fullPath": ".FeatureCollection.fromList"
-        }
-    },
-    "data": {
-        "deleteImageCollection": {
-            "inputs": [
-                {
-                    "name": "imageCollectionAssetID",
-                    "description": "The imageCollection to delete",
-                    "type": "string",
-                    "optional": false
-                },
-                {
-                    "name": "keepEmptyCollection",
-                    "description": "Keep the empty collection",
-                    "type": "boolean",
-                    "defaultValue": false,
-                    "optional": false
-                },
-                {
-                    "name": "pageSize",
-                    "description": "Maximum number of elements",
-                    "type": "integer",
-                    "defaultValue": 10,
-                    "optional": false
-                }
-            ],
-            "reference": {
-                "name": "deleteImageCollection",
-                "license": "MIT",
-                "description": "Delete all ee.Image inside an ImageCollection and the ImageCollection.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".data.deleteImageCollection"
+            "fullPath": ".util.addTimePrototype"
         }
     },
     "ImageCollection": {
-        "OtsuThreshold": {
+        "enhancingCollection": {
             "inputs": [
                 {
-                    "name": "imageCollection",
-                    "description": "The imageCollection",
+                    "name": "collection",
+                    "description": "The collection to enhance",
                     "type": "ee.ImageCollection",
-                    "defaultValue": null,
                     "optional": false
                 },
                 {
-                    "name": "selectBand",
-                    "description": "The bands for thresholding",
-                    "type": "string|integer",
-                    "defaultValue": 0,
+                    "name": "enhancingCollection",
+                    "description": "The collection to use to enhance",
+                    "type": "ee.ImageCollection",
                     "optional": false
                 },
                 {
-                    "name": "mode",
-                    "description": "Select the mdoe between to compute potential values (\"sequence|percentile|explicite\"",
+                    "name": "matchingProperty",
+                    "description": "The property to use to do the matching",
                     "type": "string",
-                    "defaultValue": "sequence",
+                    "defaultValue": "system:index",
                     "optional": false
                 },
                 {
-                    "name": "nbThreshold",
-                    "description": "To use if the mode is sequence or percentile, to set the number of thresholds",
-                    "type": "integer",
-                    "defaultValue": 100,
-                    "optional": false
-                },
-                {
-                    "name": "thresholdsCollection",
-                    "description": "To use if the mode is explicite, an image collection of threshold",
-                    "type": "ee.ImageCollection",
-                    "optional": true
-                },
-                {
-                    "name": "getCoefCollection",
-                    "description": "To get the imageCollection of the score and threshold",
-                    "type": "boolean",
+                    "name": "customFunction",
+                    "description": "A custom function to merge the two images function(im1,im2) (default: addBands).",
+                    "type": "function",
                     "optional": true
                 },
                 {
                     "name": "Return",
                     "description": "Return",
-                    "type": "ee.Image|ee.ImageCollection",
+                    "type": "ee.ImageCollection",
                     "defaultValue": null,
                     "optional": true
                 }
             ],
             "reference": {
-                "name": "OtsuThreshold",
+                "name": "enhancingCollection",
                 "license": "MIT",
-                "description": "Compute the Otsu's threshold along a collection",
+                "description": "An algorithm that enhances a collection using another one. Merging image one to one."
+            },
+            "fullPath": ".ImageCollection.enhancingCollection"
+        },
+        "medoid": {
+            "inputs": [
+                {
+                    "name": "imageCollection",
+                    "description": "The collection which to apply the reduction",
+                    "type": "ee.ImageCollection",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "bandSelector",
+                    "description": "A band selector to select which band to use in the metric",
+                    "type": "string|ee.String|ee.List|object",
+                    "defaultValue": ".*",
+                    "optional": false
+                },
+                {
+                    "name": "method",
+                    "description": "One of the distance metric: absolute (L1, much slower), euclidean (L2, default), median (something used in https://www.doi.org/10.3390/rs10050691 🤷) ",
+                    "type": "string",
+                    "defaultValue": "euclidean",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "medoid",
+                "license": "GPLv3",
+                "description": "This compute the medoid value of a collection",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
             },
-            "fullPath": ".ImageCollection.OtsuThreshold"
+            "fullPath": ".ImageCollection.medoid"
         },
         "SavatskyGolayFilter": {
             "inputs": [
@@ -1486,88 +1672,91 @@
             },
             "fullPath": ".ImageCollection.SavatskyGolayFilter"
         },
-        "medoid": {
+        "fromSingleImage": {
             "inputs": [
                 {
-                    "name": "imageCollection",
-                    "description": "The collection which to apply the reduction",
-                    "type": "ee.ImageCollection",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "bandSelector",
-                    "description": "A band selector to select which band to use in the metric",
-                    "type": "string|ee.String|ee.List|object",
-                    "defaultValue": ".*",
-                    "optional": false
-                },
-                {
-                    "name": "method",
-                    "description": "One of the distance metric: absolute (L1, much slower), euclidean (L2, default), median (something used in https://www.doi.org/10.3390/rs10050691 🤷) ",
-                    "type": "string",
-                    "defaultValue": "euclidean",
+                    "name": "args",
+                    "description": "The assetID",
+                    "type": "ee.Image|string|ee.String",
                     "optional": false
                 },
                 {
                     "name": "Return",
                     "description": "Return",
-                    "type": "ee.Image",
+                    "type": "ee.ImageCollection",
                     "defaultValue": null,
                     "optional": true
                 }
             ],
             "reference": {
-                "name": "medoid",
-                "license": "GPLv3",
-                "description": "This compute the medoid value of a collection",
+                "name": "example",
+                "license": "MIT",
+                "description": "Load an image as collection.",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
             },
-            "fullPath": ".ImageCollection.medoid"
+            "fullPath": ".ImageCollection.fromSingleImage"
         },
-        "enhancingCollection": {
+        "OtsuThreshold": {
             "inputs": [
                 {
-                    "name": "collection",
-                    "description": "The collection to enhance",
+                    "name": "imageCollection",
+                    "description": "The imageCollection",
                     "type": "ee.ImageCollection",
+                    "defaultValue": null,
                     "optional": false
                 },
                 {
-                    "name": "enhancingCollection",
-                    "description": "The collection to use to enhance",
-                    "type": "ee.ImageCollection",
+                    "name": "selectBand",
+                    "description": "The bands for thresholding",
+                    "type": "string|integer",
+                    "defaultValue": 0,
                     "optional": false
                 },
                 {
-                    "name": "matchingProperty",
-                    "description": "The property to use to do the matching",
+                    "name": "mode",
+                    "description": "Select the mdoe between to compute potential values (\"sequence|percentile|explicite\"",
                     "type": "string",
-                    "defaultValue": "system:index",
+                    "defaultValue": "sequence",
                     "optional": false
                 },
                 {
-                    "name": "customFunction",
-                    "description": "A custom function to merge the two images function(im1,im2) (default: addBands).",
-                    "type": "function",
+                    "name": "nbThreshold",
+                    "description": "To use if the mode is sequence or percentile, to set the number of thresholds",
+                    "type": "integer",
+                    "defaultValue": 100,
+                    "optional": false
+                },
+                {
+                    "name": "thresholdsCollection",
+                    "description": "To use if the mode is explicite, an image collection of threshold",
+                    "type": "ee.ImageCollection",
+                    "optional": true
+                },
+                {
+                    "name": "getCoefCollection",
+                    "description": "To get the imageCollection of the score and threshold",
+                    "type": "boolean",
                     "optional": true
                 },
                 {
                     "name": "Return",
                     "description": "Return",
-                    "type": "ee.ImageCollection",
+                    "type": "ee.Image|ee.ImageCollection",
                     "defaultValue": null,
                     "optional": true
                 }
             ],
             "reference": {
-                "name": "enhancingCollection",
+                "name": "OtsuThreshold",
                 "license": "MIT",
-                "description": "An algorithm that enhances a collection using another one. Merging image one to one."
+                "description": "Compute the Otsu's threshold along a collection",
+                "contributors": [
+                    "Mathieu Gravey"
+                ]
             },
-            "fullPath": ".ImageCollection.enhancingCollection"
+            "fullPath": ".ImageCollection.OtsuThreshold"
         },
         "movingWindow": {
             "inputs": [
@@ -1623,316 +1812,127 @@
                 ]
             },
             "fullPath": ".ImageCollection.movingWindow"
-        },
-        "fromSingleImage": {
-            "inputs": [
-                {
-                    "name": "args",
-                    "description": "The assetID",
-                    "type": "ee.Image|string|ee.String",
-                    "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.ImageCollection",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "example",
-                "license": "MIT",
-                "description": "Load an image as collection.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".ImageCollection.fromSingleImage"
         }
     },
-    "debug": {
-        "Terminal": {
-            "inputs": [],
-            "reference": {
-                "name": "Terminal",
-                "license": "GPLv3",
-                "description": "This feature adds an interactive terminal, which is ideal for debugging code. To use it, simply add <code>eval(oeel.debug.Terminal);</code> to your script. Please note that the dynamic loading of requires is not supported.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".debug.Terminal"
+    "Algorithms": {
+        "Sentinel2": {
+            "cloudfree": {
+                "inputs": [
+                    {
+                        "name": "maxCloud",
+                        "description": "The threshold to remove clouds (in percent of the probability).",
+                        "type": "number",
+                        "defaultValue": 20,
+                        "optional": false
+                    },
+                    {
+                        "name": "S2Collection",
+                        "description": "The Sentinel 2 collection (default: ee.ImageCollection(\"COPERNICUS/S2_SR\"))",
+                        "type": "ee.ImageCollection",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "ee.ImageCollection",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "cloudfree",
+                    "license": "MIT",
+                    "description": "Apply the cloud maks described in https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_CLOUD_PROBABILITY",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
+                },
+                "fullPath": ".Algorithms.Sentinel2.cloudfree"
+            }
+        },
+        "MODIS": {
+            "terrainShadow": {
+                "inputs": [
+                    {
+                        "name": "dem",
+                        "description": "the DEM to use",
+                        "type": "ee.Image",
+                        "optional": false
+                    },
+                    {
+                        "name": "kernelHalfSize",
+                        "description": "The radius of the kernel",
+                        "type": "number",
+                        "defaultValue": 10,
+                        "optional": false
+                    },
+                    {
+                        "name": "image",
+                        "description": "A MODIS image",
+                        "type": "ee.Image",
+                        "optional": true
+                    },
+                    {
+                        "name": "imageCollection",
+                        "description": "The MODIS collection on which to run the computation",
+                        "type": "ee.ImageCollection",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "function",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "terrainShadow",
+                    "license": "MIT",
+                    "description": "Compute the terrain shadow of MODIS images",
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
+                },
+                "fullPath": ".Algorithms.MODIS.terrainShadow"
+            }
+        },
+        "Sentinel1": {
+            "removeS1BlackBorders": {
+                "inputs": [
+                    {
+                        "name": "threshold",
+                        "description": "The threshold to remove the black border. ( A number or a parameter name) ",
+                        "type": "number|string|ee.Number",
+                        "defaultValue": -25,
+                        "optional": false
+                    },
+                    {
+                        "name": "image",
+                        "description": "The image on which to run the computation",
+                        "type": "ee.Image",
+                        "optional": true
+                    },
+                    {
+                        "name": "Return",
+                        "description": "Return",
+                        "type": "function|ee.Image",
+                        "defaultValue": null,
+                        "optional": true
+                    }
+                ],
+                "reference": {
+                    "name": "removeS1BlackBorders",
+                    "license": "MIT",
+                    "description": "Remove black borders of Sentinel 1 images.",
+                    "experimental": true,
+                    "contributors": [
+                        "Mathieu Gravey"
+                    ]
+                },
+                "fullPath": ".Algorithms.Sentinel1.removeS1BlackBorders"
+            }
         }
     },
-    "plotly": {
-        "plot": {
-            "inputs": [
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "oeel.Plotly",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "plot",
-                "license": "GPLv3",
-                "description": "Create a empty plot object to get Plotly plots",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".plotly.plot"
-        },
-        "directDraw": {
-            "inputs": [
-                {
-                    "name": "data",
-                    "description": "The data to be ploted.",
-                    "type": "object",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "layout",
-                    "description": "A plotly layout. Mroe info here: https://plotly.com/javascript/reference/layout/",
-                    "type": "object",
-                    "defaultValue": {},
-                    "optional": false
-                },
-                {
-                    "name": "transparent",
-                    "description": "Set the background to transparent.",
-                    "type": "boolean",
-                    "defaultValue": true,
-                    "optional": true
-                },
-                {
-                    "name": "exportFormat",
-                    "description": "Export type: png, svg, jpeg or webp",
-                    "type": "string",
-                    "defaultValue": "png",
-                    "optional": true
-                },
-                {
-                    "name": "exportName",
-                    "description": "Export filename",
-                    "type": "string",
-                    "optional": true
-                },
-                {
-                    "name": "exportScale",
-                    "description": "Export scale",
-                    "type": "number",
-                    "defaultValue": 4,
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "oeel.PlotlyDisplay",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "directDraw",
-                "license": "GPLv3",
-                "description": "This function allows to directly communicate with OEEex. I should normally not be directly used.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".plotly.directDraw"
-        },
-        "scatter": {
-            "inputs": [
-                {
-                    "name": "features",
-                    "description": "The feature collection that contains the data to plot.",
-                    "type": "ee.Collection",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "legendName",
-                    "description": "The data name for the legend.",
-                    "type": "string|ee.String",
-                    "optional": false
-                },
-                {
-                    "name": "xProperty",
-                    "description": "The X-axis property",
-                    "type": "string|ee.String",
-                    "optional": false
-                },
-                {
-                    "name": "yProperty",
-                    "description": "The Y-axis property",
-                    "type": "string|ee.String",
-                    "optional": false
-                },
-                {
-                    "name": "cProperty",
-                    "description": "The color property",
-                    "type": "string|ee.String",
-                    "optional": true
-                },
-                {
-                    "name": "sProperty",
-                    "description": "The size property",
-                    "type": "string|ee.String|number|ee.Number",
-                    "optional": true
-                },
-                {
-                    "name": "tProperty",
-                    "description": "The text property",
-                    "type": "string|ee.String",
-                    "optional": true
-                },
-                {
-                    "name": "textFont",
-                    "description": "The font property",
-                    "type": "string|ee.String",
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "oeel.Plotly",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "scatter",
-                "license": "GPLv3",
-                "description": "Generate a scatter plot from a feature collection",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".plotly.scatter"
-        },
-        "hist2D": {
-            "inputs": [
-                {
-                    "name": "histogram2D",
-                    "description": "A 2D histogram dictionary generated with ee.Reducer.fixed2DHistogram",
-                    "type": "ee.ComputedObject|ee.Dictionary",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "legendName",
-                    "description": "The name for the legend",
-                    "type": "string|ee.String",
-                    "optional": false
-                },
-                {
-                    "name": "transpose",
-                    "description": "To transpose the XY axes ",
-                    "type": "boolean",
-                    "defaultValue": false,
-                    "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "oeel.Plotly",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "hist2D",
-                "license": "GPLv3",
-                "description": "Generate 2D histogram plot from fixed2DHistogram.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".plotly.hist2D"
-        }
-    },
-    "Geometry": {
-        "fromText": {
-            "inputs": [
-                {
-                    "name": "text",
-                    "description": "The text of the geometry",
-                    "type": "string|ee.String",
-                    "defaultValue": null,
-                    "optional": false
-                },
-                {
-                    "name": "font",
-                    "description": "The font to use",
-                    "type": "string|ee.String|ee.FeatureCollection",
-                    "defaultValue": "users/OEEL/Fonts/Helvetica",
-                    "optional": false
-                },
-                {
-                    "name": "fontSize",
-                    "description": "The font size",
-                    "type": "integer|ee.Number",
-                    "defaultValue": 1,
-                    "optional": false
-                },
-                {
-                    "name": "position",
-                    "description": "Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)",
-                    "type": "string|ee.String",
-                    "defaultValue": "centter-center",
-                    "optional": false
-                },
-                {
-                    "name": "rotation",
-                    "description": "Text angle",
-                    "type": "integer|ee.Number",
-                    "defaultValue": 0,
-                    "optional": false
-                },
-                {
-                    "name": "shiftB",
-                    "description": "Text shift before rotation",
-                    "type": "ee.List|object",
-                    "defaultValue": [
-                        0,
-                        0
-                    ],
-                    "optional": false
-                },
-                {
-                    "name": "shiftA",
-                    "description": "Text shift after rotation",
-                    "type": "ee.List|object",
-                    "defaultValue": [
-                        0,
-                        0
-                    ],
-                    "optional": false
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.Geometry.MultiPolygon",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "fromText",
-                "license": "MIT",
-                "description": "This function create a polygon with some specific text.",
-                "contributors": [
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Geometry.fromText"
-        }
-    },
-    "timeSinceEpoch": 1679670135720
+    "timeSinceEpoch": 1683790350082
 }
