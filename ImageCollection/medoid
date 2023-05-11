@@ -36,6 +36,6 @@ return function(){
       return im.addBands(ee.Image(dist).select(inputDictionary.bandSelector).reduce(ee.Reducer.sum()).rename('oeel_medoid'));
     })
     
-    return medoid.qualityMosaic('oeel_medoid').select(modis.first().bandNames());
+    return medoid.qualityMosaic('oeel_medoid').select(imCol.first().bandNames());
   }
 }
