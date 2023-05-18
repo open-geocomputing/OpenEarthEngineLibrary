@@ -10,6 +10,7 @@ function displayDocFunction(data) {
 	if (data.reference.license) {
 		doc.append($("<img>", {id: "reference-license", "class": "subtitle", "src":'https://img.shields.io/badge/license-' + data.reference.license + '-blue'}));
 	}
+	doc.append($("<a>", {id: "reference-source", "class": "subtitle sourceLink", "target":"_blank", "href":'https://github.com/open-geocomputing/OpenEarthEngineLibrary/blob/master'+data.fullPath.replaceAll(".","/")}).text("</>"));
 
 	doc.append($("<h3>", {id: "reference-name", "class": "title is-3"}).html('oeel' + data.fullPath+'(...)'));
 	var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');

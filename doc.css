@@ -356,3 +356,13 @@ code  {
 	    margin:15px 0;
 	}
 }
+
+.sourceLink{
+	color: var(--text-Color);
+	float: right;
+}
+
+.sourceLink:hover{
+	font-weight: bold;
+	color: var(--text-Color);
+}
