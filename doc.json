@@ -923,6 +923,53 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
+    "Array": {
+        "matrixUnit": {
+            "inputs": [
+                {
+                    "name": "n",
+                    "description": "Number of rows",
+                    "type": "number",
+                    "optional": false
+                },
+                {
+                    "name": "m",
+                    "description": "Number of columns",
+                    "type": "number",
+                    "optional": false
+                },
+                {
+                    "name": "i",
+                    "description": "The row index (0 indexed)",
+                    "type": "number",
+                    "optional": false
+                },
+                {
+                    "name": "j",
+                    "description": "The columns index (0 indexed)",
+                    "type": "number",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Array",
+                    "defaultValue": null,
+                    "optional": false
+                }
+            ],
+            "reference": {
+                "name": "matrixUnit",
+                "license": "MIT",
+                "description": "This function returns a (n,m)-dimensions matrix of 0 with a unique 1 at the position (i,j)",
+                "contributors": [
+                    "Agathe Archidoit",
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Array.matrixUnit"
+        }
+    },
     "Element": {
         "addTimeProperties": {
             "inputs": [
@@ -1934,5 +1981,5 @@
             }
         }
     },
-    "timeSinceEpoch": 1683790350082
+    "timeSinceEpoch": 1684750244284
 }
