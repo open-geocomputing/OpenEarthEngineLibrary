@@ -1,0 +1,24 @@
+var inputs=[{name:'n',description:'Number of rows', type:'number',optional:false},
+            {name:'m',description:'Number of columns', type:'number',optional:false},
+            {name:'i',description:'The row index (0 indexed)', type:'number',optional:false},
+            {name:'j',description:'The columns index (0 indexed)', type:'number',optional:false},
+            {name:'Return',description:'Return', type:'ee.Array',defaultValue:null,optional:false}
+            ]
+            
+var reference={name:'matrixUnit',license:'MIT', description:'This function returns a (n,m)-dimensions matrix of 0 with a unique 1 at the position (i,j)', contributors:['Agathe Archidoit', 'Mathieu Gravey']};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var nArray = ee.Array([[0]]).repeat(1, inputDictionary.n);
+    var mArray = ee.Array([[0]]).repeat(1, inputDictionary.m);
+    
+    var M = nArray.multiply(0).add(1).accum(1, ee.Reducer.sum()).eq(inputDictionary.i).transpose().matrixMultiply(mArray.multiply(0).add(1).accum(1, ee.Reducer.sum()).eq(inputDictionary.j));
+    
+    return M;
+  }
+}
