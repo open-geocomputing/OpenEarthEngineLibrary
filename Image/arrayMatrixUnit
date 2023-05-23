@@ -5,11 +5,7 @@ var inputs=[{name:'N',description:'number of rows', type:'ee.Image',defaultValue
             {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
             ]
             
-var reference={name:'matrixUnit_image',license:'MIT', description:'This function returns an ee.Image with for each pixel a (n,m) matrix of 0 with a single 1 in the position (i,j)', contributors:['Agathe Archidoit','Mathieu Gravey']};
-// reference can get any supplementary field that can be relevant, in particular
-// "experimental" which add a small flask to highlight the experimental point in the documentation,
-// "DOI" that automatically add a citation field in the documentation with APA citation,
-// but many other can be added such as "contributors" ...
+var reference={name:'arrayMatrixUnit',license:'MIT', description:'This function returns an ee.Image with for each pixel a (n,m) matrix of 0 with a single 1 in the position (i,j)', contributors:['Agathe Archidoit','Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
