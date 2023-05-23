@@ -1,7 +1,7 @@
-var inputs=[{name:'N',description:'number of rows', type:'ee.Image',defaultValue:null,optional:true},
-            {name:'M',description:'number of columns', type:'ee.Image',defaultValue:null,optional:true},
-            {name:'I',description:'row index (0 indexed)', type:'ee.Image',defaultValue:null,optional:true},
-            {name:'J',description:'column index (0 indexed)', type:'ee.Image',defaultValue:null,optional:true},
+var inputs=[{name:'N',description:'number of rows', type:'ee.Image',optional:false},
+            {name:'M',description:'number of columns', type:'ee.Image',optional:false},
+            {name:'I',description:'row index (0 indexed)', type:'ee.Image',optional:false},
+            {name:'J',description:'column index (0 indexed)', type:'ee.Image',optional:false},
             {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
             ]
             
