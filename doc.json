@@ -968,55 +968,6 @@
                 ]
             },
             "fullPath": ".Array.matrixUnit"
-        },
-        "matrixUnit_image": {
-            "inputs": [
-                {
-                    "name": "N",
-                    "description": "number of rows",
-                    "type": "ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                },
-                {
-                    "name": "M",
-                    "description": "number of columns",
-                    "type": "ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                },
-                {
-                    "name": "I",
-                    "description": "row index (0 indexed)",
-                    "type": "ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                },
-                {
-                    "name": "J",
-                    "description": "column index (0 indexed)",
-                    "type": "ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                },
-                {
-                    "name": "Return",
-                    "description": "Return",
-                    "type": "ee.Image",
-                    "defaultValue": null,
-                    "optional": true
-                }
-            ],
-            "reference": {
-                "name": "matrixUnit_image",
-                "license": "MIT",
-                "description": "This function returns an ee.Image with for each pixel a (n,m) matrix of 0 with a single 1 in the position (i,j)",
-                "contributors": [
-                    "Agathe Archidoit",
-                    "Mathieu Gravey"
-                ]
-            },
-            "fullPath": ".Array.matrixUnit_image"
         }
     },
     "Element": {
@@ -1191,6 +1142,55 @@
                 ]
             },
             "fullPath": ".Image.inverseDistanceInterpolation"
+        },
+        "arrayMatrixUnit": {
+            "inputs": [
+                {
+                    "name": "N",
+                    "description": "number of rows",
+                    "type": "ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "M",
+                    "description": "number of columns",
+                    "type": "ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "I",
+                    "description": "row index (0 indexed)",
+                    "type": "ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "J",
+                    "description": "column index (0 indexed)",
+                    "type": "ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "arrayMatrixUnit",
+                "license": "MIT",
+                "description": "This function returns an ee.Image with for each pixel a (n,m) matrix of 0 with a single 1 in the position (i,j)",
+                "contributors": [
+                    "Agathe Archidoit",
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".Image.arrayMatrixUnit"
         },
         "semivariogram": {
             "inputs": [
@@ -2030,5 +2030,5 @@
             }
         }
     },
-    "timeSinceEpoch": 1684832599702
+    "timeSinceEpoch": 1684834756543
 }
