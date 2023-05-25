@@ -349,14 +349,14 @@
                 {
                     "name": "properties",
                     "description": "properties we want the histogram",
-                    "type": "classList",
+                    "type": "object",
                     "defaultValue": null,
                     "optional": false
                 },
                 {
                     "name": "legendNames",
                     "description": "legend names of the properties",
-                    "type": "classList",
+                    "type": "object",
                     "defaultValue": null,
                     "optional": true
                 },
@@ -2081,5 +2081,5 @@
             }
         }
     },
-    "timeSinceEpoch": 1685005041081
+    "timeSinceEpoch": 1685005108757
 }
