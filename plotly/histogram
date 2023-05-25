@@ -1,6 +1,6 @@
 var inputs=[{name:'featCol',description:'feature collection to extract properties', type:'ee.FeatureCollection',defaultValue:null,optional:false},
-            {name:'properties',description:'properties we want the histogram', type:'classList',defaultValue:null,optional:false},
-            {name:'legendNames',description:'legend names of the properties', type:'classList',defaultValue:null,optional:true},
+            {name:'properties',description:'properties we want the histogram', type:'object',defaultValue:null,optional:false},
+            {name:'legendNames',description:'legend names of the properties', type:'object',defaultValue:null,optional:true},
             {name:'title',description:'title of the histogram', type:'string',defaultValue:null,optional:true},
             {name:'bargap',description:'if you want a bargap or not', type:'bool',defaultValue:true,optional:true},
             {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
