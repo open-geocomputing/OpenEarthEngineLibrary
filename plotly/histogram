@@ -1,0 +1,61 @@
+var inputs=[{name:'featCol',description:'feature collection to extract properties', type:'ee.FeatureCollection',defaultValue:null,optional:false},
+            {name:'properties',description:'properties we want the histogram', type:'object',defaultValue:null,optional:false},
+            {name:'legendNames',description:'legend names of the properties', type:'object',defaultValue:null,optional:true},
+            {name:'title',description:'title of the histogram', type:'string',defaultValue:null,optional:true},
+            {name:'bargap',description:'if you want a bargap or not', type:'bool',defaultValue:true,optional:true},
+            {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'histogram',license:'MIT', description:'Return the overlaid histogram of the properties, with their legends and title', contributors:['Agathe Archidoit']};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var plotObject=oeel.plotly.plot();
+    var l = inputDictionary.properties.length;
+    var traces = [];
+    
+    if (inputDictionary.properties.length != inputDictionary.legendNames.length){
+      throw 'Not as many properties as legends';
+    }
+    
+    for (var i = 0; i < l; i ++){
+      traces[i] = {
+        x : inputDictionary.featCol.aggregate_array(inputDictionary.properties[i]),
+        type : 'histogram',
+        name : inputDictionary.legendNames[i],
+        marker: {
+          opacity: 0.6,
+          line: {width: 1}
+        },  
+        //opacity: 0.5, 
+      }
+      
+      plotObject.addCustom(traces[i]);
+    }
+    
+    var layout = {
+        bargap: 0.05, 
+        //bargroupgap: 0.2, 
+        barmode: "overlay", 
+        title: inputDictionary.title, 
+        //xaxis: {title: ""}, 
+        //yaxis: {title: ""}
+    };
+    
+    if (inputDictionary.bargap === true){
+      layout.bargroupgap = 0.2;
+    }
+    
+    plotObject.setLayout(layout);
+    return(plotObject.widget());
+  }
+}
