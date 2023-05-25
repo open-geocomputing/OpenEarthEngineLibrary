@@ -56,6 +56,6 @@ return function(){
     }
     
     plotObject.setLayout(layout);
-    return(plotObject.widget());
+    return(plotObject);
   }
 }
