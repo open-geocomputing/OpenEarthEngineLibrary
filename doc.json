@@ -392,6 +392,61 @@
             },
             "fullPath": ".plotly.histogram"
         },
+        "barChart": {
+            "inputs": [
+                {
+                    "name": "featCol",
+                    "description": "array of feature collections that we want properties extracted",
+                    "type": "ee.FeatureCollection",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "properties",
+                    "description": "properties we want the bar chart",
+                    "type": "object",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "legendNames",
+                    "description": "legend names of the properties",
+                    "type": "object",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "title",
+                    "description": "title of the bar chart",
+                    "type": "string",
+                    "defaultValue": null,
+                    "optional": true
+                },
+                {
+                    "name": "barmode",
+                    "description": "group or stack",
+                    "type": "string",
+                    "defaultValue": "group",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "oeel.Plotly",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "barChart",
+                "license": "MIT",
+                "description": "Return a grouped/stacked bar chart of the properties with their legends and title",
+                "contributors": [
+                    "Agathe Archidoit"
+                ]
+            },
+            "fullPath": ".plotly.barChart"
+        },
         "plot": {
             "inputs": [
                 {
@@ -2081,5 +2136,5 @@
             }
         }
     },
-    "timeSinceEpoch": 1685005108757
+    "timeSinceEpoch": 1685090634257
 }
