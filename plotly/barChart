@@ -43,7 +43,7 @@ return function(){
     }
     
     var layout = {
-      title: title,
+      title: inputDictionary.title,
       xaxis: {
         tickangle: -45
       },
