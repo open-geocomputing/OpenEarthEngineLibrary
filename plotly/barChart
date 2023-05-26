@@ -1,0 +1,63 @@
+var inputs=[{name:'featCol',description:'array of feature collections that we want properties extracted', type:'ee.FeatureCollection',defaultValue:null,optional:false},
+            {name:'properties',description:'properties we want the bar chart', type:'object',defaultValue:null,optional:false},
+            {name:'legendNames',description:'legend names of the properties', type:'object',defaultValue:null,optional:true},
+            {name:'title',description:'title of the bar chart', type:'string',defaultValue:null,optional:true},
+            {name:'barmode',description:'group or stack', type:'string',defaultValue:'group',optional:true},
+            {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'barChart',license:'MIT', description:'Return a grouped/stacked bar chart of the properties with their legends and title', contributors: ['Agathe Archidoit']};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var plotObject=oeel.plotly.plot();
+    var l = inputDictionary.properties.length;
+    var traces = [];
+    
+    if (inputDictionary.properties.length != inputDictionary.legendNames.length){
+      throw 'Not as many properties as legends';
+    }
+    
+    for (var i = 0; i < l; i ++){
+      traces[i] = {
+        x : inputDictionary.featCol[i].aggregate_histogram(inputDictionary.properties[i]).keys(),
+        y : inputDictionary.featCol[i].aggregate_histogram(inputDictionary.properties[i]).values(),
+        type : 'bar',
+        name : inputDictionary.legendNames[i],
+        marker: {
+          opacity: 0.7,
+        },  
+        width: 0.5,
+      }
+      
+      plotObject.addCustom(traces[i]);
+    }
+    
+    var layout = {
+      title: title,
+      xaxis: {
+        tickangle: -45
+      },
+      bargap: 0.5,
+    };
+    
+    if (inputDictionary.barmode === 'stack'){
+      layout.barmode = 'stack';
+    }
+    else {
+      layout.barmode = 'group';
+    }
+  
+    plotObject.setLayout(layout);
+    return(plotObject);
+  }
+}
