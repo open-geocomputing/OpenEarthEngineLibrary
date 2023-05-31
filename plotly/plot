@@ -43,9 +43,7 @@ return function(){
         var arg=arguments;
         for (var i =0; i<arg.length ; i++) {
           if(Array.isArray(arg[i]))
-            for (var j =0;  j<arg[i].length; j++) {
-              this.addCustom(arg[i][j])
-            }
+            this.addCustom.apply(this,arg[i])
           else
             this.data.push(arg[i]);
         }
