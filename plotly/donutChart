@@ -1,5 +1,5 @@
 var inputs=[{name:'Values',description:'values of the donut chart (percentages)', type:'ee.List',defaultValue:null,optional:false},
-            {name:'labels',description:'lables of the values', type:'ee.List',defaultValue:null,optional:true},
+            {name:'labels',description:'labels of the values', type:'ee.List',defaultValue:null,optional:true},
             {name:'title',description:'title of the donut chart', type:'string',defaultValue:null,optional:true},
             {name:'propertyDescription',description:'description of the properties', type:'string',defaultValue:null,optional:true},
             {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
