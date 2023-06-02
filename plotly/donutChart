@@ -1,5 +1,5 @@
-var inputs=[{name:'Values',description:'values of the donut chart (percentages)', type:'ee.List',defaultValue:null,optional:false},
-            {name:'labels',description:'labels of the values', type:'ee.List',defaultValue:null,optional:true},
+var inputs=[{name:'featCol',description:'feature Collection we want the property extracted', type:'ee.FeatureCollection',defaultValue:null,optional:false},
+            {name:'property',description:'property we want the donut chart', type:'string',defaultValue:null,optional:true},
             {name:'title',description:'title of the donut chart', type:'string',defaultValue:null,optional:true},
             {name:'propertyDescription',description:'description of the properties', type:'string',defaultValue:null,optional:true},
             {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
@@ -17,43 +17,46 @@ exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
-    var plotObject=oeel.plotly.plot();
-    var l = inputDictionary.Values.length;
-    var data = [];
-    
-    if (inputDictionary.Values.length != inputDictionary.labels.length){
-      throw 'Not as many properties as legends';
-    }
-    
-    var layout = {
-      title: inputDictionary.title,
-      height: 400,
-      width: 600,
-      showlegend: true,
-      grid: {rows: 1, columns: inputDictionary.Values.length}
-    }
-    
-    for (var i = 0; i < l; i++){
-      data[i] = {
-        values : inputDictionary.Values[i],
-        labels : inputDictionary.labels[i],
-        domain : {column: 0},
-        name : inputDictionary.propertyDescription,
-        hoverinfo : 'label+percent+name',
-        hole : .4,
-        type : 'pie'
-        }
-        
-      layout.annotations = [{
-          font: {size: 20},
-          showarrow: false,
-          text: inputDictionary.propertyDescription,
-          x: 0.17,
-          y: 0.5}]
-    }
-    
-    plotObject.addCustom(data)
-    plotObject.setLayout(layout);
-    return plotObject;
+    function donutChart(featCol, property, title, propertyDescription){
+  var plotObject=oeel.plotly.plot();
+  var data = [];
+  var values = [inputDictionary.featCol.aggregate_histogram(inputDictionary.property).values()];
+  var labels = [inputDictionary.featCol.aggregate_histogram(inputDictionary.property).keys()];
+  var l = values.length;
+  
+  if (values.length != labels.length){
+    throw 'Not as many properties as legends';
+  }
+  
+  var layout = {
+    title: inputDictionary.title,
+    height: 400,
+    width: 600,
+    showlegend: true,
+    grid: {rows: 1, columns: values.length}
+  }
+  
+  for (var i = 0; i < l; i++){
+    data[i] = {
+      values : values[i],
+      labels : labels[i],
+      domain : {column: 0},
+      name : inputDictionary.propertyDescription,
+      hoverinfo : 'label+percent+name',
+      hole : .4,
+      type : 'pie'
+      }
+      
+    layout.annotations = [{
+        font: {size: 20},
+        showarrow: false,
+        text: inputDictionary.propertyDescription,
+        x: 0.17,
+        y: 0.5}]
+  }
+  
+  plotObject.addCustom(data)
+  plotObject.setLayout(layout);
+  return plotObject;
   }
 }
