@@ -17,27 +17,27 @@ exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
-    function donutChart(featCol, property, title, propertyDescription){
-  var plotObject=oeel.plotly.plot();
-  var data = [];
-  var values = [inputDictionary.featCol.aggregate_histogram(inputDictionary.property).values()];
-  var labels = [inputDictionary.featCol.aggregate_histogram(inputDictionary.property).keys()];
-  var l = values.length;
   
-  if (values.length != labels.length){
-    throw 'Not as many properties as legends';
-  }
-  
-  var layout = {
-    title: inputDictionary.title,
-    height: 400,
-    width: 600,
-    showlegend: true,
-    grid: {rows: 1, columns: values.length}
-  }
-  
-  for (var i = 0; i < l; i++){
-    data[i] = {
+    var plotObject=oeel.plotly.plot();
+    var data = [];
+    var values = [inputDictionary.featCol.aggregate_histogram(inputDictionary.property).values()];
+    var labels = [inputDictionary.featCol.aggregate_histogram(inputDictionary.property).keys()];
+    var l = values.length;
+
+    if (values.length != labels.length){
+            throw 'Not as many properties as legends';
+    }
+
+    var layout = {
+      title: inputDictionary.title,
+      height: 400,
+      width: 600,
+      showlegend: true,
+      grid: {rows: 1, columns: values.length}
+    }
+
+    for (var i = 0; i < l; i++){
+      data[i] = {
       values : values[i],
       labels : labels[i],
       domain : {column: 0},
@@ -46,17 +46,17 @@ return function(){
       hole : .4,
       type : 'pie'
       }
-      
+
     layout.annotations = [{
         font: {size: 20},
         showarrow: false,
         text: inputDictionary.propertyDescription,
         x: 0.17,
         y: 0.5}]
-  }
-  
-  plotObject.addCustom(data)
-  plotObject.setLayout(layout);
-  return plotObject;
+    }
+
+    plotObject.addCustom(data)
+    plotObject.setLayout(layout);
+    return plotObject;
   }
 }
