@@ -17,7 +17,7 @@ return function(){
     var nArray = ee.Array([[0]]).repeat(1, inputDictionary.n);
     var mArray = ee.Array([[0]]).repeat(1, inputDictionary.m);
     
-    var M = nArray.multiply(0).add(1).accum(1, ee.Reducer.sum()).eq(inputDictionary.i).transpose().matrixMultiply(mArray.multiply(0).add(1).accum(1, ee.Reducer.sum()).eq(inputDictionary.j));
+    var M = nArray.multiply(0).add(1).accum(1, ee.Reducer.sum()).eq(inputDictionary.i.add(1)).transpose().matrixMultiply(mArray.multiply(0).add(1).accum(1, ee.Reducer.sum()).eq(inputDictionary.j.add(1)));
     
     return M;
   }
