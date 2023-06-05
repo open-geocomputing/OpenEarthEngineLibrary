@@ -1,7 +1,7 @@
-var inputs=[{name:'n',description:'Number of rows', type:'number',optional:false},
-            {name:'m',description:'Number of columns', type:'number',optional:false},
-            {name:'i',description:'The row index (0 indexed)', type:'number',optional:false},
-            {name:'j',description:'The columns index (0 indexed)', type:'number',optional:false},
+var inputs=[{name:'n',description:'Number of rows', type:'number|ee.Number',optional:false},
+            {name:'m',description:'Number of columns', type:'number|ee.Number',optional:false},
+            {name:'i',description:'The row index (0 indexed)', type:'number|ee.Number',optional:false},
+            {name:'j',description:'The columns index (0 indexed)', type:'number|ee.Number',optional:false},
             {name:'Return',description:'Return', type:'ee.Array',defaultValue:null,optional:false}
             ]
             
