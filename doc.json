@@ -931,25 +931,25 @@
                 {
                     "name": "n",
                     "description": "Number of rows",
-                    "type": "number",
+                    "type": "number|ee.Number",
                     "optional": false
                 },
                 {
                     "name": "m",
                     "description": "Number of columns",
-                    "type": "number",
+                    "type": "number|ee.Number",
                     "optional": false
                 },
                 {
                     "name": "i",
                     "description": "The row index (0 indexed)",
-                    "type": "number",
+                    "type": "number|ee.Number",
                     "optional": false
                 },
                 {
                     "name": "j",
                     "description": "The columns index (0 indexed)",
-                    "type": "number",
+                    "type": "number|ee.Number",
                     "optional": false
                 },
                 {
@@ -2184,5 +2184,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1685691894762
+    "timeSinceEpoch": 1685970763356
 }
