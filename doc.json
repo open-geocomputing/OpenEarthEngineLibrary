@@ -926,6 +926,41 @@
         }
     },
     "Array": {
+        "dtwDistance": {
+            "inputs": [
+                {
+                    "name": "A",
+                    "description": "array to compare",
+                    "type": "ee.Array|ee.List",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "B",
+                    "description": "other array to compare",
+                    "type": "ee.Array|ee.List",
+                    "defaultValue": null,
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "number",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "dtwDistance",
+                "license": "MIT",
+                "description": "calculates the Dynamic Time Warping (DTW) between two series, to calculate the distance between them, which means their similarity",
+                "contributors": [
+                    "Mathieu Gravey",
+                    "Agathe Archidoit"
+                ]
+            },
+            "fullPath": ".Array.dtwDistance"
+        },
         "matrixUnit": {
             "inputs": [
                 {
@@ -2184,5 +2219,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1685971320777
+    "timeSinceEpoch": 1686059545040
 }
