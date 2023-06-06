@@ -1,0 +1,65 @@
+var inputs=[{name:'A',description:'array to compare', type:'ee.Array|ee.List',defaultValue:null,optional:false},
+            {name:'B',description:'other array to compare', type:'ee.Array|ee.List',defaultValue:null,optional:false},
+            {name:'Return',description:'Return', type:'number',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'dtwDistance',license:'MIT', description:'calculates the Dynamic Time Warping (DTW) between two series, to calculate the distance between them, which means their similarity', contributors:['Mathieu Gravey', 'Agathe Archidoit']};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    var A = ee.Array(inputDictionary.A);
+    var B = ee.Array(inputDictionary.B);
+    var n = ee.Number(A.length().get([0]));
+    var m = ee.Number(B.length().get([0]));
+    var infinityValue = ee.Number(1e10);
+  
+    //chosen distance : absolute value
+    var arrayA = A.reshape([1,n]);
+    var arrayB = B.reshape([1,m]);
+    var matrixA = arrayA.repeat(0, m);
+    var matrixB = arrayB.repeat(0, n).transpose();
+    var distance = matrixA.subtract(matrixB).abs();
+    print(matrixA)
+    var e = distance.multiply(0).pad([m.add(1),n.add(1)], infinityValue);
+    
+    e = e.subtract(oeel.Array.matrixUnit({
+                  n: m.add(1),
+                  m: n.add(1),
+                  i: m,
+                  j: n})
+          .multiply(infinityValue));
+    
+    function one_step(_,e){
+      e = ee.Array(e);
+      return ee.Array.cat([
+      e.slice(0,1,null).slice(1,0,-1),
+      e.slice(0,1,null).slice(1,1,null),
+      e.slice(0,0,-1).slice(1,1,null)
+      ],2)
+      .reduce(ee.Reducer.min(),[2])
+      .add(distance)
+      .pad([m.add(1),n.add(1),0], infinityValue)
+      .subtract(oeel.Array.matrixUnit({
+                n: m.add(1),
+                m: n.add(1),
+                i: m,
+                j: n})
+      .reshape([m.add(1),n.add(1),1])
+      .multiply(infinityValue));
+    }
+   
+    distance = distance.reshape([m,n,1]);
+    
+    var dtwMatrix = ee.List.sequence(1,m.add(n)).iterate(one_step,e);
+  
+    return ee.Array(dtwMatrix).get([0,0,0]); 
+  }
+}
