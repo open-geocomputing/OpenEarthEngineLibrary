@@ -929,14 +929,14 @@
         "dtwDistance": {
             "inputs": [
                 {
-                    "name": "A",
+                    "name": "X",
                     "description": "array to compare",
                     "type": "ee.Array|ee.List",
                     "defaultValue": null,
                     "optional": false
                 },
                 {
-                    "name": "B",
+                    "name": "Y",
                     "description": "other array to compare",
                     "type": "ee.Array|ee.List",
                     "defaultValue": null,
@@ -2219,5 +2219,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1686059545040
+    "timeSinceEpoch": 1686124746237
 }
