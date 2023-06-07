@@ -27,7 +27,7 @@ return function(){
     var matrixA = arrayA.repeat(0, m);
     var matrixB = arrayB.repeat(0, n).transpose();
     var distance = matrixA.subtract(matrixB).abs();
-    print(matrixA)
+    
     var e = distance.multiply(0).pad([m.add(1),n.add(1)], infinityValue);
     
     e = e.subtract(oeel.Array.matrixUnit({
