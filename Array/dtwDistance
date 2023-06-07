@@ -1,5 +1,5 @@
-var inputs=[{name:'A',description:'array to compare', type:'ee.Array|ee.List',defaultValue:null,optional:false},
-            {name:'B',description:'other array to compare', type:'ee.Array|ee.List',defaultValue:null,optional:false},
+var inputs=[{name:'X',description:'array to compare', type:'ee.Array|ee.List',defaultValue:null,optional:false},
+            {name:'Y',description:'other array to compare', type:'ee.Array|ee.List',defaultValue:null,optional:false},
             {name:'Return',description:'Return', type:'number',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
             ]
             
@@ -15,8 +15,8 @@ exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
-    var A = ee.Array(inputDictionary.A);
-    var B = ee.Array(inputDictionary.B);
+    var A = ee.Array(inputDictionary.X);
+    var B = ee.Array(inputDictionary.Y);
     var n = ee.Number(A.length().get([0]));
     var m = ee.Number(B.length().get([0]));
     var infinityValue = ee.Number(1e10);
