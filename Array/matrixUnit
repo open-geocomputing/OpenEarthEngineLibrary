@@ -13,6 +13,11 @@ exports.createFunction=function(internal,relPath,oeel){
 return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
+
+    inputDictionary.n=ee.Number(inputDictionary.n);
+    inputDictionary.m=ee.Number(inputDictionary.m);
+    inputDictionary.i=ee.Number(inputDictionary.i);
+    inputDictionary.j=ee.Number(inputDictionary.j);
     
     var nArray = ee.Array([[0]]).repeat(1, inputDictionary.n);
     var mArray = ee.Array([[0]]).repeat(1, inputDictionary.m);
