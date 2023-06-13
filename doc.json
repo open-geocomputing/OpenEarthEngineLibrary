@@ -626,7 +626,7 @@
             "inputs": [],
             "reference": {
                 "name": "Terminal",
-                "license": "GPLv3",
+                "license": "LGPL-3.0-or-later",
                 "description": "This feature adds an interactive terminal, which is ideal for debugging code. To use it, simply add <code>eval(oeel.debug.Terminal);</code> to your script. Please note that the dynamic loading of requires is not supported.",
                 "contributors": [
                     "Mathieu Gravey"
@@ -2219,5 +2219,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1686641397004
+    "timeSinceEpoch": 1686641437989
 }
