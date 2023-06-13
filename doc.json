@@ -1297,7 +1297,7 @@
             ],
             "reference": {
                 "name": "semivariogram",
-                "license": "GPLv3",
+                "license": "LGPL-3.0-or-later",
                 "description": "Compute the semivariogram",
                 "contributors": [
                     "Mathieu Gravey"
@@ -2219,5 +2219,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1686641317777
+    "timeSinceEpoch": 1686641340104
 }
