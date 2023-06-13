@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[
   {name:"path", description:"Path to teh collection to create", type:'string', optional:false},
   {name:"noError", description:'Try to create the collection but if the colelction exist it dosen\'t fail.', type:'boolean', defaultValue:true, optional:false},
