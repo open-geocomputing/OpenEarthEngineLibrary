@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'imageCollection',description:'The imageCollection', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'selectBand',description:'The bands for thresholding', type:'string|integer',defaultValue:0,optional:false},
             {name:'mode',description:'Select the mdoe between to compute potential values ("sequence|percentile|explicite"', type:'string',defaultValue:'sequence',optional:false},
