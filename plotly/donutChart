@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'featCol',description:'feature Collection we want the property extracted', type:'ee.FeatureCollection',defaultValue:null,optional:false},
             {name:'property',description:'property we want the donut chart', type:'string',defaultValue:null,optional:true},
             {name:'title',description:'title of the donut chart', type:'string',defaultValue:null,optional:true},
