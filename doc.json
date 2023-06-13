@@ -1355,7 +1355,7 @@
             ],
             "reference": {
                 "name": "kriging",
-                "license": "GPLv3",
+                "license": "LGPL-3.0-or-later",
                 "description": "Compute a gap filling interpolation using kriging. It returns a function, or apply on an image if \"image\" is informed and return the result of the computation.",
                 "contributors": [
                     "Mathieu Gravey"
@@ -2219,5 +2219,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1686641238459
+    "timeSinceEpoch": 1686641317777
 }
