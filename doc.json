@@ -952,7 +952,7 @@
             ],
             "reference": {
                 "name": "dtwDistance",
-                "license": "MIT",
+                "license": "LGPL-3.0-or-later",
                 "description": "calculates the Dynamic Time Warping (DTW) between two series, to calculate the distance between them, which means their similarity",
                 "contributors": [
                     "Mathieu Gravey",
@@ -2219,5 +2219,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1686386913788
+    "timeSinceEpoch": 1686641238459
 }
