@@ -3,7 +3,7 @@ var inputs=[{name:'X',description:'array to compare', type:'ee.Array|ee.List',de
             {name:'Return',description:'Return', type:'number',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
             ]
             
-var reference={name:'dtwDistance',license:'MIT', description:'calculates the Dynamic Time Warping (DTW) between two series, to calculate the distance between them, which means their similarity', contributors:['Mathieu Gravey', 'Agathe Archidoit']};
+var reference={name:'dtwDistance',license:'LGPL-3.0-or-later', description:'calculates the Dynamic Time Warping (DTW) between two series, to calculate the distance between them, which means their similarity', contributors:['Mathieu Gravey', 'Agathe Archidoit']};
 // reference can get any supplementary field that can be relevant, in particular
 // "experimental" which add a small flask to highlight the experimental point in the documentation,
 // "DOI" that automatically add a citation field in the documentation with APA citation,
