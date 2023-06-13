@@ -1,4 +1,4 @@
-
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'args',description:'The assetID', type:'ee.Image|string|ee.String',optional:false},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true}];
             
