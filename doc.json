@@ -729,7 +729,7 @@
             ],
             "reference": {
                 "name": "medoid",
-                "license": "GPLv3",
+                "license": "LGPL-3.0-or-later",
                 "description": "This compute the medoid value of a collection",
                 "contributors": [
                     "Mathieu Gravey"
@@ -2219,5 +2219,5 @@
             "fullPath": ".data.deleteImageCollection"
         }
     },
-    "timeSinceEpoch": 1686641340104
+    "timeSinceEpoch": 1686641397004
 }
