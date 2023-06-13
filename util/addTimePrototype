@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[]
             
 var reference={name:'addTimePrototype',license:'MIT', description:'Provide a client (don\'t use getInfo()) date prototype for yyyymmdd and yyyymmdd_hhmm. To use as: new Date().yyyymmdd_hhmm() OR new Date().yyyymmdd()', contributors:['Mathieu Gravey']};
