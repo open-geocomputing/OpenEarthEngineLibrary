@@ -4,7 +4,7 @@ var inputs=[{name:'histogram2D',description:'A 2D histogram dictionary generated
             {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true}
             ]
             
-var reference={name:'hist2D',license:'GPLv3', description:'Generate 2D histogram plot from fixed2DHistogram.', contributors:["Mathieu Gravey"]};
+var reference={name:'hist2D',license:'LGPL-3.0-or-later', description:'Generate 2D histogram plot from fixed2DHistogram.', contributors:["Mathieu Gravey"]};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};};
 
