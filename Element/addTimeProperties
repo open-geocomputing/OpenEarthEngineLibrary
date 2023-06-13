@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'sinceEpoch',description:'define each property locally or the absolute cumulated since epoch (01.01.1970)', type:'boolean', defaultValue:false, optional:false},
             {name:'timeVariable',description:'The name of the variable to use. ‘start’, ‘end’, or ‘both’ are using the system time any other name can be used too.', type:'string|object', defaultValue:'start', optional:false},
             {name:'timeZone',description:'The time zone.', type:'string', defaultValue:'UTC', optional:false},
