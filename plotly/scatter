@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'features',description:'The feature collection that contains the data to plot.', type:'ee.Collection',defaultValue:null,optional:false},
             {name:'legendName',description:'The data name for the legend.', type:'string|ee.String',optional:false},
             {name:'xProperty',description:'The X-axis property', type:'string|ee.String',optional:false},
