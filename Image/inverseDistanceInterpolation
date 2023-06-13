@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'radius',description:'The radius of the windows used to get neighbors.', type:'integer',defaultValue:10 ,optional:false},
             {name:'power',description:'The power of the inverse distance', type:'number',defaultValue:2 ,optional:false},
             {name:'useConvolution',description:'Use traditional neighborhood reduction or convolution', type:'boolean',defaultValue:true ,optional:false},
