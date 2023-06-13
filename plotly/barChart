@@ -6,7 +6,7 @@ var inputs=[{name:'featCol',description:'array of feature collections that we wa
             {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
             ]
             
-var reference={name:'barChart',license:'MIT', description:'Return a grouped/stacked bar chart of the properties with their legends and title', contributors: ['Agathe Archidoit']};
+var reference={name:'barChart',license:'LGPL-3.0-or-later', description:'Return a grouped/stacked bar chart of the properties with their legends and title', contributors: ['Agathe Archidoit']};
 // reference can get any supplementary field that can be relevant, in particular
 // "experimental" which add a small flask to highlight the experimental point in the documentation,
 // "DOI" that automatically add a citation field in the documentation with APA citation,
