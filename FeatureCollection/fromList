@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'list',description:'The list', type:'ee.List',optional:false},
             {name:'propertyName',description:'The property name. If empty string then it assumes a list of the dictionary.', type:'ee.String|string',optional:false},
             {name:'Return',description:'Return', type:'ee.FeatureCollection',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
