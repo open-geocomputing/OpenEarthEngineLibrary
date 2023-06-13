@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'Map',description:'The Map to mapshot', type:'object',optional:true},
             {name:'scalingFactor',description:'A factor to scale resolution compared to the displayed', type:'number',optional:true},
             {name:'mode',description:'Select the output mode (widget, URL, ExportDrive, ee.Image )', type:'string',optional:true},
