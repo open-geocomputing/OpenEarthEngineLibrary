@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'imageCollection',description:'The collection which to apply the reduction', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'bandSelector',description:'A band selector to select which band to use in the metric', type:'string|ee.String|ee.List|object',defaultValue:'.*',optional:false},
             {name:'method',description:'One of the distance metric: absolute (L1, much slower), euclidean (L2, default), median (something used in https://www.doi.org/10.3390/rs10050691 🤷) ', type:'string',defaultValue:'euclidean',optional:false},
