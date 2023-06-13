@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[
   {name:"imageCollectionAssetID", description:"The imageCollection to delete", type:'string', optional:false},
   {name:"keepEmptyCollection", description:"Keep the empty collection", type:'boolean', defaultValue:false, optional:false},
