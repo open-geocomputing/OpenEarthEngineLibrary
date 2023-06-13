@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT // please change accordingly based on the license in "reference"
 var inputs=[{name:'paramName1',description:'the description', type:'number',defaultValue:null,optional:false},
             {name:'paramName1',description:'the description', type:'ee.Image',defaultValue:null,optional:true},
             {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
