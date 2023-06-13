@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'N',description:'number of rows', type:'ee.Image',optional:false},
             {name:'M',description:'number of columns', type:'ee.Image',optional:false},
             {name:'I',description:'row index (0 indexed)', type:'ee.Image',optional:false},
