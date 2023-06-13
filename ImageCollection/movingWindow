@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'collection',description:'The image collection on which to perform the moving windows', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'filter',description:'The moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
             {name:'reducer',description:'The reducer', type:'ee.Reducer|function',defaultValue:ee.Reducer.mean(),optional:false},
