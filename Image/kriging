@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'covFun',description:'The covariance function,fun(ee.Array)', type:'function' ,optional:false},
             {name:'radius',description:'The radius of the windows used to get neighbors.', type:'integer',defaultValue:10 ,optional:false},
             {name:'skipInfomed',description:'Do not compute on informed locations. To set to false in presence of a kernel with a 0 in the center', type:'boolean',defaultValue:true,optional:false},
