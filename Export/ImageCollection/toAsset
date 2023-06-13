@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[
   {name:"imageCollection", description:"The imageCollection to export.", type:'ee.ImageCollection', optional:false},
   {name:"nameProperty", description:'The property to use as the image name at export', type:'string|ee.String', defaultValue:'system:index', optional:false},
