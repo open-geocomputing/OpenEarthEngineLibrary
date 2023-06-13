@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'histogram2D',description:'A 2D histogram dictionary generated with ee.Reducer.fixed2DHistogram', type:'ee.ComputedObject|ee.Dictionary',defaultValue:null,optional:false},
             {name:'legendName',description:'The name for the legend', type:'string|ee.String',optional:false},
             {name:'transpose',description:'To transpose the XY axes ', type:'boolean',defaultValue:false, optional:false},
