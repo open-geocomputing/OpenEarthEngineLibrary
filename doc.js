@@ -211,7 +211,10 @@ function displayStartingPage(){
 	}
 
 	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('License?'));
-	doc.append($('<p>').html("Each function has its own license so please refer to it directly.<br>The license of the library is GPLv3, but this is only including the library architecture (synchronization with GEE, documentation code…) it’s unrelated to the license of each function."))
+	doc.append($('<p>').html("Each function has its own license so please refer to it directly.<br>The license of the library is LGPLv3 or later, but this is only including the library architecture (synchronization with GEE, documentation code…) it’s unrelated to the license of each function."+
+		"<br>To obtain a comprehensive list of all the functions you utilize, along with relevant information like citation DOIs or licenses, you can utilize the following snippet at the end of your code").append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html("print('List of functions used and their details',oeel.refs())")))))
 
 	Prism.highlightAll();
 }
