@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'param',description:'Parameters of Export.*.toAsset()', type:'object',optional:false}];
             
 var reference={name:'loadIfExistElseExport',license:'MIT', description:'Same as Export.*.toAsset, but do not export and load if the asset already exists, else export using the same parameters as Export.*.toAsset(...).', contributors:['Mathieu Gravey']};
