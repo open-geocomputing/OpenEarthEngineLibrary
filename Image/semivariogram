@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'input',description:'Single band image or imageCollection on which to run the computation.', type:'ee.Image|ee.ImageCollection',optional:false},
             {name:'region',description:'The region on which to compute the variogram ', type:'ee.Geometry',optional:false},
             {name:'radius',description:'The radius of the windows used to get neighbors.', type:'integer',defaultValue:10 ,optional:false},
