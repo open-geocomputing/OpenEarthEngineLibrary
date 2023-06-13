@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'maxCloud',description:'The threshold to remove clouds (in percent of the probability).', type:'number',defaultValue:20,optional:false},
             {name:'S2Collection',description:'The Sentinel 2 collection (default: ee.ImageCollection("COPERNICUS/S2_SR"))', type:'ee.ImageCollection',optional:true},
             {name:'Return',description:'Return', type:'ee.ImageCollection',defaultValue:null,optional:true} 
