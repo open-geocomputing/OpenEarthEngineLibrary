@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'difference',description:'The maximum difference for which the filter will return true.', type:'number|ee.Number',optional:false},
             {name:'leftField',description:'A selector for the left operand. Should not be specified if leftValue is specified.', type:'ee.String|string|null', defaultValue:null, optional:false},
             {name:'rightValue',description:'The value of the right operand. Should not be specified if rightField is specified.', type:'ee.String|string|null', defaultValue:null, optional:false},
