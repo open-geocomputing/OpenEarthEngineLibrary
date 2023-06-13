@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'text',description:'The text of the geometry', type:'string|ee.String',defaultValue:null,optional:false},
             {name:'font',description:'The font to use', type:'string|ee.String|ee.FeatureCollection',defaultValue:"users/OEEL/Fonts/Helvetica",optional:false},
             {name:'fontSize',description:'The font size', type:'integer|ee.Number',defaultValue:1,optional:false},
