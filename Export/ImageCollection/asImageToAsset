@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[
   {name:"imageCollection", description:"The imageCollection to export as single ee.Image.", type:'ee.ImageCollection', optional:false},
   {name:"assetId", description:"The destination asset ID.", type:'string|ee.String', optional:false},
