@@ -7,7 +7,7 @@ var inputs=[{name:'data',description:'The data to be ploted.', type:'object',def
             {name:'Return',description:'Return', type:'oeel.PlotlyDisplay',defaultValue:null,optional:true}
             ]
             
-var reference={name:'directDraw',license:'GPLv3', description:'This function allows to directly communicate with OEEex. I should normally not be directly used.', contributors:["Mathieu Gravey"]};
+var reference={name:'directDraw',license:'LGPL-3.0-or-later', description:'This function allows to directly communicate with OEEex. I should normally not be directly used.', contributors:["Mathieu Gravey"]};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
