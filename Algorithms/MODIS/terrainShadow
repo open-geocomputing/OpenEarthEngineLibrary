@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'dem',description:'the DEM to use', type:'ee.Image',optional:false},
             {name:'kernelHalfSize',description:'The radius of the kernel', type:'number',defaultValue:10,optional:false},
             {name:'image',description:'A MODIS image', type:'ee.Image',optional:true},
