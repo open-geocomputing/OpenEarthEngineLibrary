@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'featCol',description:'feature collection to extract properties', type:'ee.FeatureCollection',defaultValue:null,optional:false},
             {name:'properties',description:'properties we want the histogram', type:'object',defaultValue:null,optional:false},
             {name:'legendNames',description:'legend names of the properties', type:'object',defaultValue:null,optional:true},
