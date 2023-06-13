@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[
   {name:"image", description:"The image to export.", type:'ee.Image', optional:false},
   {name:"description", description:'A human-readable prefix name for the tasks.', type:'string', defaultValue:" ", optional:false},
