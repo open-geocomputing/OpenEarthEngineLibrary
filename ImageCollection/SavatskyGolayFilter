@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'collection',description:'The image collection on which to perform the filtering', type:'ee.ImageCollection',defaultValue:null,optional:false},
             {name:'filter',description:'The moving windows filter', type:'ee.Filter',defaultValue:null,optional:false},
             {name:'distanceFunction',description:'A lambda function that specifies how to compute distance between two images that return an ee.Image (or an ee.Number to add); function(ee.Image(infromedImage),ee.Image(estimationImage))', type:'function',defaultValue:null,optional:false},
