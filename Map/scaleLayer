@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'mapScale',description:'The scale of the Map, e.g.,Map.getScale()', type:'number|ee.Number',optional:false},
             {name:'point',description:'The position where to add scale', type:'ee.Geometry',optional:false},
             {name:'size',description:'The length of the map scale', type:'integer',defaultValue:3,optional:false},
