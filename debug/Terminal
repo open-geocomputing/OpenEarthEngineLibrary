@@ -1,6 +1,6 @@
 var inputs=[]
 
-var reference={name:'Terminal',license:'GPLv3', description:'This feature adds an interactive terminal, which is ideal for debugging code. To use it, simply add <code>eval(oeel.debug.Terminal);</code> to your script. Please note that the dynamic loading of requires is not supported.', contributors:['Mathieu Gravey']};
+var reference={name:'Terminal',license:'LGPL-3.0-or-later', description:'This feature adds an interactive terminal, which is ideal for debugging code. To use it, simply add <code>eval(oeel.debug.Terminal);</code> to your script. Please note that the dynamic loading of requires is not supported.', contributors:['Mathieu Gravey']};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
