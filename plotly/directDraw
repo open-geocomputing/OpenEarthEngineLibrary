@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'data',description:'The data to be ploted.', type:'object',defaultValue:null,optional:false},
             {name:'layout',description:'A plotly layout. Mroe info here: https://plotly.com/javascript/reference/layout/', type:'object',defaultValue:{},optional:false},
             {name:'transparent',description:'Set the background to transparent.', type:'boolean',defaultValue:true,optional:true},
