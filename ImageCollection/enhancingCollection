@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'collection',description:'The collection to enhance', type:'ee.ImageCollection',optional:false},
             {name:'enhancingCollection',description:'The collection to use to enhance', type:'ee.ImageCollection',optional:false},
             {name:'matchingProperty',description:'The property to use to do the matching', type:'string',defaultValue:'system:index',optional:false},
