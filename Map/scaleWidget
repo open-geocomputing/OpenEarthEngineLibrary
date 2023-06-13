@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 var inputs=[{name:'Map',description:'The reference Map', type:'object',optional:true},
             {name:'size',description:'The length of the map scale', type:'integer',defaultValue:3,optional:false},
             {name:'color1',description:'The first color', type:'string',defaultValue:'black',optional:false},
