@@ -1,0 +1,79 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later 
+var inputs=[{name:'A',description:'image to compare', type:'ee.Image',defaultValue:null,optional:false},
+            {name:'B',description:'image to compare', type:'ee.Image',defaultValue:null,optional:false},
+            {name:'iteration',description:'maximum between both images dimensions', type:'ee.Number|number',defaultValue:100,optional:true},
+            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'arrayDTW',license:'LGPL-3.0-or-later', description:'Return the DTW (dynamic time warping) between two images for each pixel', contributors:['Agathe Archidoit','Mathieu Gravey']};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    var N = inputDictionary.A.arrayLengths();
+    var M = inputDictionary.B.arrayLengths();
+    var Ni = N.arrayGet([0]);
+    var Mi = M.arrayGet([0]);
+    var iteration = ee.Number(inputDictionary.iteration);
+    var infinityValue = ee.Number(1e10);
+    
+    iteration.multiply(iteration).gt(ee.Number(231)).evaluate(function(x){
+      if(x)
+        print("Warning : result maybe insconstitant, length(A)*length(B) above 231 can have wrong result");
+    })
+    
+    var safeResult=Ni.multiply(Mi).lt(iteration.multiply(iteration).min(231)).rename("safe");
+      
+    //chosen distance : absolute value
+    var arrayA = A.arrayReshape(N,1);
+    var arrayB = B.arrayReshape(M,1);
+  
+    var matrixA = arrayA.arrayRepeat(1, Mi).arrayTranspose();
+    var matrixB = arrayB.arrayRepeat(1, Ni);
+    var distance = matrixA.subtract(matrixB).abs();
+    
+    function padPerPixel(im,listDim,value, maxval){
+      var dim=listDim.length;
+      var padded=im.arrayPad(listDim.map(function(){return maxval}),value);
+      for(var i=0; i<dim; i++){
+        padded=padded.arraySlice(i,0,listDim[i]);
+      }
+      return padded;
+    }
+    
+    var e = padPerPixel(distance.multiply(0),[Mi.add(1), Ni.add(1)], infinityValue,iteration);
+    
+    e = e.subtract(oeel.Image.arrayMatrixUnit(Mi.add(1), Ni.add(1), Mi, Ni).multiply(infinityValue));
+    
+    distance = distance.arrayReshape(ee.Image.cat(M,N,ee.Image.constant(ee.Array([1]))).toArray(0),3)
+    
+    function one_step(_,e){
+      e = ee.Image(e);
+      return padPerPixel(ee.Image.cat([
+      e.arraySlice(0, 1, null).arraySlice(1, 0, -1),
+      e.arraySlice(0, 1, null).arraySlice(1, 1, null),
+      e.arraySlice(0, 0, -1).arraySlice(1, 1, null)
+      ]).toArray(2)
+      .arrayReduce(ee.Reducer.min(),[2])
+      .add(distance),
+      [Mi.add(1), Ni.add(1), ee.Image.constant(1)],infinityValue,iteration)
+      .subtract(oeel.Image.arrayMatrixUnit({
+                N: Mi.add(1),
+                M: Ni.add(1),
+                I: Mi,
+                J: Ni})
+      .arrayReshape(ee.Image.cat(M.add(1),N.add(1),ee.Image.constant(ee.Array([1]))).toArray(0),3)
+      .multiply(infinityValue))
+    }
+    
+    var dtwMatrix = ee.List.sequence(1,iteration.multiply(iteration).min(231)).iterate(one_step,e);
+    return ee.Image(dtwMatrix).arrayGet([0,0,0]).addBands(safeResult);
+  }
+}
