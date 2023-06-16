@@ -32,8 +32,8 @@ return function(){
     var safeResult=Ni.multiply(Mi).lt(iteration.multiply(iteration).min(231)).rename("safe");
       
     //chosen distance : absolute value
-    var arrayA = A.arrayReshape(N,1);
-    var arrayB = B.arrayReshape(M,1);
+    var arrayA = inputDictionary.A.arrayReshape(N,1);
+    var arrayB = inputDictionary.B.arrayReshape(M,1);
   
     var matrixA = arrayA.arrayRepeat(1, Mi).arrayTranspose();
     var matrixB = arrayB.arrayRepeat(1, Ni);
