@@ -1,0 +1,20 @@
+// SPDX-License-Identifier: MIT // please change accordingly based on the license in "reference"
+var inputs=[{name:'Return',description:'Return', type:'Geometry.BBox',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'geometryWorldwide',license:'MIT', description:'Return a geometry of the all world ⚠️️ Warning : the display may not work but the calculation is still correct', contributors: ['Agathe Archidoit']};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+     
+    return ee.Geometry.BBox(-180, -90, 180, 90);
+  }
+}
