@@ -1,0 +1,29 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later // please change accordingly based on the license in "reference"
+var inputs=[{name:'imCol',description:'ImageCollection containing the images to concatenate', type:'ee.ImageCollection',optional:false},
+            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'toArrayPerBandWithMask',license:'LGPL-3.0-or-later', description:'Concatenates multiple images into a single array image without masking the result if some inputs are masked', contributors:['Agathe Archidoit','Mathieu Gravey']};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var unmaskedImCol = inputDictionary.imCol.map(function(im){
+    return im.addBands(im.mask().reduce(ee.Reducer.allNonZero()).rename('mask')).unmask(0,false);
+    })
+    
+    var im = unmaskedImCol.toArrayPerBand();
+    
+    im = im.arrayMask(im.select("mask"));
+    
+    return im.updateMask(im.arrayLength(0).gt(0));
+  }
+}
