@@ -1517,6 +1517,33 @@
             },
             "fullPath": ".ImageCollection.SavatskyGolayFilter"
         },
+        "toArrayPerBandWithMask": {
+            "inputs": [
+                {
+                    "name": "imCol",
+                    "description": "ImageCollection containing the images to concatenate",
+                    "type": "ee.ImageCollection",
+                    "optional": false
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "ee.Image",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "toArrayPerBandWithMask",
+                "license": "LGPL-3.0-or-later",
+                "description": "Concatenates multiple images into a single array image without masking the result if some inputs are masked",
+                "contributors": [
+                    "Agathe Archidoit",
+                    "Mathieu Gravey"
+                ]
+            },
+            "fullPath": ".ImageCollection.toArrayPerBandWithMask"
+        },
         "medoid": {
             "inputs": [
                 {
@@ -2281,5 +2308,5 @@
             "fullPath": ".Filter.asymmetricMaxDifference"
         }
     },
-    "timeSinceEpoch": 1688126723173
+    "timeSinceEpoch": 1688483152799
 }
