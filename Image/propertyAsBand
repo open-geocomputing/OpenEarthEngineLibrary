@@ -20,12 +20,12 @@ return function(){
     var properties = ee.List(inputDictionary.properties);
 
     var newBands = properties.map(function(prop){
-      return ee.Image.constant(image.get(prop)).toFloat();
+      return ee.Image.constant(inputDictionary.image.get(prop)).toFloat();
     })
   
-    var total_image = image.addBands(ee.ImageCollection(newBands).toBands().rename(properties));
+    var total_image = inputDictionary.image.addBands(ee.ImageCollection(newBands).toBands().rename(properties));
   
-    var mask = image.mask().reduce(ee.Reducer.allNonZero());
+    var mask = inputDictionary.image.mask().reduce(ee.Reducer.allNonZero());
   
     var im_result = total_image.updateMask(mask);
   
