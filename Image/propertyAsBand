@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later // please change accordingly based on the license in "reference"
+var inputs=[{name:'image',description:'image to add band of properties', type:'ee.Image',optional:false},
+            {name:'properties',description:'list of properties to interpret as bands', type:'object',optional:false},
+            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference={name:'propertyAsBand',license:'LGPL-3.0-or-later', description:'Create new bands to an image from properties of this image.', contributors:['Agathe Archidoit','Mathieu Gravey']};
+// reference can get any supplementary field that can be relevant, in particular
+// "experimental" which add a small flask to highlight the experimental point in the documentation,
+// "DOI" that automatically add a citation field in the documentation with APA citation,
+// but many other can be added such as "contributors" ...
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var properties = ee.List(inputDictionary.properties);
+
+    var newBands = properties.map(function(prop){
+      return ee.Image.constant(image.get(prop)).toFloat();
+    })
+  
+    var total_image = image.addBands(ee.ImageCollection(newBands).toBands().rename(properties));
+  
+    var mask = image.mask().reduce(ee.Reducer.allNonZero());
+  
+    var im_result = total_image.updateMask(mask);
+  
+    return im_result;
+  }
+}
