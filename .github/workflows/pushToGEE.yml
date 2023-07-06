@@ -34,6 +34,7 @@ jobs:
         with:
           python-version: '3.8'
           architecture: 'x64'
+      - run: pip install jsmin
       - name: create openEEL
         env:
           GEE_REPO_ADDRESS: ${{secrets.GEE_REPO_ADDRESS}}
