@@ -21,7 +21,7 @@ val=generateDictionary(repo+':/','.',
 libString='var libs='+json.dumps(val).replace('"','')+\
 				'\n\n//generated automatically the '+str(datetime.utcnow())+\
 				'UTC \n\n'+'exports=libs.internal.setupLibrary(libs);\n\n'+\
-				'exports.type="Open Earth Engine Library\\nRelease date: '+datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')+'\\nPlease refer to the online documentation:\\nhttps://www.open-geocomputing.org/OEEL/"';
+				'exports.type="Open Earth Engine Library\\nRelease date: '+datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')+'\\nPlease refer to the online documentation:\\nhttps://www.open-geocomputing.org/OEEL"';
 
 text_file = open("loadAll", "w")
 text_file.write(libString)
@@ -78,7 +78,7 @@ def create_js_object(py_dict):
 libString='var libs='+create_js_object(val)+\
 				'\n\n//generated automatically the '+str(datetime.utcnow())+\
 				'UTC \n\n'+'exports=libs.internal.setupLibrary(libs);\n\n'+\
-				'exports.type="Open Earth Engine Library\\nRelease date: '+datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')+'\\nPlease refer to the online documentation:\\nhttps://www.open-geocomputing.org/OEEL/"';
+				'exports.type="Open Earth Engine Library\\nRelease date: '+datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')+'\\nPlease refer to the online documentation:\\nhttps://www.open-geocomputing.org/OEEL"';
 
 text_file = open("loadAllSF", "w")
 text_file.write(libString)
