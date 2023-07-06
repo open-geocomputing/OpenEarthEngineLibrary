@@ -76,7 +76,7 @@ def create_js_object(py_dict):
 
 libString='var libs='+create_js_object(val)+\
 				'\n\n//generated automatically the '+str(datetime.utcnow())+\
-				'UTC \n\n'+'exports.all=libs.internal.setupLibrary(libs);';
+				'UTC \n\n'+'exports=libs.internal.setupLibrary(libs);';
 
 text_file = open("loadAllSF", "w")
 text_file.write(libString)

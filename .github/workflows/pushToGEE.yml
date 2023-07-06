@@ -42,6 +42,7 @@ jobs:
           python genearteOpenEEL.py
           git add loadAll
           git add loadAll4py
+          git add loadAllSF
           git commit -m 'update loadAll'
           git push
 
