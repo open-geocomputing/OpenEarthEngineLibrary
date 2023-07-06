@@ -138,7 +138,20 @@ function displayStartingPage(){
 	}
 	doc.append($('<p>').html("it's as simple as that!"))
 
-	doc.append($("<h3>", {id: "startPage ", "class": "title is-3"}).html('You need to know which function you used?'));
+	doc.append($("<h4>", {id: "SFLoad ", "class": "title is-4"}).html('Single file load'));
+	doc.append($('<p>').html("As the library continues to grow, the loading time also increases, especially without the Open Earth engine extension. This can become problematic in certain applications, such as Apps. To address this, we are now offering a quick loading version that utilizes minified data. However, it's important to note that this version should not be used for debugging purposes."))
+	{
+		var theCode="var oeel=require('users/OEEL/lib:loadAllSF')";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCode)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-sf-code", "class": "language-javascript"})
+				.html(theCode)))
+			.append(clipboardElement));
+	}
+	
+
+	doc.append($("<h3>", {id: "refOeel ", "class": "title is-3"}).html('You need to know which function you used?'));
 	doc.append($('<p>').html("Simply add at the following line at the end of your code, and you will get the list of all function used and other related information."))
 
 	{
