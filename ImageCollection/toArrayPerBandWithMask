@@ -24,6 +24,6 @@ return function(){
     
     im = im.arrayMask(im.select("mask"));
     
-    return im.updateMask(im.arrayLength(0).gt(0));
+    return im.updateMask(im.arrayLength(0).gt(0)).select(im.bandNames().remove('mask'));
   }
 }
