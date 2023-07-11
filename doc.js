@@ -8,7 +8,7 @@ function displayDocFunction(data) {
 	doc.empty();
 
 	if (data.reference.license) {
-		doc.append($("<img>", {id: "reference-license", "class": "subtitle", "src":'https://img.shields.io/badge/license-' + data.reference.license.replace("-","_") + '-blue'}));
+		doc.append($("<img>", {id: "reference-license", "class": "subtitle", "src":'https://img.shields.io/badge/license-' + data.reference.license.replaceAll("-","_") + '-blue'}));
 	}
 	doc.append($("<a>", {id: "reference-source", "class": "subtitle sourceLink", "target":"_blank", "href":'https://github.com/open-geocomputing/OpenEarthEngineLibrary/blob/master'+data.fullPath.replaceAll(".","/")}).text("</>"));
 
