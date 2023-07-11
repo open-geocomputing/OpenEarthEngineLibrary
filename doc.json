@@ -2341,5 +2341,64 @@
             "fullPath": ".ImageCollection.fromSingleImage"
         }
     },
-    "timeSinceEpoch": 1688932290716
+    "Python": {
+        "require": {
+            "inputs": [
+                {
+                    "name": "path",
+                    "description": "This is the Earth Engine path to the file that contains the Python function.",
+                    "type": "string",
+                    "optional": false
+                },
+                {
+                    "name": "pkgs",
+                    "description": "Containing the names of packages that need to be installed beforeloading the file.",
+                    "type": "object",
+                    "optional": true
+                },
+                {
+                    "name": "Return",
+                    "description": "Return",
+                    "type": "object",
+                    "defaultValue": null,
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "require",
+                "license": "LGPL-3.0-or-later",
+                "description": "This function is designed to load and utilize Python functions within the JavaScript environment of the Earth Engine (EE) Code Editor."
+            },
+            "fullPath": ".Python.require"
+        },
+        "run": {
+            "inputs": [
+                {
+                    "name": "code",
+                    "description": "The Python code you wish to run.",
+                    "type": "string",
+                    "optional": false
+                },
+                {
+                    "name": "variableDictionary",
+                    "description": " JS to Python mapped variables, enabling you to pass variables into the Python context. Essentially, it's a dictionary of {pythonVariableName: theValue} pairs.",
+                    "type": "object",
+                    "optional": true
+                },
+                {
+                    "name": "pkgs",
+                    "description": "Containing the names of packages that need to be installed before executing the code.",
+                    "type": "object",
+                    "optional": true
+                }
+            ],
+            "reference": {
+                "name": "run",
+                "license": "LGPL-3.0-or-later",
+                "description": "This function enables the execution of Python code directly from the JavaScript environment within the Earth Engine (EE) Code Editor"
+            },
+            "fullPath": ".Python.run"
+        }
+    },
+    "timeSinceEpoch": 1689055312319
 }
