@@ -140,4 +140,11 @@ exports.oeeex.export={image:function(config){exports.oeeex.sendMessage('exportIm
                       table:function(config){exports.oeeex.sendMessage('exportTable:'+JSON.stringify(config));}
 }
 
+exports.usePrompToCallPython=function(instruction,name){
+  var val=prompt("OEEex_Active_AddonPythonCE",instruction);
+  if(val.answerType=="error")
+    throw val.message
+  return val;
+}
+
 
