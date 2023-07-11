@@ -1,0 +1,57 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+var inputs=[{name:'code',description:'The Python code you wish to run.', type:'string',optional:false},
+  {name:'variableDictionary',description:' JS to Python mapped variables, enabling you to pass variables into the Python context. Essentially, it\'s a dictionary of {pythonVariableName: theValue} pairs.', type:'object',optional:true},
+  {name:'pkgs',description:'Containing the names of packages that need to be installed before executing the code.', type:'object', optional:true}
+  ]
+
+var reference={name:'run',license:'LGPL-3.0-or-later', description:'This function enables the execution of Python code directly from the JavaScript environment within the Earth Engine (EE) Code Editor'};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+  return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    
+    var code=inputDictionary.code;
+    var dict=inputDictionary.variableDictionary;
+    var pkgs=inputDictionary.pkgs;
+    if (!dict)
+      dict={};
+    if (!pkgs)
+      pkgs=[];
+    internal.usePrompToCallPython({type:"code", code:code, dict:dict, extraPkgs:pkgs,
+      context:function(result){
+        switch (result.answerType) {
+        case "functionResult":
+          throw "error in executing: "+name+"; main result returned as intermediate"
+          break;
+      /*case "functionCall":
+        print(result)
+        break;*/
+        case "oeelCall":
+          var f=oeel;
+          for (var v=0; v<result.path.length; v++){
+            f=f[result.path[v]];
+          }
+          return f.apply(null,result.args);
+          break;
+        case "printConsole":
+          print(result.value)
+          break;
+        case "MapOperation":
+          Map[result.mapOp].apply(Map,result.args)
+          break;
+        case "pyplotFigure":
+          print(ui.Label({imageUrl:result.value}));
+          break;
+        case "require":
+          return require(result.path)
+          break;
+        default:
+          throw "error in executing: "+name+"; "+result.answerType+" is not upported"
+        }
+      }
+    },null,null)
+  }
+}

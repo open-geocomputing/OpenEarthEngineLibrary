@@ -1,0 +1,83 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later
+var inputs=[{name:'path',description:'This is the Earth Engine path to the file that contains the Python function.', type:'string',optional:false},
+  {name:'pkgs',description:'Containing the names of packages that need to be installed beforeloading the file.', type:'object',optional:true},
+            {name:'Return',description:'Return', type:'object',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+
+var reference={name:'require',license:'LGPL-3.0-or-later', description:'This function is designed to load and utilize Python functions within the JavaScript environment of the Earth Engine (EE) Code Editor.'};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+  return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+    var path=inputDictionary.path;
+    var pkgs=inputDictionary.pkgs;
+    if (!pkgs)
+      pkgs=[];
+    var result=internal.usePrompToCallPython({type:"loadModule",path:path, extraPkgs:pkgs,
+      context:function(result){
+        switch (result.answerType) {
+        case "functionResult":
+          throw "error in executing: "+name+"; main result returned as intermediate"
+          break;
+      /*case "functionCall":
+        print(result)
+        break;*/
+        case "oeelCall":
+          var f=oeel;
+          for (var v=0; v<result.path.length; v++){
+            f=f[result.path[v]];
+          }
+          return f.apply(null,result.args);
+          break;
+        case "printConsole":
+          print(result.value)
+          break;
+        case "MapOperation":
+          Map[result.mapOp].apply(Map,result.args)
+          break;
+        case "pyplotFigure":
+          print(ui.Label({imageUrl:result.value}));
+          break;
+        case "require":
+          return require(result.path)
+          break;
+        default:
+          throw "error in executing: "+name+"; "+result.answerType+" is not upported"
+        }
+      }
+    },null,null)
+    if(result.answerType=="moduleLoaded"){
+      for(var i=0; i< result.functions.length; i++){
+        var name=result.functions[i];
+        (function(name){
+          result[name] = function(){
+            return result.call(name, Array.prototype.slice.call(arguments))
+          };
+        })(name)
+      }
+      result.call=function(name,arg){
+        var r=internal.usePrompToCallPython({type:"functionCall",pyId:result.pyId,functionName:name,arg:arg},name)
+        return (function(result){
+          switch (result.answerType) {
+          case "functionResult":
+            return result.value;
+            break;
+          case "printConsole":
+          case "MapOperation":
+          case "pyplotFigure":
+            throw "error in executing: "+name+"; intermediate result returned as main"
+          default:
+            throw "error in executing: "+name+"; "+result.answerType+" is not upported"
+          }
+        })(r)
+      }
+    }
+    else{
+      throw "expected module, but get: "+result
+    }
+    return result
+  }
+}
