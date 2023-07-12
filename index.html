@@ -9,7 +9,7 @@
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());
 
-		gtag('config', 'G-LEXG2KSC8Q');
+		gtag('config', 'G-LEXG2KSC8Q',{ 'anonymize_ip': true });
 
 		window.addEventListener('popstate', function(event) {
 			gtag('config', 'G-LEXG2KSC8Q', {'page_path': location.pathname + location.search + location.hash});
