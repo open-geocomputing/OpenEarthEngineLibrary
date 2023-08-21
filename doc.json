@@ -1648,7 +1648,7 @@
                 {
                     "name": "region",
                     "description": "Region to consider",
-                    "type": "ee.Geometry",
+                    "type": "ee.Geometry|ee.GeometryCollection|ee.Feature",
                     "optional": false
                 },
                 {
@@ -1687,9 +1687,9 @@
                 }
             ],
             "reference": {
-                "name": "sankeyDiagram",
+                "name": "SankeyDiagrams",
                 "license": "LGPL-3.0-or-later",
-                "description": "Create a Sankey Diagram",
+                "description": "Create a Sankey Diagrams.",
                 "contributors": [
                     "Mathieu Gravey"
                 ]
@@ -2465,5 +2465,5 @@
             "fullPath": ".Map.mapshot"
         }
     },
-    "timeSinceEpoch": 1692613950749
+    "timeSinceEpoch": 1692615622370
 }
