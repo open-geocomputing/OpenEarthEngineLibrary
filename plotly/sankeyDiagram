@@ -46,7 +46,7 @@ return function(){
     
     var data=ee.List.sequence(0,size.subtract(2),1).map(function(index){
       index=ee.Number(index);
-      return hist2DtoList(ee.Dictionary(inputDictionary.collection.toBands().select([index,index.add(1)]).reduceRegion(reducer,ee.Feature(inputDictionary.region).geometry(),inputDictionary.scale)),
+      return hist2DtoList(ee.Dictionary(inputDictionary.collection.toBands().select([index,index.add(1)]).reduceRegion({reducer:reducer, geometry:ee.Feature(inputDictionary.region).geometry(), scale:inputDictionary.scale, maxPixels:1e9})),
       index,NoC)
     })
     
