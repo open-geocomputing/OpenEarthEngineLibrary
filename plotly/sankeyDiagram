@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
 var inputs=[{name:'imageCollection',description:'The input image collection', type:'ee.ImageCollection',optional:false},
             {name:'classRange',description:'An object with the min and max, additionally step cna be defined as well {min:0 max:10}', type:'object', optional:false},
-            {name:'region',description:'Region to consider', type:'ee.Geometry', optional:false},
+            {name:'region',description:'Region to consider', type:'ee.Geometry|ee.GeometryCollection|ee.Feature', optional:false},
             {name:'scale',description:'Scale of the analysis', type:'number|ee.Number',defaultValue:1000, optional:false},
             {name:'xProperty',description:'The X property. This property is expected to be unique', type:'string|ee.String',defaultValue:"system:time_start", optional:false},
             {name:'band',description:'Band name for an ImageCollection', type:'number|string|ee.String|ee.Number',defaultValue:0, optional:false},
@@ -10,7 +10,7 @@ var inputs=[{name:'imageCollection',description:'The input image collection', ty
             {name:'Return',description:'Return', type:'oeel.Plotly',defaultValue:null,optional:true}
             ]
             
-var reference={name:'sankeyDiagram',license:'LGPL-3.0-or-later', description:'Create a Sankey Diagram', contributors:["Mathieu Gravey"]};
+var reference={name:'SankeyDiagrams',license:'LGPL-3.0-or-later', description:'Create a Sankey Diagrams.', contributors:["Mathieu Gravey"]};
 
 exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
 
@@ -20,14 +20,16 @@ return function(){
     internal.addRef(reference,relPath);
      
     var plotObject=oeel.plotly.plot();
-    
     var size=inputDictionary.collection.size()
-    
-    var scale=500;
 
     inputDictionary.classRange.step=inputDictionary.classRange.step||1;
     var NoC=ee.Number(inputDictionary.classRange.max).add(1).subtract(inputDictionary.classRange.min).divide(inputDictionary.classRange.step);
     
+    inputDictionary.region=ee.Algorithms.If({
+      condition:ee.Algorithms.ObjectType(inputDictionary.region).equals("Feature"),
+      trueCase:inputDictionary.region.geometry(),
+      falseCase:inputDictionary.region,
+    })
     
     var reducer=ee.Reducer.fixed2DHistogram({
         xMin:inputDictionary.classRange.min,
