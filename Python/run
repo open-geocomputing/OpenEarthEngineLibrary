@@ -37,7 +37,7 @@ exports.createFunction=function(internal,relPath,oeel){
           return f.apply(null,result.args);
           break;
         case "printConsole":
-          print.apply(result.value)
+          print.apply(null,result.value)
           break;
         case "MapOperation":
           Map[result.mapOp].apply(Map,result.args)
