@@ -18,7 +18,7 @@ def oeelInitilize(response):
 output.register_callback('notebook.oeelInitilize', oeelInitilize)
 
 def AuthAndInitilize(extensionID="dhkobehdekjgdahfldleahkekjffibhg"):
-	jsCode='''chrome.runtime.sendMessage('''+extensionID+''', "getAuthTocken",
+	jsCode='''chrome.runtime.sendMessage("'''+extensionID+'''", "getAuthTocken",
 		function(response) {
 		  console.log(response)
 			google.colab.kernel.invokeFunction("notebook.oeelInitilize", [response], {});

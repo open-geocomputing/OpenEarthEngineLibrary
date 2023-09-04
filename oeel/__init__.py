@@ -295,5 +295,5 @@ oeelManadger.oeelLibInterface.init=oeelManadger.init;
 oeelManadger.oeelLibInterface.requireJS=oeelManadger.requireJS;
 oeelManadger.oeelLibInterface.setMap=oeelManadger.setMap;
 oeel=oeelManadger.oeelLibInterface
-oeel.colab={}
+oeel.colab=oeelParentDirectory({})
 oeel.colab.AuthAndInitilize=colab.AuthAndInitilize;
