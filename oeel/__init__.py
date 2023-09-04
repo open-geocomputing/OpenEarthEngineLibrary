@@ -14,6 +14,7 @@ import ctypes
 from shutil import which
 
 from . import external
+from . import colab
 oeelLibPath=os.path.dirname(__file__)
 
 class oeelMissingExternalCommand(Exception):
@@ -21,6 +22,8 @@ class oeelMissingExternalCommand(Exception):
 
 import sys
 IN_COLAB = 'google.colab' in sys.modules
+if IN_COLAB:
+	from . import colab
 
 def initialize():
 	if(os.path.exists(oeelLibPath+'/initialized')):
@@ -116,6 +119,8 @@ class oeelClass():
 		pass
 
 	def __init__(self):
+		if(not ee.data._initialized and IN_COLAB):
+			colab.AuthAndInitilize();
 		self.nodeSocket=None;
 		self.loadOEELFunctions()
 		self.init();
@@ -290,3 +295,5 @@ oeelManadger.oeelLibInterface.init=oeelManadger.init;
 oeelManadger.oeelLibInterface.requireJS=oeelManadger.requireJS;
 oeelManadger.oeelLibInterface.setMap=oeelManadger.setMap;
 oeel=oeelManadger.oeelLibInterface
+oeel.colab={}
+oeel.colab.AuthAndInitilize=colab.AuthAndInitilize;
