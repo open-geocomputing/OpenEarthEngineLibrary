@@ -119,11 +119,11 @@ class oeelClass():
 		pass
 
 	def __init__(self):
-		if(not ee.data._initialized and IN_COLAB):
-			try:
-				colab.AuthAndInitilize();
-			except Exception as e:
-				pass
+		# if(not ee.data._initialized and IN_COLAB):
+		# 	try:
+		# 		colab.AuthAndInitilize();
+		# 	except Exception as e:
+		# 		pass
 		self.nodeSocket=None;
 		self.loadOEELFunctions()
 		self.init();
