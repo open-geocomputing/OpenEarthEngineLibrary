@@ -46,25 +46,28 @@ def initialize():
 		if gitPath:
 			os.chdir(oeelLibPath)
 			if(not os.path.exists('OEEL')):
-				subprocess.check_output("git clone https://github.com/open-geocomputing/OpenEarthEngineLibrary.git OEEL".split())
+				subprocess.check_output("git clone --depth 1 https://github.com/open-geocomputing/OpenEarthEngineLibrary.git OEEL".split())
 		if nodePath:
 			if(which('npm')):
 				try:
-					subprocess.check_output("npm install @google/earthengine",shell=True)
-				except Exception as e:
-					print("Please install manually using : npm install @google/earthengine")
-				try:
-					subprocess.check_output("npm install zeromq@6.0.0-beta.6",shell=True)
-				except Exception as e:
-					print("Please install manually using : npm install zeromq@6.0.0-beta.6")
-				try:
-					subprocess.check_output("npm install request",shell=True)
-				except Exception as e:
-					print("Please install manually using : npm install request")
-				try:
-					subprocess.check_output("npm install unpromisefy",shell=True)
-				except Exception as e:
-					print("Please install manually using : npm install unpromisefy")
+					subprocess.check_output("npm ci",shell=True)
+				except:
+					try:
+						subprocess.check_output("npm install @google/earthengine",shell=True)
+					except Exception as e:
+						print("Please install manually using : npm install @google/earthengine")
+					try:
+						subprocess.check_output("npm install zeromq@6.0.0-beta.6",shell=True)
+					except Exception as e:
+						print("Please install manually using : npm install zeromq@6.0.0-beta.6")
+					try:
+						subprocess.check_output("npm install request",shell=True)
+					except Exception as e:
+						print("Please install manually using : npm install zeromq@6.0.0-beta.6")
+					try:
+						subprocess.check_output("npm install unpromisefy",shell=True)
+					except Exception as e:
+						print("Please install manually using : npm install unpromisefy")			
 			else:
 				raise oeelMissingExternalCommand('You have node, but not npm in the path you will need to fix this.')
 			pass
