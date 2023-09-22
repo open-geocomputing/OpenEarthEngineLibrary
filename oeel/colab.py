@@ -19,17 +19,13 @@ class OEE_Credentials(Credentials):
 
 	def startJsSectionToRecoverTokens(self,extensionID):
 		jsCode='''
-			window.authToken = "";
 
 			function sendAuthMessage() {
 				chrome.runtime.sendMessage("''' + extensionID + '''", "getAuthTocken",
 					function(response) {
 						if(response && response.type=='authToken'){
-							window.authToken = response.message;
-				console.log(window.authToken)
 				localStorage.setItem("EEauthToken",response.message)
 						}else{
-							window.authToken='error';
 				localStorage.setItem("EEauthToken",'error')
 						}
 					}
