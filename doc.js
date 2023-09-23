@@ -307,10 +307,65 @@ function displayAboutPage(){
 }
 
 
+function displayAuthAndInitilize(){
+
+	var doc = $('#description');
+	doc.empty();
+	doc.append($("<img>", {id: "reference-license", "class": "subtitle", "src":'https://img.shields.io/badge/license-LGPL_v3-blue'}));
+	doc.append($("<a>", {id: "reference-source", "class": "subtitle sourceLink", "target":"_blank", "href":'https://github.com/open-geocomputing/OpenEarthEngineLibrary/blob/oeel-python/oeel/colab.py'}).text("</>"));
+	doc.append($("<h3>", {id: "reference-name", "class": "title is-3 python"}).html('oeel.colab.AuthAndInitilize()'));
+	var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+	doc.append($("<div>", {"class": "codeBlockWithCB"})
+		.append($("<pre>")
+		.append($("<code>", {id: "reference-code", "class": "language-javascript"})
+			.html('oeel.colab.AuthAndInitilize()')))
+		.append(clipboardElement));
+	doc.append($("<article>", {"class": "message is-primary"})
+		.append($("<div>", {id: "reference-description", "class": "message-body"})
+			.html('<b>AuthAndInitilize</b> allows for authentication in Colab using the browser extension.')));
+	
+	
+	doc.append($('<p>').html('To install:'))
+	{
+		var theCodeRef="pip install oeel";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+
+	doc.append($('<p>').html('To use it in conjunction with OEEL, first import the package and then call the function:'))
+	{
+		var theCodeRef="from oeel import oeel\noeel.colab.AuthAndInitilize()\n# ...other oeel calls";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+	doc.append($('<p>').html('To use it solely for authentication (without initializing OEEL), first import the package and then call the function:'))
+	{
+		var theCodeRef="import oeel.colab\noeel.colab.AuthAndInitilize()";
+		var clipboardElement=$("<div>", {"class": "clipboard"}).html('<i class="fas fa-copy"></i>');
+		clipboardElement.click(function () {navigator.clipboard.writeText(theCodeRef)});
+		doc.append($("<div>", {"class": "codeBlockWithCB"}).append($("<pre>")
+			.append($("<code>", {id: "reference-code", "class": "language-python"})
+				.html(theCodeRef)))
+			.append(clipboardElement));
+	}
+	Prism.highlightAll();
+
+}
+
 function displayContent(){
 	var location = window.location.href.match('#\\..*');
 	if (location){
 		selectMenu(location[0].substring(1));
+		if(location=="#.colab.AuthAndInitilize")
+			displayAuthAndInitilize();
 	}else if(window.location.href.match('#How-to-contribute')){
 		displayContributePage();
 	}else if(window.location.href.match('#About')){
@@ -431,6 +486,11 @@ request.onload = function () {
 	if (request.status >= 200 && request.status < 400) {
 		// Success!
 		data = JSON.parse(request.responseText);
+		data["colab"]={AuthAndInitilize:{
+            "inputs": [],
+            "reference": {},
+            "fullPath": ".colab.AuthAndInitilize"
+        }}
 		$('footer span#lastUpdate').html(new Date(data.timeSinceEpoch))
 		delete data.timeSinceEpoch;
 		$('#menuID .documentation-menu').append(displayData(data, 0).removeClass('nested'))

@@ -214,6 +214,16 @@ span.mainSectionButton {
 	text-align: justify;
 }
 
+#description h3.python::before{
+	background-image: url('https://www.mgravey.com/assets/logo/Python.svg');
+	background-size: 25px 25px;
+	display: inline-block;
+	width: 25px; 
+	height: 25px;
+	margin-right:10px ;
+	content:"";
+}
+
 .documentation-menu{
 	padding:0 10px;
 }
