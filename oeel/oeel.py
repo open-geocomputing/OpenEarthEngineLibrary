@@ -14,16 +14,10 @@ import ctypes
 from shutil import which
 
 from . import external
-from . import colab
 oeelLibPath=os.path.dirname(__file__)
 
 class oeelMissingExternalCommand(Exception):
 		pass
-
-import sys
-IN_COLAB = 'google.colab' in sys.modules
-if IN_COLAB:
-	from . import colab
 
 def initialize():
 	if(os.path.exists(oeelLibPath+'/initialized')):
