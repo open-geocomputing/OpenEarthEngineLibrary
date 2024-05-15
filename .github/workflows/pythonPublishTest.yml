@@ -24,8 +24,9 @@ jobs:
         python setup.py sdist
     - name: Publish
       env:
-        TWINE_USERNAME: ${{ secrets.PYPI_TEST_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_TEST_PASSWORD }}
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_Token }}
+        
       run: |
         twine upload dist/* --repository-url https://test.pypi.org/legacy/ --verbose
         
