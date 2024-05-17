@@ -116,11 +116,6 @@ class oeelClass():
 		pass
 
 	def __init__(self):
-		# if(not ee.data._initialized and IN_COLAB):
-		# 	try:
-		# 		colab.AuthAndInitilize();
-		# 	except Exception as e:
-		# 		pass
 		self.nodeSocket=None;
 		self.loadOEELFunctions()
 		self.init();
@@ -295,8 +290,6 @@ oeelManadger.oeelLibInterface.init=oeelManadger.init;
 oeelManadger.oeelLibInterface.requireJS=oeelManadger.requireJS;
 oeelManadger.oeelLibInterface.setMap=oeelManadger.setMap;
 oeel=oeelManadger.oeelLibInterface
-oeel.colab=oeelParentDirectory({})
-oeel.colab.AuthAndInitilize=colab.AuthAndInitilize;
 
 for name in dir(oeel) :
 	globals()[name]=oeel[name];
