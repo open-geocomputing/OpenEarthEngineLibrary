@@ -19,6 +19,7 @@ return function(){
       
       },
       annotations:[],
+      type:"Plotly plot",
       widgetsList:[],
       eventListener:{test:true},
       draw:function(withoutHeader){
