@@ -208,6 +208,7 @@ li{
 span.mainSectionButton {
     left: 50px;
     position: absolute;
+    display: contents;
 }
 
 #description p{
