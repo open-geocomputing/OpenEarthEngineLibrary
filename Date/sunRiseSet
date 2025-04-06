@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later  // please change accordingly based on the license in "reference"
-var inputs=[{name: 'time', description: 'Time for sun position computation (ee.Date)', type: 'ee.Date', defaultValue: ee.Date(Date.now()), optional: false},
+var inputs=[{name: 'time', description: 'Time for sun position computation (ee.Date)', type: 'ee.Date|number', defaultValue: null, optional: false},
 {name: 'angle', description: 'Solar elevation angle image in degrees (default is ee.Image(90.833))', type: 'ee.Image', defaultValue: ee.Image(90.833), optional: false},
             {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
             ]
@@ -18,7 +18,7 @@ return function(){
     var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
     internal.addRef(reference,relPath);
      
-    var time = inputDictionary.time;
+    var time = ee.Date(inputDictionary.time ? inputDictionary.time : Date.now());
     var angleImage = inputDictionary.angle;
     
     // Compute declination and equation of time from the provided time.
