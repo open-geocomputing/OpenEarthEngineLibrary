@@ -1,0 +1,67 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later  // please change accordingly based on the license in "reference"
+var inputs=[{name: 'time', description: 'Time for sun position computation (ee.Date)', type: 'ee.Date', defaultValue: ee.Date(Date.now()), optional: false},
+            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference = {
+  name: 'sunPosition',
+  license: 'LGPL-3.0-or-later',
+  description: 'Computes sun position angles (zenith, azimuth, elevation) for a given time. The azimuth is in clockwise form from north (like Landsat).',
+  contributors: ['Mathieu Gravey']
+};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+     
+    var time = ee.Date(inputDictionary.time);
+    
+    // Compute equation of time and declination.
+    var D = ee.Number.expression(
+      "6.24004077+0.01720197*365.25*y_2000",
+      {y_2000: time.getFraction("year").add(time.get("year").subtract(2000))}
+    );
+    var eqtime = ee.Number.expression(
+      "-7.659*sin(D)+9.863*sin(2*D+3.5932)",
+      {D: D}
+    );
+    var decl = ee.Number.expression(
+      "-asin(0.39779*cos(2*PI/365.25*(N+10)+0.0167*sin(2*PI/365.25*(N-2))))",
+      {N: time.getFraction("year").multiply(365.25), PI: Math.PI}
+    );
+    
+    var longLat = ee.Image.pixelLonLat().multiply(Math.PI / 180);
+    var lambda_s = time.getFraction("day")
+                     .subtract(0.5)
+                     .add(eqtime.divide(60 * 24))
+                     .multiply(-Math.PI * 2);
+    
+    var S_x = longLat.select("longitude")
+                  .subtract(lambda_s)
+                  .multiply(-1)
+                  .sin()
+                  .multiply(ee.Number(decl).cos());
+    
+    var step1 = longLat.select("longitude")
+                  .subtract(lambda_s)
+                  .cos()
+                  .multiply(ee.Number(decl).cos());
+    
+    var S_y = step1.multiply(longLat.select("latitude").sin())
+                  .multiply(-1)
+                  .add(longLat.select("latitude").cos().multiply(ee.Number(decl).cos()));
+    
+    var S_z = step1.multiply(longLat.select("latitude").cos())
+                  .add(longLat.select("latitude").sin().multiply(ee.Number(decl).sin()));
+    
+    var zenith = S_z.acos().rename("zenith").divide(Math.PI / 180);
+    var azimuth = S_y.atan2(S_x).rename("azimuth").divide(Math.PI / 180);
+    var elevation = zenith.subtract(90).multiply(-1).rename("elevation");
+    
+    // Return an image with three bands: zenith, azimuth, elevation.
+    return ee.Image.cat([zenith, azimuth, elevation]).set("system:time_start",time.millis(),"system:time_end",time.millis());
+  }
+}

@@ -1,0 +1,70 @@
+// SPDX-License-Identifier: LGPL-3.0-or-later  // please change accordingly based on the license in "reference"
+var inputs=[{name: 'time', description: 'Time for sun position computation (ee.Date)', type: 'ee.Date', defaultValue: ee.Date(Date.now()), optional: false},
+{name: 'angle', description: 'Solar elevation angle image in degrees (default is ee.Image(90.833))', type: 'ee.Image', defaultValue: ee.Image(90.833), optional: false},
+            {name:'Return',description:'Return', type:'ee.Image',defaultValue:null,optional:true} // change the return type accordingly OR remove this line if the function doesn’t have an output
+            ]
+            
+var reference = {
+  name: 'sunRiseSet',
+  license: 'LGPL-3.0-or-later',
+  description: 'Computes sunrise and sunset times (in hours) for a given time. The angle input defaults to ee.Image(90.833) corresponding to the standard solar elevation for sunrise/sunset.',
+  contributors: ['Mathieu Gravey']
+};
+
+exports.createDocumentation=function(){ return {inputs:inputs, reference:reference};}
+
+exports.createFunction=function(internal,relPath,oeel){
+return function(){
+    var inputDictionary=internal.readInputs(Array.prototype.slice.call(arguments,0),inputs,reference,relPath);
+    internal.addRef(reference,relPath);
+     
+    var time = inputDictionary.time;
+    var angleImage = inputDictionary.angle;
+    
+    // Compute declination and equation of time from the provided time.
+    var D = ee.Number.expression(
+      "6.24004077 + 0.01720197 * 365.25 * y_2000",
+      { y_2000: time.getFraction("year").add(time.get("year").subtract(2000)) }
+    );
+    var eqtime = ee.Number.expression(
+      "-7.659*sin(D) + 9.863*sin(2*D+3.5932)",
+      { D: D }
+    );
+    var decl = ee.Number.expression(
+      "-asin(0.39779*cos(2*PI/365.25*(N+10) + 0.0167*sin(2*PI/365.25*(N-2))))",
+      { N: time.getFraction("year").multiply(365.25), PI: Math.PI }
+    );
+    
+    // Compute pixel longitude and latitude in radians.
+    var longLat = ee.Image.pixelLonLat().multiply(Math.PI / 180);
+    
+    // Compute lambda using the provided angle.
+    var lambda = angleImage
+      .multiply(Math.PI / 180)
+      .cos()
+      .subtract(longLat.select("latitude").sin().multiply(ee.Number(decl).sin()))
+      .divide(longLat.select("latitude").cos())
+      .divide(ee.Number(decl).cos())
+      .acos();
+      
+    // Compute sunrise (rise) and sunset (set) times in hours.
+    var rise = lambda
+      .subtract(longLat.select("longitude"))
+      .divide(-Math.PI * 2)
+      .subtract(eqtime.divide(60 * 24))
+      .add(0.5)
+      .multiply(24)
+      .rename("rise");
+      
+    var set = lambda.multiply(-1)
+      .subtract(longLat.select("longitude"))
+      .divide(-Math.PI * 2)
+      .subtract(eqtime.divide(60 * 24))
+      .add(0.5)
+      .multiply(24)
+      .rename("set");
+    
+    // Return an image with two bands: "rise" and "set".
+    return ee.Image.cat([rise, set]).set("system:time_start",time.millis(),"system:time_end",time.millis());
+  }
+}
