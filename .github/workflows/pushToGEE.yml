@@ -1,89 +1,134 @@
-name: sync with GEEx
+name: Sync with GEE
 
 on:
   push:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
+    branches: [master]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: gee-sync
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  buildAndMirrror:
+  mirror:
+    name: Generate library bundles and mirror to GEE
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
+
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
-      - uses: actions/checkout@v2
-
-      - name: grant access
+      - name: Configure Git and GEE authentication
         env:
           GIT_COOKIE_VALUE: ${{ secrets.GIT_COOKIE_VALUE }}
         run: |
+          set -euo pipefail
+          : "${GIT_COOKIE_VALUE:?GIT_COOKIE_VALUE secret is required}"
+          : "${GEE_REPO_ADDRESS:?GEE_REPO_ADDRESS secret is required}"
+
           touch ~/.gitcookies
           chmod 0600 ~/.gitcookies
-          echo earthengine.googlesource.com,FALSE,/,TRUE,2147483647,o,${GIT_COOKIE_VALUE} | tr  , \\t >>~/.gitcookies
-      - name: config git
-        run: |
+          printf 'earthengine.googlesource.com\tFALSE\t/\tTRUE\t2147483647\to\t%s\n' "${GIT_COOKIE_VALUE}" > ~/.gitcookies
+
           git config http.cookiefile ~/.gitcookies
           git config http.postBuffer 157286400
           git config user.email "githubActionAutoMerge@no-one.com"
           git config user.name "githubActionAutoMerge"
-          git config pull.rebase false 
-          
-      - name: load Python
-        uses: actions/setup-python@v2
+          git config pull.rebase false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.8'
-          architecture: 'x64'
-      - run: pip install jsmin
-      - name: create openEEL
-        env:
-          GEE_REPO_ADDRESS: ${{secrets.GEE_REPO_ADDRESS}}
+          python-version: "3.12"
+
+      - name: Install generator dependencies
         run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          python -m pip install jsmin
+
+      - name: Generate aggregate library files
+        run: |
+          set -euo pipefail
           python genearteOpenEEL.py
-          git add loadAll
-          git add loadAll4py
-          git add loadAllSF
-          git commit -m 'update loadAll'
-          git push
+          git add loadAll loadAll4py loadAllSF
 
-      - name: mirror the git
-        env:
-          GEE_REPO_ADDRESS: ${{secrets.GEE_REPO_ADDRESS}}
+          if git diff --cached --quiet; then
+            echo "No generated library changes to commit."
+          else
+            git commit -m "update generated library bundles"
+            git push origin HEAD:master
+          fi
+
+      - name: Mirror repository to GEE
         run: |
-          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories || bash -c "git checkout --ours . ; git add -u ; git commit -m 'autoMerge'"
-          git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
-          git push
+          set -euo pipefail
+          git pull "https://earthengine.googlesource.com/${GEE_REPO_ADDRESS}" master --allow-unrelated-histories || {
+            git checkout --ours .
+            git add -u
+            git commit -m "autoMerge"
+          }
 
-  doc:
-    needs: buildAndMirrror
+          git push "https://earthengine.googlesource.com/${GEE_REPO_ADDRESS}" master
+          git push origin HEAD:master
+
+  docs:
+    name: Generate documentation
+    needs: mirror
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - name: load Python
-        uses: actions/setup-python@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.8'
-          architecture: 'x64'
-      - name: generate node file
-        run: |
-          git checkout origin/gh-pages -- genearteOpenEEL_doc.py
-          git checkout origin/gh-pages -- ee.js
-          python3 genearteOpenEEL_doc.py
-      - name: load node
-        uses: actions/setup-node@v2
+          python-version: "3.12"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
         with:
-          node-version: 15.x
-      - name: create docJson
+          node-version: "24"
+
+      - name: Generate documentation JSON
         run: |
-          node -e " var fs = require('fs'); eval(fs.readFileSync('./openEEL_doc').toString())"
-          git stash --include-untracked
-          git checkout gh-pages
-          rm -f doc.json openEEL_doc
-          git stash apply
-          git add doc.json
+          set -euo pipefail
+          git fetch origin gh-pages:gh-pages
+          git checkout gh-pages -- genearteOpenEEL_doc.py ee.js
+
+          python genearteOpenEEL_doc.py
+          node -e "var fs = require('fs'); eval(fs.readFileSync('./openEEL_doc').toString())"
+          cp doc.json "${RUNNER_TEMP}/doc.json"
+
+      - name: Publish documentation JSON
+        run: |
+          set -euo pipefail
           git config user.email "githubActionAutoDoc@no-one.com"
           git config user.name "githubActionAutoDoc"
-          git commit -m 'docAutoUpdate'
-          git push
+
+          git switch gh-pages
+          cp "${RUNNER_TEMP}/doc.json" doc.json
+          git add doc.json
+
+          if git diff --cached --quiet; then
+            echo "No documentation changes to commit."
+          else
+            git commit -m "docAutoUpdate"
+            git push origin gh-pages
+          fi

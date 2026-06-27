@@ -1,25 +1,32 @@
-name: allow connecting with ssh to debug Github Actions
+name: Debug GitHub Actions via SSH
 
-# Controls when the action will run. 
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: debug-ssh-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  build:
+  ssh:
+    name: Start SSH debug session
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
       - name: Start SSH session
+        uses: luchihoratiu/debug-via-ssh@main
         env:
           GIT_COOKIE_VALUE: ${{ secrets.GIT_COOKIE_VALUE }}
           GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
-        uses: luchihoratiu/debug-via-ssh@main
         with:
           NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
           SSH_PASS: ${{ secrets.SSH_PASS }}

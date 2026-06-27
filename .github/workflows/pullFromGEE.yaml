@@ -1,37 +1,59 @@
-name: sync from GEEx
+name: Sync from GEE
 
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: gee-sync
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  build:
+  mirror:
+    name: Pull GEE changes into GitHub
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
-      - name: grant access
+      - name: Configure Git and GEE authentication
         env:
           GIT_COOKIE_VALUE: ${{ secrets.GIT_COOKIE_VALUE }}
         run: |
+          set -euo pipefail
+          : "${GIT_COOKIE_VALUE:?GIT_COOKIE_VALUE secret is required}"
+          : "${GEE_REPO_ADDRESS:?GEE_REPO_ADDRESS secret is required}"
+
           touch ~/.gitcookies
           chmod 0600 ~/.gitcookies
-          echo earthengine.googlesource.com,FALSE,/,TRUE,2147483647,o,${GIT_COOKIE_VALUE} | tr  , \\t >>~/.gitcookies
-          git config --global http.postBuffer 157286400
+          printf 'earthengine.googlesource.com\tFALSE\t/\tTRUE\t2147483647\to\t%s\n' "${GIT_COOKIE_VALUE}" > ~/.gitcookies
 
-      - name: config git
-        run: |
           git config http.cookiefile ~/.gitcookies
           git config http.postBuffer 157286400
           git config user.email "githubActionAutoMerge@no-one.com"
           git config user.name "githubActionAutoMerge"
-          git config pull.rebase false  
+          git config pull.rebase false
 
-      - name: mirror the git
-        env:
-          GEE_REPO_ADDRESS: ${{ secrets.GEE_REPO_ADDRESS }}
+      - name: Mirror repository from GEE
         run: |
-          git pull https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master --allow-unrelated-histories || bash -c "git checkout --theirs . ; git add -u ; git commit -m 'autoMerge'"
-          git push https://earthengine.googlesource.com/${GEE_REPO_ADDRESS} master
-          git push
+          set -euo pipefail
+          git pull "https://earthengine.googlesource.com/${GEE_REPO_ADDRESS}" master --allow-unrelated-histories || {
+            git checkout --theirs .
+            git add -u
+            git commit -m "autoMerge"
+          }
+
+          git push "https://earthengine.googlesource.com/${GEE_REPO_ADDRESS}" master
+          git push origin HEAD:master
