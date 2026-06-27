@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 var inputs=[{name:'text',description:'The text of the geometry', type:'string|ee.String',defaultValue:null,optional:false},
-            {name:'font',description:'The font to use', type:'string|ee.String|ee.FeatureCollection',defaultValue:"users/OEEL/Fonts/Helvetica",optional:false},
+            {name:'font',description:'The font to use', type:'string|ee.String|ee.FeatureCollection',defaultValue:"uprojects/openearthengine/assets/Fonts/Helvetica",optional:false},
             {name:'fontSize',description:'The font size', type:'integer|ee.Number',defaultValue:1,optional:false},
             {name:'position',description:"Set how to aligne the text.  ('top-right', 'top-center', 'top-left', 'bottom-right', ...)", type:'string|ee.String',defaultValue:'centter-center',optional:false},
             {name:'rotation',description:'Text angle', type:'integer|ee.Number',defaultValue:0,optional:false},
