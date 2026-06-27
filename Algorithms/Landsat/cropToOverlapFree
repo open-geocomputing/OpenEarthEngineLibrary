@@ -1,0 +1,99 @@
+// SPDX-License-Identifier: MIT
+
+var WRS_ASSETS = {
+  WRS1: 'projects/openearthengine/assets/WRS/LANDSAT_WRS1_CUT_10KM',
+  WRS2: 'projects/openearthengine/assets/WRS/LANDSAT_WRS2_CUT_10KM'
+};
+
+var WRS1_SPACECRAFT = ee.List(['LANDSAT_1', 'LANDSAT_2', 'LANDSAT_3']);
+
+var inputs = [
+  {
+    name: 'landsatCollection',
+    description: 'Homogeneous Landsat image collection to crop with the matching cleaned WRS path/row geometry. The collection is assumed to use one WRS system.',
+    type: 'ee.ImageCollection',
+    defaultValue: null,
+    optional: false
+  },
+  {
+    name: 'Return',
+    description: 'Input collection with each image clipped to its matching cleaned WRS path/row geometry.',
+    type: 'ee.ImageCollection',
+    defaultValue: null,
+    optional: true
+  }
+];
+
+var reference = {
+  name: 'cropToOverlapFree',
+  license: 'MIT',
+  description: 'Crops every image in a homogeneous Landsat collection to its matching buffered overlap-free WRS path/row geometry.',
+  experimental: true,
+  contributors: ['Mathieu Gravey']
+};
+
+function imageStringProperty(image, propertyName, fallback) {
+  return ee.String(ee.Algorithms.If(
+    image.propertyNames().contains(propertyName),
+    image.get(propertyName),
+    fallback
+  ));
+}
+
+function isWrs1LandsatImage(image) {
+  return WRS1_SPACECRAFT.contains(imageStringProperty(image, 'SPACECRAFT_ID', ''));
+}
+
+function wrsCollectionForSystem(isWrs1) {
+  var wrs1 = ee.FeatureCollection(WRS_ASSETS.WRS1);
+  var wrs2 = ee.FeatureCollection(WRS_ASSETS.WRS2);
+
+  return ee.FeatureCollection(ee.Algorithms.If(
+    isWrs1,
+    wrs1,
+    wrs2
+  ));
+}
+
+function matchCleanWrsFeature(image, wrs) {
+  var path = ee.Number(image.get('WRS_PATH'));
+  var row = ee.Number(image.get('WRS_ROW'));
+
+  return wrs.filter(ee.Filter.and(
+    ee.Filter.eq('PATH', path),
+    ee.Filter.or(
+      ee.Filter.eq('ROW', row),
+      ee.Filter.eq('ROW_', row)
+    )
+  ));
+}
+
+exports.createDocumentation = function() {
+  return {
+    inputs: inputs,
+    reference: reference
+  };
+};
+
+exports.createFunction = function(internal, relPath, oeel) {
+  return function() {
+    var inputDictionary = internal.readInputs(
+      Array.prototype.slice.call(arguments, 0),
+      inputs,
+      reference,
+      relPath
+    );
+    internal.addRef(reference, relPath);
+
+    var collection = ee.ImageCollection(inputDictionary.landsatCollection);
+    var firstImage = ee.Image(collection.first());
+    var isWrs1 = isWrs1LandsatImage(firstImage);
+    var wrs = wrsCollectionForSystem(isWrs1);
+
+    return collection.map(function(image) {
+      image = ee.Image(image);
+      var cleanWrsFeature = ee.Feature(matchCleanWrsFeature(image, wrs).first());
+      return image.clip(cleanWrsFeature.geometry());
+    });
+  };
+};
