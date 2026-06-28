@@ -23,3 +23,8 @@ yarn-error.log*
 doc.json
 openEEL_doc
 loadAll
+
+# Local reports and coverage output.
+*.log
+coverage/
+README.md
