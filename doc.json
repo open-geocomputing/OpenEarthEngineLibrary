@@ -484,7 +484,7 @@
                     "name": "cropToOverlapFree",
                     "license": "MIT",
                     "description": "Crops every image in a homogeneous Landsat collection to its matching buffered overlap-free WRS path/row geometry.",
-                    "experimental": true,
+                    "experimental": false,
                     "contributors": [
                         "Mathieu Gravey"
                     ]
@@ -2558,5 +2558,5 @@
             "fullPath": ".Element.addTimeProperties"
         }
     },
-    "timeSinceEpoch": 1782656031926
+    "timeSinceEpoch": 1782656448683
 }
