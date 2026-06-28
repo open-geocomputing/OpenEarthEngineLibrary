@@ -21,7 +21,7 @@ var reference = {
   name: 'cropToOverlapFree',
   license: 'MIT',
   description: 'Crops every image in a homogeneous Landsat collection to its matching buffered overlap-free WRS path/row geometry.',
-  experimental: true,
+  experimental: false,
   contributors: ['Mathieu Gravey']
 };
 
